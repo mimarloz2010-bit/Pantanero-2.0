@@ -1,0 +1,508 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Pantanero</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Karla:wght@400;500;700&display=swap">
+<style>
+/* Layout: app de móvil de una columna con barra de pestañas inferior; en escritorio, columna centrada de 560px */
+:root{
+  --bg:#e8ece4; --surface:#f7f8f3; --ink:#17251f; --muted:#5a6a60; --line:#cdd5c8;
+  --lake:#1f5a55; --lake-soft:#d3e3dd; --lure:#e8590c; --land:#d9dfd1;
+  --display:"Big Shoulders Display","Arial Narrow",sans-serif;
+  --body:"Karla",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a17; --surface:#16241f; --ink:#e6ede6; --muted:#9aab9f; --line:#2b3d36;
+  --lake:#5fb3a7; --lake-soft:#1d3a34; --lure:#ff7a2f; --land:#1c2b26; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a17; --surface:#16241f; --ink:#e6ede6; --muted:#9aab9f; --line:#2b3d36;
+  --lake:#5fb3a7; --lake-soft:#1d3a34; --lure:#ff7a2f; --land:#1c2b26; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.app{max-width:560px;margin:0 auto;min-height:100%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 96px}
+header.top{padding-block:20px 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:.9;letter-spacing:.01em;text-transform:uppercase}
+.brand span{color:var(--lure)}
+.tag{color:var(--muted);font-size:.85rem;text-align:right;max-width:16ch}
+h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:1.6rem;margin:18px 0 8px;letter-spacing:.02em;text-wrap:balance}
+.search{width:100%;box-sizing:border-box;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.chip{flex:none;font:inherit;font-size:.85rem;font-weight:500;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--lake);border-color:var(--lake);color:var(--surface)}
+select.chip{appearance:none;padding-right:12px}
+.count{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin:4px 0 8px}
+.list{display:flex;flex-direction:column;gap:10px}
+.card{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.card:hover{border-color:var(--lake)}
+.card h3{margin:0;font-family:var(--display);font-weight:800;font-size:1.35rem;text-transform:uppercase;letter-spacing:.02em;line-height:1.05}
+.card .where{color:var(--muted);font-size:.85rem;grid-column:1}
+.card .sp{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.pill{font-size:.75rem;padding:2px 8px;border-radius:6px;background:var(--lake-soft);color:var(--ink);font-weight:500}
+.fav{grid-row:1/3;grid-column:2;align-self:start;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);padding:2px}
+.fav.on{color:var(--lure)}
+.km{font-family:var(--display);font-weight:600;font-size:1rem;color:var(--lake)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);z-index:5}
+nav.tabs .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+nav.tabs button{font:inherit;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:none;border:none;color:var(--muted);padding:12px 4px 14px;cursor:pointer;border-top:3px solid transparent}
+nav.tabs button[aria-selected="true"]{color:var(--lake);border-top-color:var(--lure)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--lure);outline-offset:2px}
+/* mapa */
+.mapbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px}
+.mapbox svg{width:100%;height:auto;display:block}
+.mapnote{color:var(--muted);font-size:.85rem;margin-top:8px}
+/* ficha */
+.sheet{position:fixed;inset:0;background:rgba(10,20,16,.5);z-index:10;display:flex;align-items:flex-end;justify-content:center}
+.sheet .pane{background:var(--bg);width:100%;max-width:560px;max-height:88%;overflow-y:auto;border-radius:20px 20px 0 0;box-sizing:border-box;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-block:10px calc(24px + env(safe-area-inset-bottom,0px))}
+.grab{width:44px;height:5px;border-radius:3px;background:var(--line);margin:4px auto 10px}
+.pane h2{font-size:2.2rem;margin:4px 0 0;line-height:.95}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.fact b{display:block;font-family:var(--display);font-size:1.25rem;font-weight:800;font-variant-numeric:tabular-nums}
+.fact small{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}
+.pane h4{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:16px 0 6px}
+.pane p{margin:0 0 8px;max-width:65ch}
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
+.months div{text-align:center;font-size:.7rem;padding:6px 0;border-radius:4px;background:var(--land);color:var(--muted);font-weight:700}
+.months div.hot{background:var(--lure);color:#fff}
+.months div.ok{background:var(--lake-soft);color:var(--ink)}
+.legend{display:flex;gap:12px;font-size:.75rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.close{float:right;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:999px;font:inherit;font-weight:700;padding:4px 12px;cursor:pointer}
+.warn{border-left:3px solid var(--lure);padding:8px 12px;background:var(--surface);border-radius:0 8px 8px 0;font-size:.85rem;color:var(--muted)}
+/* especies */
+.spec{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px}
+.spec h3{margin:0;font-family:var(--display);font-size:1.4rem;text-transform:uppercase;font-weight:800}
+.spec .lat{font-style:italic;color:var(--muted);font-size:.85rem}
+.spec dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin:4px 0 0;font-size:.9rem}
+.spec dt{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.spec dd{margin:0}
+/* cuaderno */
+form.log{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+form.log label{display:grid;gap:4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:0}
+form.log .full{grid-column:1/-1}
+form.log input,form.log select{font:inherit;font-size:.95rem;text-transform:none;letter-spacing:0;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-width:0;width:100%;box-sizing:border-box}
+.btn{font:inherit;font-weight:700;background:var(--lure);color:#fff;border:none;border-radius:10px;padding:12px;cursor:pointer;text-transform:uppercase;letter-spacing:.06em}
+.entry{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.entry .w{font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--lake);grid-row:1/3;font-variant-numeric:tabular-nums;min-width:3.2ch}
+.entry .t{font-weight:700}
+.entry .s{color:var(--muted);font-size:.85rem}
+.entry .x{grid-row:1/3;grid-column:3;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem}
+.ex{font-size:.7rem;color:var(--lure);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+@media (prefers-reduced-motion:no-preference){.sheet .pane{animation:up .22s ease-out}@keyframes up{from{transform:translateY(30px);opacity:.6}}}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">Panta<span>nero</span></div>
+    <div class="tag">Guía de pesca en los embalses de España</div>
+  </header>
+  <main id="view"></main>
+</div>
+<nav class="tabs"><div class="in" role="tablist">
+  <button role="tab" data-tab="embalses" aria-selected="true">Embalses</button>
+  <button role="tab" data-tab="mapa">Mapa</button>
+  <button role="tab" data-tab="especies">Especies</button>
+  <button role="tab" data-tab="cuaderno">Cuaderno</button>
+</div></nav>
+<div class="sheet" id="sheet" hidden></div>
+
+<script>
+const SP={bass:"Black bass",carpa:"Carpa",siluro:"Siluro",lucio:"Lucio",lucioperca:"Lucioperca",barbo:"Barbo",perca:"Perca",trucha:"Trucha",boga:"Boga",tenca:"Tenca",carpin:"Carpín",alburno:"Alburno",pezsol:"Pez sol"};
+// meses: 2 = muy buena, 1 = buena
+const E=[
+ {id:"mequinenza",n:"Mequinenza",apodo:"El Mar de Aragón",ccaa:"Aragón",prov:"Zaragoza / Huesca / Lleida",lat:41.37,lon:0.27,km2:75,sp:["siluro","carpa","bass","lucioperca","perca"],m:[1,1,2,2,2,2,1,1,2,2,1,1],
+  d:"El embalse más famoso de España entre pescadores de toda Europa. Más de 100 km de cola por el Ebro con fondos de hasta 60 m. Es el templo del siluro: aquí se sacan ejemplares de más de 2 metros.",
+  t:"Siluro con vinilos grandes, clonk desde barca o cebo vivo en las zonas profundas. Carpa a fondo con boilies en las colas. En invierno, lucioperca y perca con vinilo pequeño pegado al fondo.",
+  acc:"Base en Caspe o Mequinenza pueblo. Hay mucho alquiler de barcas y guías."},
+ {id:"ribarroja",n:"Riba-roja",apodo:"Aguas abajo de Mequinenza",ccaa:"Cataluña",prov:"Tarragona",lat:41.25,lon:0.48,km2:21,sp:["siluro","carpa","bass"],m:[1,1,2,2,2,1,1,1,2,2,1,1],
+  d:"Embalse estrecho y encajonado en el Ebro, con corriente en la cola. Conocido mundialmente por los siluros gigantes y las carpas de récord.",
+  t:"Siluro en la cola, donde entra el agua de Mequinenza. Carpa con cebado continuo en zonas de 6 a 10 m.",
+  acc:"Fayón y Riba-roja d'Ebre tienen campings orientados a pescadores."},
+ {id:"orellana",n:"Orellana",apodo:"La playa de interior",ccaa:"Extremadura",prov:"Badajoz",lat:38.98,lon:-5.53,km2:55,sp:["bass","carpa","barbo","lucio"],m:[1,1,2,2,2,1,0,0,1,2,2,1],
+  d:"Gran embalse del Guadiana con orillas de piedra y muchas colas. Uno de los mejores destinos de black bass del país, con mucha actividad en primavera.",
+  t:"Black bass con jerkbait y vinilo texano en piedra y arbolado sumergido. En verano, a primera y última hora con señuelos de superficie.",
+  acc:"Tiene la única playa de interior con Bandera Azul de España, en Orellana la Vieja."},
+ {id:"laserena",n:"La Serena",apodo:"El gigante del Zújar",ccaa:"Extremadura",prov:"Badajoz",lat:38.85,lon:-5.30,km2:139,sp:["bass","carpa","barbo","lucio"],m:[1,1,2,2,2,1,0,0,1,2,2,1],
+  d:"El embalse con más capacidad de España y uno de los mayores de Europa. Kilómetros de orilla salvaje y muy poca presión de pesca en muchas zonas.",
+  t:"Black bass en puntas y bajos rocosos con crankbait. Carpa grande en las colas del Zújar con boilie.",
+  acc:"Muy grande y con poca sombra: lleva agua de sobra en verano."},
+ {id:"alcantara",n:"Alcántara",apodo:"José María de Oriol",ccaa:"Extremadura",prov:"Cáceres",lat:39.73,lon:-6.88,km2:104,sp:["bass","lucioperca","carpa","lucio","barbo"],m:[1,2,2,2,1,1,0,0,1,2,2,1],
+  d:"Embalse del Tajo junto a Portugal, rodeado de cortados y dehesa. Destaca por la lucioperca, una de las mejores poblaciones del país.",
+  t:"Lucioperca con vinilo y cabeza plomada en cortados de 10 a 20 m, sobre todo en invierno. Black bass en las colas del Salor y el Almonte.",
+  acc:"El puente romano de Alcántara está al lado."},
+ {id:"valdecanas",n:"Valdecañas",apodo:"Tajo cacereño",ccaa:"Extremadura",prov:"Cáceres",lat:39.81,lon:-5.47,km2:73,sp:["bass","carpa","lucio","barbo"],m:[1,1,2,2,2,1,0,0,1,2,1,1],
+  d:"Embalse largo del Tajo con mucha orilla accesible. Muy popular en concursos de black bass y de carpfishing.",
+  t:"Black bass con spinnerbait en zonas con viento. Carpa a fondo en las ensenadas.",
+  acc:"Cerca de la A-5, fácil de llegar desde Madrid."},
+ {id:"iznajar",n:"Iznájar",apodo:"El lago de Andalucía",ccaa:"Andalucía",prov:"Córdoba / Granada",lat:37.26,lon:-4.31,km2:26,sp:["bass","carpa","siluro","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"El embalse más grande de Andalucía, en el río Genil. Agua clara, orillas de olivar y black bass de buen tamaño durante casi todo el año. También hay siluros.",
+  t:"Black bass con drop shot en orillas rocosas cuando el agua está muy clara. Siluro con vinilos grandes o cebo en las zonas más profundas. Barbo y carpa con masilla en las colas.",
+  acc:"El pueblo de Iznájar, sobre una península, tiene playa y zona de baño."},
+ {id:"chorro",n:"El Chorro",apodo:"Conde de Guadalhorce",ccaa:"Andalucía",prov:"Málaga",lat:36.92,lon:-4.78,km2:5,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Conjunto de tres embalses (Conde de Guadalhorce, Guadalhorce y Guadalteba) junto al Caminito del Rey. Agua turquesa y black bass muy desconfiado.",
+  t:"Señuelos finos y colores naturales. Funciona bien el vinilo tipo worm lanzado a las paredes de piedra.",
+  acc:"Zona muy turística en verano: madruga para pescar tranquilo."},
+ {id:"bornos",n:"Bornos",apodo:"Sierra de Cádiz",ccaa:"Andalucía",prov:"Cádiz",lat:36.83,lon:-5.72,km2:23,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,0,0,0,1,1,2,2],
+  d:"Embalse del Guadalete con muchas orillas suaves y vegetación. Muy buena carpa y black bass en primavera.",
+  t:"Carpa con maíz y boilie en las orillas bajas. Black bass con señuelos de superficie entre la vegetación.",
+  acc:"Tiene al lado el embalse de Arcos, más pequeño."},
+ {id:"buendia",n:"Buendía",apodo:"Mar de Castilla",ccaa:"Castilla-La Mancha",prov:"Cuenca / Guadalajara",lat:40.38,lon:-2.77,km2:81,sp:["carpa","bass","lucio","barbo"],m:[0,1,2,2,2,1,1,1,2,2,1,0],
+  d:"Junto con Entrepeñas forma el llamado Mar de Castilla. Es un clásico de la carpa en el centro de España, con mucho espacio y colas largas.",
+  t:"Carpfishing de varios días en las colas del Guadiela. Lucio con cucharilla y jerkbait en primavera.",
+  acc:"El nivel varía mucho de un año a otro: infórmate antes de ir."},
+ {id:"entrepenas",n:"Entrepeñas",apodo:"Mar de Castilla",ccaa:"Castilla-La Mancha",prov:"Guadalajara",lat:40.53,lon:-2.68,km2:31,sp:["bass","lucio","carpa","barbo"],m:[0,1,2,2,2,1,1,1,2,2,1,0],
+  d:"Embalse del Tajo encajonado entre montañas, de aguas limpias. Buena pesca de black bass y lucio.",
+  t:"Black bass en cortados con vinilo. Lucio en las colas con swimbait.",
+  acc:"Sacedón es el pueblo base."},
+ {id:"sanjuan",n:"San Juan",apodo:"La playa de Madrid",ccaa:"Comunidad de Madrid",prov:"Madrid",lat:40.39,lon:-4.32,km2:6,sp:["bass","carpa","lucioperca","barbo"],m:[0,1,2,2,2,1,0,1,2,2,1,0],
+  d:"El embalse más cercano a Madrid capital. Mucha presión de gente en verano, pero buen black bass y lucioperca fuera de temporada.",
+  t:"Lucioperca al atardecer con vinilo. Black bass en las colas del Alberche.",
+  acc:"En verano hay zonas de baño y navegación: respeta las zonas señalizadas."},
+ {id:"ricobayo",n:"Ricobayo",apodo:"Esla zamorano",ccaa:"Castilla y León",prov:"Zamora",lat:41.55,lon:-5.95,km2:58,sp:["lucio","lucioperca","carpa","bass","barbo"],m:[1,1,2,2,1,1,1,1,2,2,2,1],
+  d:"Embalse del Esla famoso por los lucios grandes y la lucioperca. Mucho paisaje de cortado y encina.",
+  t:"Lucio con jerkbait y swimbait grandes en otoño. Lucioperca en fondos de piedra.",
+  acc:"Cerca está el puente de Requejo y el Duero de Arribes."},
+ {id:"almendra",n:"Almendra",apodo:"Tormes salmantino",ccaa:"Castilla y León",prov:"Salamanca / Zamora",lat:41.22,lon:-6.25,km2:86,sp:["lucio","bass","carpa","lucioperca"],m:[1,1,2,2,1,1,1,1,2,2,2,1],
+  d:"Uno de los embalses más grandes de España, con una de las presas más altas. Muy salvaje y poco pescado en muchas zonas.",
+  t:"Lucio y black bass en las colas con señuelos de superficie en verano. Hace falta caminar para encontrar buenos puestos.",
+  acc:"Zona muy aislada: lleva comida, agua y móvil cargado."},
+ {id:"sobron",n:"Sobrón",apodo:"Ebro alavés",ccaa:"País Vasco / Castilla y León",prov:"Álava / Burgos",lat:42.77,lon:-3.10,km2:4,sp:["bass","carpa"],m:[0,0,1,2,2,2,2,1,2,1,0,0],
+  d:"Pequeño embalse del Ebro en un desfiladero. Entre los pescadores del norte es la referencia del black bass.",
+  t:"Black bass con vinilo y jig en paredes verticales. Mejor de mayo a septiembre por el clima del norte.",
+  acc:"En el País Vasco las especies introducidas tienen normas propias: revísalas antes."},
+ {id:"ullibarri",n:"Ullíbarri-Gamboa",apodo:"Sistema del Zadorra",ccaa:"País Vasco",prov:"Álava",lat:42.94,lon:-2.58,km2:14,sp:["lucio","bass","carpa","perca"],m:[0,0,1,2,2,2,1,1,2,2,1,0],
+  d:"Embalse junto a Vitoria con orillas verdes y muchas zonas de humedal. Buen destino de lucio y perca en el norte.",
+  t:"Lucio con cucharilla y vinilo en zonas con vegetación. Perca con señuelos pequeños.",
+  acc:"Parte del embalse es reserva natural: hay zonas sin pesca."},
+ {id:"sau",n:"Sau",apodo:"El campanario sumergido",ccaa:"Cataluña",prov:"Barcelona",lat:41.97,lon:2.40,km2:6,sp:["carpa","bass","lucioperca","perca"],m:[0,1,2,2,2,1,1,1,2,2,1,0],
+  d:"Famoso por el campanario de Sant Romà, que aparece cuando baja el agua. Embalse del Ter con buena carpa y black bass.",
+  t:"Carpa a fondo en las colas. Black bass y perca con vinilos finos.",
+  acc:"Debajo está el embalse de Susqueda, con pesca parecida."},
+ {id:"benageber",n:"Benagéber",apodo:"Turia valenciano",ccaa:"Comunitat Valenciana",prov:"Valencia",lat:39.72,lon:-1.10,km2:7,sp:["bass","carpa","barbo"],m:[1,1,2,2,2,1,0,0,1,2,2,1],
+  d:"Embalse del Turia en zona de montaña mediterránea. Muy buscado por los pescadores valencianos de black bass.",
+  t:"Black bass con crankbait en puntas y ensenadas. Carpa en las colas.",
+  acc:"Acceso por pistas en algunas zonas."},
+ {id:"cenajo",n:"El Cenajo",apodo:"Segura",ccaa:"Castilla-La Mancha / Región de Murcia",prov:"Albacete / Murcia",lat:38.39,lon:-1.80,km2:16,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse del río Segura rodeado de pinar. Black bass de buen tamaño y aguas bastante claras.",
+  t:"Black bass con vinilo y jerkbait en cortados. En invierno, más profundo y más lento.",
+  acc:"Cerca de Moratalla y del embalse del Taibilla."},
+ {id:"belesar",n:"Belesar",apodo:"Ribeira Sacra",ccaa:"Galicia",prov:"Lugo",lat:42.63,lon:-7.71,km2:17,sp:["bass","carpa","trucha"],m:[0,0,1,2,2,2,1,1,2,1,0,0],
+  d:"Embalse del Miño entre viñedos en bancales. Paisaje espectacular y black bass en las orillas de piedra.",
+  t:"Black bass con vinilo en las paredes. Trucha en los ríos que entran al embalse, según normativa gallega.",
+  acc:"Los cañones del Sil están muy cerca."},
+ {id:"yesa",n:"Yesa",apodo:"Mar del Pirineo",ccaa:"Navarra / Aragón",prov:"Navarra / Zaragoza",lat:42.62,lon:-1.17,km2:20,sp:["carpa","bass","barbo"],m:[0,0,1,2,2,2,1,1,2,2,1,0],
+  d:"Embalse del río Aragón a los pies del Pirineo. Carpa abundante y paisaje de montaña.",
+  t:"Carpa con maíz y boilie en las colas. Black bass en las zonas con piedra.",
+  acc:"El nivel cambia mucho según el deshielo."}
+];
+E.forEach(e=>e.top=true);
+// Resto de embalses: [nombre, comunidad, provincia, lat, lon, km², especies]
+const MORE=[
+ ["La Breña II","Andalucía","Córdoba",37.80,-5.10,24,"bass carpa lucio barbo"],
+ ["Puente Nuevo","Andalucía","Córdoba",38.02,-4.98,10,"bass carpa barbo"],
+ ["Sierra Boyera","Andalucía","Córdoba",38.28,-5.33,4,"carpa bass barbo"],
+ ["Yeguas","Andalucía","Córdoba / Jaén",38.05,-4.25,8,"bass carpa barbo"],
+ ["Giribaile","Andalucía","Jaén",38.10,-3.47,25,"bass carpa barbo"],
+ ["El Tranco de Beas","Andalucía","Jaén",38.17,-2.80,18,"bass carpa trucha barbo"],
+ ["La Fernandina","Andalucía","Jaén",38.27,-3.47,8,"bass carpa"],
+ ["El Jándula","Andalucía","Jaén",38.23,-3.98,7,"bass carpa barbo"],
+ ["Negratín","Andalucía","Granada",37.57,-2.95,21,"bass carpa barbo"],
+ ["Cubillas","Andalucía","Granada",37.28,-3.68,2,"bass carpa"],
+ ["Béznar","Andalucía","Granada",36.92,-3.55,2,"bass carpa"],
+ ["Rules","Andalucía","Granada",36.86,-3.48,3,"bass carpa"],
+ ["Cuevas del Almanzora","Andalucía","Almería",37.32,-1.97,6,"bass carpa"],
+ ["La Viñuela","Andalucía","Málaga",36.86,-4.15,6,"bass carpa"],
+ ["Zahara-El Gastor","Andalucía","Cádiz",36.83,-5.38,4,"bass carpa barbo"],
+ ["Guadalcacín","Andalucía","Cádiz",36.67,-5.67,34,"bass carpa barbo"],
+ ["Arcos","Andalucía","Cádiz",36.76,-5.81,1,"bass carpa"],
+ ["Charco Redondo","Andalucía","Cádiz",36.30,-5.55,5,"bass carpa"],
+ ["El Pintado","Andalucía","Sevilla",38.02,-5.98,10,"bass carpa barbo"],
+ ["José Torán","Andalucía","Sevilla",37.78,-5.42,7,"bass carpa"],
+ ["Aracena","Andalucía","Huelva",37.93,-6.45,9,"bass carpa"],
+ ["El Chanza","Andalucía","Huelva",37.60,-7.40,22,"bass carpa barbo"],
+ ["Andévalo","Andalucía","Huelva",37.58,-7.18,50,"bass carpa"],
+ ["Cíjara","Extremadura","Badajoz",39.37,-4.88,70,"bass carpa lucio lucioperca barbo"],
+ ["García de Sola","Extremadura","Badajoz",39.15,-5.18,34,"bass carpa lucio barbo"],
+ ["Alange","Extremadura","Badajoz",38.78,-6.25,50,"bass carpa barbo"],
+ ["Sierra Brava","Extremadura","Cáceres",39.18,-5.66,16,"bass carpa"],
+ ["Borbollón","Extremadura","Cáceres",40.18,-6.55,9,"bass carpa barbo"],
+ ["Gabriel y Galán","Extremadura","Cáceres",40.26,-6.17,47,"bass carpa lucio barbo"],
+ ["Cedillo","Extremadura","Cáceres",39.65,-7.53,14,"bass carpa lucioperca lucio"],
+ ["Portaje","Extremadura","Cáceres",39.88,-6.38,4,"bass carpa"],
+ ["Rosarito","Castilla y León / Extremadura","Ávila / Cáceres",40.10,-5.25,15,"bass carpa barbo"],
+ ["Bolarque","Castilla-La Mancha","Guadalajara",40.37,-2.83,5,"bass carpa lucio"],
+ ["Alarcón","Castilla-La Mancha","Cuenca",39.57,-2.10,68,"bass carpa lucio lucioperca barbo"],
+ ["Contreras","Castilla-La Mancha / Comunitat Valenciana","Cuenca / Valencia",39.55,-1.50,30,"bass carpa lucio barbo"],
+ ["El Vicario","Castilla-La Mancha","Ciudad Real",39.05,-3.95,2,"bass carpa"],
+ ["Gasset","Castilla-La Mancha","Ciudad Real",39.07,-3.90,2,"bass carpa"],
+ ["Torre de Abraham","Castilla-La Mancha","Ciudad Real",39.38,-4.25,8,"bass carpa lucio"],
+ ["Azután","Castilla-La Mancha","Toledo",39.79,-5.10,12,"bass carpa lucioperca"],
+ ["Finisterre","Castilla-La Mancha","Toledo",39.80,-3.48,7,"bass carpa"],
+ ["Cazalegas","Castilla-La Mancha","Toledo",40.00,-4.68,1,"bass carpa"],
+ ["Beleña","Castilla-La Mancha","Guadalajara",40.95,-3.22,3,"bass carpa lucio"],
+ ["Pálmaces","Castilla-La Mancha","Guadalajara",41.03,-2.88,2,"bass carpa lucio"],
+ ["Talave","Castilla-La Mancha","Albacete",38.47,-1.87,7,"bass carpa barbo"],
+ ["La Fuensanta","Castilla-La Mancha","Albacete",38.40,-2.23,5,"bass carpa barbo"],
+ ["La Toba","Castilla-La Mancha","Cuenca",40.15,-1.95,2,"trucha"],
+ ["Pedrezuela","Comunidad de Madrid","Madrid",40.75,-3.62,4,"bass carpa lucioperca"],
+ ["Picadas","Comunidad de Madrid","Madrid",40.37,-4.25,2,"bass carpa lucioperca"],
+ ["El Atazar","Comunidad de Madrid","Madrid",40.92,-3.47,10,"bass carpa"],
+ ["Puentes Viejas","Comunidad de Madrid","Madrid",40.98,-3.58,2,"carpa barbo bass"],
+ ["La Jarosa","Comunidad de Madrid","Madrid",40.66,-4.13,1,"trucha"],
+ ["Barrios de Luna","Castilla y León","León",42.85,-5.85,12,"trucha"],
+ ["Porma","Castilla y León","León",42.88,-5.32,12,"trucha"],
+ ["Riaño","Castilla y León","León",42.98,-5.00,22,"trucha"],
+ ["Bárcena","Castilla y León","León",42.60,-6.65,10,"bass carpa"],
+ ["Aguilar de Campoo","Castilla y León","Palencia",42.79,-4.30,16,"trucha lucio carpa"],
+ ["Cuerda del Pozo","Castilla y León","Soria",41.85,-2.75,22,"lucio trucha carpa"],
+ ["Linares del Arroyo","Castilla y León","Segovia",41.53,-3.55,6,"carpa lucio bass"],
+ ["El Burguillo","Castilla y León","Ávila",40.43,-4.57,9,"bass carpa lucioperca"],
+ ["Villalcampo","Castilla y León","Zamora",41.52,-6.07,8,"lucio lucioperca carpa"],
+ ["Santa Teresa","Castilla y León","Salamanca",40.66,-5.60,26,"lucio carpa bass"],
+ ["Aldeadávila","Castilla y León","Salamanca",41.21,-6.67,4,"lucio carpa bass lucioperca"],
+ ["Ebro","Cantabria / Castilla y León","Cantabria / Burgos",43.00,-3.95,62,"lucio carpa perca trucha"],
+ ["Urrunaga","País Vasco","Álava",42.97,-2.66,6,"lucio bass carpa"],
+ ["Itoiz","Navarra","Navarra",42.82,-1.37,11,"carpa bass"],
+ ["Alloz","Navarra","Navarra",42.72,-1.93,2,"bass carpa"],
+ ["Eugui","Navarra","Navarra",42.98,-1.53,1,"trucha"],
+ ["González-Lacasa","La Rioja","La Rioja",42.18,-2.65,2,"trucha carpa"],
+ ["Mediano","Aragón","Huesca",42.30,0.20,20,"carpa bass"],
+ ["El Grado","Aragón","Huesca",42.15,0.22,25,"carpa bass"],
+ ["Barasona","Aragón","Huesca",42.12,0.33,7,"carpa bass"],
+ ["Santa Ana","Aragón / Cataluña","Huesca / Lleida",41.88,0.48,8,"carpa bass"],
+ ["La Sotonera","Aragón","Huesca",42.10,-0.70,20,"carpa bass lucio"],
+ ["Lanuza","Aragón","Huesca",42.73,-0.33,1,"trucha"],
+ ["Calanda","Aragón","Teruel",40.92,-0.22,3,"carpa bass"],
+ ["Santolea","Aragón","Teruel",40.75,-0.30,3,"bass carpa"],
+ ["La Tranquera","Aragón","Zaragoza",41.25,-1.80,5,"carpa bass lucio"],
+ ["Flix","Cataluña","Tarragona",41.23,0.55,3,"siluro carpa"],
+ ["Siurana","Cataluña","Tarragona",41.25,0.92,1,"bass carpa"],
+ ["Susqueda","Cataluña","Girona",41.95,2.53,5,"carpa bass perca"],
+ ["Boadella","Cataluña","Girona",42.33,2.83,4,"carpa bass"],
+ ["La Baells","Cataluña","Barcelona",42.12,1.88,4,"carpa trucha"],
+ ["Oliana","Cataluña","Lleida",42.06,1.32,4,"carpa bass"],
+ ["Rialb","Cataluña","Lleida",41.98,1.20,15,"carpa bass"],
+ ["Camarasa","Cataluña","Lleida",41.90,0.88,6,"carpa bass siluro"],
+ ["Canelles","Cataluña / Aragón","Lleida / Huesca",42.00,0.65,15,"carpa bass"],
+ ["Sant Antoni (Talarn)","Cataluña","Lleida",42.20,0.92,9,"carpa bass trucha"],
+ ["Tous","Comunitat Valenciana","Valencia",39.15,-0.68,5,"bass carpa"],
+ ["Forata","Comunitat Valenciana","Valencia",39.38,-0.86,1,"bass carpa"],
+ ["Loriguilla","Comunitat Valenciana","Valencia",39.63,-0.88,3,"bass carpa"],
+ ["Sichar","Comunitat Valenciana","Castellón",40.05,-0.20,3,"bass carpa"],
+ ["Arenós","Comunitat Valenciana","Castellón",40.10,-0.60,4,"bass carpa"],
+ ["Beniarrés","Comunitat Valenciana","Alicante",38.83,-0.38,3,"bass carpa"],
+ ["Guadalest","Comunitat Valenciana","Alicante",38.68,-0.20,1,"bass carpa"],
+ ["Alfonso XIII","Región de Murcia","Murcia",38.22,-1.68,3,"bass carpa barbo"],
+ ["Puentes","Región de Murcia","Murcia",37.73,-1.82,3,"carpa bass"],
+ ["Os Peares","Galicia","Ourense / Lugo",42.45,-7.73,3,"bass carpa"],
+ ["As Conchas","Galicia","Ourense",41.95,-7.95,6,"carpa bass lucio"],
+ ["Castrelo de Miño","Galicia","Ourense",42.30,-8.07,6,"bass carpa"],
+ ["Frieira","Galicia","Ourense / Pontevedra",42.13,-8.18,4,"bass carpa"],
+ ["Tanes","Asturias","Asturias",43.20,-5.38,2,"trucha"],
+ ["Salime","Asturias","Asturias",43.20,-6.92,7,"trucha"]
+];
+const PAT={s:[2,2,2,2,1,1,0,0,1,2,2,2],c:[0,1,2,2,2,1,1,1,2,2,1,0],n:[0,0,1,2,2,2,1,1,2,2,1,0]};
+MORE.forEach(([n,ccaa,prov,lat,lon,km2,sps])=>{
+  const sp=sps.split(" ");
+  E.push({id:n.toLowerCase().normalize("NFD").replace(/[^a-z0-9]/g,""),n,ccaa,prov,lat,lon,km2,sp,
+    m:sp.length===1&&sp[0]==="trucha"?PAT.n:PAT[lat<38.6?"s":lat>42.3?"n":"c"],
+    d:`Embalse de ${prov} con pesca de ${sp.map(s=>SP[s].toLowerCase()).join(", ").replace(/, ([^,]*)$/," y $1")}.`,
+    t:null,acc:"Ficha básica con datos orientativos. Comprueba las zonas permitidas y la normativa antes de ir.",basic:true});
+});
+// Revisión de especies por cuenca y zona
+(function(){
+  const g=id=>E.find(e=>e.id===id);
+  const add=(ids,s)=>ids.forEach(id=>{const e=g(id);if(e&&!e.sp.includes(s))e.sp.push(s)});
+  add(["ribarroja","flix","camarasa","santaana","canelles","alcantara","valdecanas","cedillo","azutan","sobron"],"siluro");
+  add(["ribarroja","flix","valdecanas","susqueda","santaana","buendia","alcantara","garciadesola","cijara"],"lucioperca");
+  add(["alange","mequinenza","ribarroja"],"lucio");
+  add(["ribarroja","mequinenza","flix","valdecanas","alcantara","cijara","orellana","laserena","buendia","entrepenas","bolarque","alarcon"],"barbo");
+  E.forEach(e=>{
+    const trout=e.sp.length===1&&e.sp[0]==="trucha";
+    if(trout)return;
+    const ne=/Galicia|Asturias/.test(e.ccaa);
+    const ebroCat=/Aragón|Cataluña|Navarra|La Rioja|País Vasco/.test(e.ccaa);
+    if(!ne)add([e.id],"alburno");
+    if(e.lat<42.4&&!ne)add([e.id],"pezsol");
+    if(e.sp.includes("carpa")&&!ne)add([e.id],"carpin");
+    if(e.lat<41.8&&e.lon<-1.6)add([e.id],"boga");
+    if(/Castilla y León|Extremadura/.test(e.ccaa)&&e.sp.includes("carpa"))add([e.id],"tenca");
+    if(ebroCat&&e.lat<42.5)add([e.id],"perca");
+  });
+  const ord=Object.keys(SP);
+  E.forEach(e=>{
+    e.sp.sort((a,b)=>ord.indexOf(a)-ord.indexOf(b));
+    if(e.basic)e.d=`Embalse de ${e.prov} con pesca de ${e.sp.map(s=>SP[s].toLowerCase()).join(", ").replace(/, ([^,]*)$/," y $1")}.`;
+  });
+})();
+E.sort((a,b)=>(b.top?1:0)-(a.top?1:0)||a.n.localeCompare(b.n,"es"));
+const SPECIES=[
+ {k:"bass",lat:"Micropterus salmoides",d:"Depredador americano. Es la especie estrella de los concursos con señuelo en España.",tec:"Vinilos, jerkbait, crankbait, señuelos de superficie",ep:"Primavera y otoño. En verano, al amanecer y al atardecer",tip:"Busca estructura: piedras, árboles hundidos, puntas y cambios de fondo."},
+ {k:"carpa",lat:"Cyprinus carpio",d:"El pez más buscado en el carpfishing. Puede pasar de 20 kg en los grandes embalses.",tec:"Fondo con boilie, maíz, masilla; método feeder",ep:"De abril a octubre",tip:"Ceba la zona con antelación y pesca las colas cuando sube la temperatura."},
+ {k:"siluro",lat:"Silurus glanis",d:"El gigante del Ebro. Llega a superar los 2,5 m y 100 kg.",tec:"Vinilos grandes, cebo vivo, clonk desde barca",ep:"De abril a octubre, con agua templada",tip:"Usa equipo muy fuerte: trenzado grueso y anzuelos de calidad."},
+ {k:"lucio",lat:"Esox lucius",d:"Depredador de emboscada con dientes muy afilados.",tec:"Cucharillas, jerkbait, swimbait, spinnerbait",ep:"Otoño, invierno y principios de primavera",tip:"Usa siempre bajo de línea de acero o fluorocarbono grueso por los dientes."},
+ {k:"lucioperca",lat:"Sander lucioperca",d:"Vive cerca del fondo y caza en penumbra. Muy buena en invierno.",tec:"Vinilo con cabeza plomada a ras de fondo",ep:"Otoño e invierno; al atardecer y de noche",tip:"Recoge lento con pequeños saltos tocando el fondo."},
+ {k:"barbo",lat:"Luciobarbus spp.",d:"Especie autóctona de la península. Hay varias especies según la cuenca.",tec:"Masilla, lombriz, maíz; también cucharilla pequeña en río",ep:"Primavera, cuando remonta a frezar",tip:"Al ser autóctono, en muchas zonas es obligatorio devolverlo al agua."},
+ {k:"perca",lat:"Perca fluviatilis",d:"Pequeña y en grupos. Ideal para empezar con señuelo.",tec:"Vinilos y cucharillas pequeñas, drop shot",ep:"Otoño e invierno",tip:"Si sacas una, insiste en la zona: suelen ir en banco."},
+ {k:"trucha",lat:"Salmo trutta",d:"La reina de los ríos de montaña. La común es autóctona y está muy protegida.",tec:"Cucharilla, mosca, pececillo",ep:"Según el calendario de cada comunidad",tip:"Revisa los cotos y tramos de pesca sin muerte antes de ir."},
+ {k:"boga",lat:"Pseudochondrostoma spp.",d:"Ciprínido autóctono que vive en bancos. Hay varias especies según la cuenca.",tec:"Masilla, lombriz, pan; cucharilla muy pequeña",ep:"Primavera, cuando sube a los ríos a frezar",tip:"Es autóctona y en muchas zonas está protegida: devuélvela al agua."},
+ {k:"tenca",lat:"Tinca tinca",d:"Pez de aguas tranquilas y fondos con barro y vegetación.",tec:"Lombriz, masilla o maíz con flotador fino",ep:"De mayo a julio, al amanecer",tip:"Pesca cerca de las plantas acuáticas y con poco ruido."},
+ {k:"carpin",lat:"Carassius auratus",d:"Pariente pequeño de la carpa, muy abundante. Es el pez rojo de los estanques.",tec:"Masilla o pan con flotador, feeder",ep:"De primavera a otoño",tip:"Ideal para empezar: pica mucho y se pesca con equipo sencillo."},
+ {k:"alburno",lat:"Alburnus alburnus",d:"Pececillo plateado invasor que forma bancos enormes en superficie.",tec:"Cebo muy pequeño (asticot, pan) con anzuelo fino",ep:"Todo el año, sobre todo en verano",tip:"Es comida de los depredadores: donde hay alburnos suele haber black bass y siluros cerca."},
+ {k:"pezsol",lat:"Lepomis gibbosus",d:"Pez pequeño y muy colorido, de origen americano. Muy común en orillas.",tec:"Lombriz o vinilo diminuto",ep:"De primavera a otoño",tip:"Pica fácil en la orilla, perfecto para pescar con niños o para empezar."}
+];
+const MES="EFMAMJJASOND".split("");
+let S={tab:"embalses",q:"",sp:"",cc:"",fav:false};
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let favs=new Set(ls.get("pt-favs",[]));
+let log=ls.get("pt-log",null);
+const SAMPLE=[{id:1,ex:true,f:"2026-10-04",e:"chorro",s:"bass",w:1.2,l:"Vinilo worm verde"},{id:2,ex:true,f:"2026-09-20",e:"iznajar",s:"carpa",w:6.8,l:"Boilie de fresa"}];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const byId=id=>E.find(x=>x.id===id);
+
+function render(){
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===S.tab));
+  ({embalses:vList,mapa:vMap,especies:vSpecies,cuaderno:vLog})[S.tab]();
+}
+function filtered(){
+  const q=S.q.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  return E.filter(e=>{
+    const hay=(e.n+" "+(e.apodo||"")+" "+e.prov+" "+e.ccaa).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+    return (!q||hay.includes(q))&&(!S.sp||e.sp.includes(S.sp))&&(!S.cc||e.ccaa.includes(S.cc))&&(!S.fav||favs.has(e.id));
+  });
+}
+function card(e){
+  return `<div class="card" role="button" tabindex="0" data-open="${e.id}">
+    <h3>${esc(e.n)}</h3>
+    <button class="fav ${favs.has(e.id)?"on":""}" data-fav="${e.id}" aria-label="Guardar en favoritos">${favs.has(e.id)?"★":"☆"}</button>
+    <div class="where">${e.top?'<span class="ex">Icónico</span> · ':""}${e.apodo?esc(e.apodo)+" · ":""}${esc(e.prov)}</div>
+    <div class="sp">${e.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div>
+  </div>`;
+}
+function vList(){
+  const ccs=[...new Set(E.flatMap(e=>e.ccaa.split(" / ")))].sort();
+  const r=filtered();
+  $("#view").innerHTML=`
+    <input id="q" class="search" type="search" placeholder="Busca un embalse, provincia o comunidad" value="${esc(S.q)}">
+    <div class="chips">
+      <button class="chip" data-sp="" aria-pressed="${!S.sp}">Todas</button>
+      ${Object.keys(SP).map(k=>`<button class="chip" data-sp="${k}" aria-pressed="${S.sp===k}">${SP[k]}</button>`).join("")}
+    </div>
+    <div class="chips" style="padding-top:0">
+      <button class="chip" id="favbtn" aria-pressed="${S.fav}">★ Favoritos</button>
+      <select class="chip" id="cc" aria-label="Comunidad">
+        <option value="">Toda España</option>${ccs.map(c=>`<option ${S.cc===c?"selected":""}>${c}</option>`).join("")}
+      </select>
+    </div>
+    <div class="count">${r.length} embalse${r.length===1?"":"s"}</div>
+    <div class="list">${r.map(card).join("")||`<p class="mapnote">No hay embalses con esos filtros. Prueba a quitar alguno.</p>`}</div>`;
+  const q=$("#q");q.oninput=()=>{S.q=q.value;const pos=q.selectionStart;vList();const n=$("#q");n.focus();n.setSelectionRange(pos,pos)};
+  document.querySelectorAll("[data-sp]").forEach(b=>b.onclick=()=>{S.sp=b.dataset.sp;vList()});
+  $("#favbtn").onclick=()=>{S.fav=!S.fav;vList()};
+  $("#cc").onchange=ev=>{S.cc=ev.target.value;vList()};
+  bindCards();
+}
+function bindCards(){
+  document.querySelectorAll("[data-fav]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();const id=b.dataset.fav;favs.has(id)?favs.delete(id):favs.add(id);ls.set("pt-favs",[...favs]);render()});
+  document.querySelectorAll("[data-open]").forEach(c=>{c.onclick=()=>openSheet(c.dataset.open);c.onkeydown=ev=>{if(ev.key==="Enter")openSheet(c.dataset.open)}});
+}
+// Mapa: contorno simplificado de la España peninsular
+const OUT=[[-9.3,43.0],[-8.9,43.4],[-8.2,43.7],[-7.7,43.78],[-7.0,43.55],[-5.8,43.6],[-4.5,43.42],[-3.5,43.48],[-2.9,43.42],[-1.78,43.36],[-1.3,43.05],[-0.7,42.85],[0.7,42.8],[1.5,42.45],[2.4,42.4],[3.2,42.42],[3.2,41.9],[2.2,41.4],[1.0,41.05],[0.7,40.7],[0.0,40.0],[-0.3,39.5],[0.2,38.8],[-0.5,38.3],[-0.8,37.6],[-1.6,37.3],[-2.1,36.73],[-3.0,36.75],[-4.4,36.7],[-5.0,36.45],[-5.6,36.02],[-6.2,36.4],[-6.4,36.8],[-7.4,37.2],[-7.5,37.5],[-7.3,38.2],[-7.1,38.8],[-7.3,39.4],[-6.9,40.0],[-6.8,40.3],[-6.9,41.0],[-6.4,41.6],[-6.6,41.95],[-7.4,41.85],[-8.1,41.85],[-8.9,41.9],[-8.9,42.4]];
+function vMap(){
+  const W=600,x0=-9.6,x1=3.6,y0=35.8,y1=44.0,k=Math.cos(40*Math.PI/180);
+  const sx=W/((x1-x0)*k),H=Math.round((y1-y0)*sx);
+  const P=([lo,la])=>[((lo-x0)*k*sx).toFixed(1),((y1-la)*sx).toFixed(1)];
+  const r=filtered();
+  $("#view").innerHTML=`
+    <h2>Mapa de embalses</h2>
+    <div class="chips">
+      <button class="chip" data-sp="" aria-pressed="${!S.sp}">Todas</button>
+      ${Object.keys(SP).map(k=>`<button class="chip" data-sp="${k}" aria-pressed="${S.sp===k}">${SP[k]}</button>`).join("")}
+    </div>
+    <div class="mapbox"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa de España con los embalses">
+      <path d="M${OUT.map(p=>P(p).join(",")).join("L")}Z" fill="var(--land)" stroke="var(--line)" stroke-width="2"/>
+      ${r.map(e=>{const[a,b]=P([e.lon,e.lat]);return `<g data-open="${e.id}" style="cursor:pointer" tabindex="0">
+        <circle cx="${a}" cy="${b}" r="${Math.max(7,Math.sqrt(e.km2)*1.6)}" fill="var(--lake)" fill-opacity=".25"/>
+        <circle cx="${a}" cy="${b}" r="${e.top?5:3.5}" fill="${e.top?"var(--lure)":"var(--lake)"}" stroke="var(--surface)" stroke-width="1.5"/>
+        ${e.top||r.length<=25?`<text x="${+a+9}" y="${+b+4}" font-size="13" font-weight="700" fill="var(--ink)" font-family="Karla,sans-serif">${esc(e.n)}</text>`:`<title>${esc(e.n)}</title>`}</g>`}).join("")}
+    </svg></div>
+    <p class="mapnote">Puntos naranjas: embalses icónicos. Puntos verdes: resto de embalses. El círculo de fondo crece con la superficie. Toca un punto para ver su ficha. Mapa aproximado, solo como orientación.</p>`;
+  document.querySelectorAll("[data-sp]").forEach(b=>b.onclick=()=>{S.sp=b.dataset.sp;vMap()});
+  bindCards();
+}
+function vSpecies(){
+  $("#view").innerHTML=`<h2>Especies de agua dulce</h2><div class="list">${SPECIES.map(s=>{
+    const n=E.filter(e=>e.sp.includes(s.k)).length;
+    return `<div class="spec"><h3>${SP[s.k]}</h3><div class="lat">${s.lat}</div><p style="margin:0">${s.d}</p>
+    <dl><dt>Técnica</dt><dd>${s.tec}</dd><dt>Época</dt><dd>${s.ep}</dd><dt>Consejo</dt><dd>${s.tip}</dd></dl>
+    <button class="chip" data-go="${s.k}" style="justify-self:start;margin-top:4px">Ver ${n} embalses con ${SP[s.k].toLowerCase()} →</button></div>`}).join("")}</div>`;
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{S.sp=b.dataset.go;S.tab="embalses";render();scrollTo(0,0)});
+}
+function vLog(){
+  const items=log||SAMPLE;
+  const real=items.filter(i=>!i.ex);
+  const best=items.reduce((a,b)=>(!a||b.w>a.w)?b:a,null);
+  const today=new Date().toISOString().slice(0,10);
+  $("#view").innerHTML=`<h2>Mi cuaderno de capturas</h2>
+    <div class="stats">
+      <div class="fact"><b>${items.length}</b><small>Capturas</small></div>
+      <div class="fact"><b>${best?best.w.toLocaleString("es-ES"):"–"} kg</b><small>Mayor pieza</small></div>
+      <div class="fact"><b>${new Set(items.map(i=>i.e)).size}</b><small>Embalses</small></div>
+    </div>
+    <form class="log" id="f">
+      <label>Fecha<input id="lf" type="date" value="${today}" required></label>
+      <label>Peso (kg)<input id="lw" type="number" step="0.1" min="0" placeholder="1,5" required></label>
+      <label>Embalse<select id="le">${E.map(e=>`<option value="${e.id}">${e.n}</option>`).join("")}</select></label>
+      <label>Especie<select id="ls">${Object.keys(SP).map(k=>`<option value="${k}">${SP[k]}</option>`).join("")}</select></label>
+      <label class="full">Señuelo o cebo<input id="ll" type="text" placeholder="Vinilo, boilie, cucharilla…"></label>
+      <button class="btn full" type="submit">Apuntar captura</button>
+    </form>
+    <div id="entries" style="margin-top:8px">${items.map(i=>`<div class="entry">
+      <div class="w">${i.w.toLocaleString("es-ES")}</div>
+      <div class="t">${SP[i.s]} · ${esc(byId(i.e)?.n||"")} ${i.ex?'<span class="ex">Ejemplo</span>':""}</div>
+      <button class="x" data-del="${i.id}" aria-label="Borrar">✕</button>
+      <div class="s">${new Date(i.f+"T12:00").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"})}${i.l?" · "+esc(i.l):""}</div>
+    </div>`).join("")}</div>
+    <p class="mapnote">Tus capturas se guardan solo en este navegador.${!real.length?" Las dos de arriba son de ejemplo y desaparecen al apuntar la primera tuya.":""}</p>`;
+  $("#f").onsubmit=ev=>{ev.preventDefault();
+    const w=parseFloat($("#lw").value.replace(",","."));if(!(w>=0))return;
+    const base=(log||[]).filter(i=>!i.ex);
+    base.unshift({id:Date.now(),f:$("#lf").value,e:$("#le").value,s:$("#ls").value,w,l:$("#ll").value.trim()});
+    log=base;ls.set("pt-log",log);vLog()};
+  document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{log=items.filter(i=>String(i.id)!==b.dataset.del);ls.set("pt-log",log);vLog()});
+}
+function openSheet(id){
+  const e=byId(id),sh=$("#sheet");
+  sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="${esc(e.n)}">
+    <div class="grab"></div>
+    <button class="close" id="cl">Cerrar</button>
+    <div class="count" style="margin:0">${esc(e.ccaa)}</div>
+    <h2>${esc(e.n)}</h2>
+    <div class="where" style="color:var(--muted)">${e.apodo?esc(e.apodo)+" · ":""}${esc(e.prov)}</div>
+    <div class="facts">
+      <div class="fact"><b>~${e.km2}</b><small>km² de lámina</small></div>
+      <div class="fact"><b>${e.sp.length}</b><small>Especies</small></div>
+      <div class="fact"><b>${e.lat.toFixed(2)}°</b><small>Latitud N</small></div>
+    </div>
+    <p>${esc(e.d)}</p>
+    <h4>Especies</h4>
+    <div class="sp" style="display:flex;flex-wrap:wrap;gap:4px">${e.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div>
+    <h4>Mejores meses</h4>
+    <div class="months">${e.m.map((v,i)=>`<div class="${v===2?"hot":v===1?"ok":""}" title="${v===2?"Muy buena":v===1?"Buena":"Floja"}">${MES[i]}</div>`).join("")}</div>
+    <div class="legend"><span><i style="background:var(--lure)"></i>Muy buena</span><span><i style="background:var(--lake-soft)"></i>Buena</span><span><i style="background:var(--land)"></i>Floja</span></div>
+    <h4>Cómo pescarlo</h4><p>${esc(e.t||e.sp.map(s=>SP[s]+": "+SPECIES.find(x=>x.k===s).tec.toLowerCase()).join(". ")+".")}</p>
+    <h4>A tener en cuenta</h4><p>${esc(e.acc)}</p>
+    <p><a href="https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lon}" target="_blank" rel="noopener" style="color:var(--lake);font-weight:700">Abrir en Google Maps ↗</a></p>
+    <div class="warn">Necesitas licencia de pesca de la comunidad autónoma. Las normas (cupos, tallas, pesca sin muerte o sacrificio de especies invasoras) cambian según la comunidad y el año: consúltalas siempre antes de ir.</div>
+  </div>`;
+  sh.hidden=false;
+  const close=()=>{sh.hidden=true;sh.innerHTML=""};
+  $("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
+  document.onkeydown=ev=>{if(ev.key==="Escape"&&!sh.hidden)close()};
+  $("#cl").focus();
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;render();scrollTo(0,0)});
+render();
+</script>
+</body></html>
