@@ -40,7 +40,9 @@ jobs:
                   targetCompatibility = JavaVersion.VERSION_17
               }
           }
+          dependencies { implementation("androidx.webkit:webkit:1.11.0") }
           EOF
+          printf 'android.useAndroidX=true\norg.gradle.jvmargs=-Xmx2048m\n' > gradle.properties
           cat > src/main/AndroidManifest.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -64,48 +66,3 @@ jobs:
           import android.net.Uri;
           import android.os.Bundle;
           import android.webkit.WebResourceRequest;
-          import android.webkit.WebView;
-          import android.webkit.WebViewClient;
-          public class MainActivity extends Activity {
-              private WebView web;
-              @Override protected void onCreate(Bundle b) {
-                  super.onCreate(b);
-                  web = new WebView(this);
-                  web.setBackgroundColor(0xFF040605);
-                  web.getSettings().setJavaScriptEnabled(true);
-                  web.getSettings().setDomStorageEnabled(true);
-                  web.setWebViewClient(new WebViewClient() {
-                      @Override public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
-                          Uri u = r.getUrl();
-                          if ("file".equals(u.getScheme())) return false;
-                          startActivity(new Intent(Intent.ACTION_VIEW, u));
-                          return true;
-                      }
-                  });
-                  setContentView(web);
-                  web.loadUrl("file:///android_asset/index.html");
-              }
-              @Override public void onBackPressed() {
-                  if (web.canGoBack()) web.goBack(); else super.onBackPressed();
-              }
-          }
-          EOF
-          cat > src/main/res/drawable/ic_launcher.xml <<'EOF'
-          <vector xmlns:android="http://schemas.android.com/apk/res/android"
-              android:width="108dp" android:height="108dp"
-              android:viewportWidth="48" android:viewportHeight="48">
-              <path android:fillColor="#040605" android:pathData="M0,0h48v48h-48z"/>
-              <path android:fillColor="#141C19" android:strokeColor="#3FC1A8" android:strokeWidth="2.5" android:pathData="M24,2.5a21.5,21.5 0 1,1 -0.01,0z"/>
-              <path android:strokeColor="#3FC1A8" android:strokeWidth="2" android:strokeLineCap="round" android:pathData="M12,36.5q3,-2.2 6,0t6,0 6,0 6,0"/>
-              <path android:fillColor="#E9F0EC" android:pathData="M9.5,25.5c6,-7.5 17.5,-8.5 24.5,-2.6l5.8,-4.6 -1.4,7.4 1.4,7.4 -5.8,-4.6c-7,5.9 -18.5,4.9 -24.5,-3z"/>
-              <path android:fillColor="#040605" android:pathData="M13.9,25a1.6,1.6 0 1,0 3.2,0a1.6,1.6 0 1,0 -3.2,0z"/>
-              <path android:strokeColor="#FF6B1A" android:strokeWidth="2.4" android:strokeLineCap="round" android:pathData="M25,4v11.5a3,3 0 0,1 -6,0"/>
-          </vector>
-          EOF
-      - name: Compilar APK
-        run: gradle assembleDebug --no-daemon
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Pantanero-APK
-          path: build/outputs/apk/debug/*.apk
-  
