@@ -115,6 +115,26 @@ form.log input,form.log select{font:inherit;font-size:.95rem;text-transform:none
 .entry .s{color:var(--muted);font-size:.85rem}
 .entry .x{grid-row:1/3;grid-column:3;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem}
 .ex{font-size:.7rem;color:var(--lure);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.authcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
+.authcard h3{margin:0;font-family:var(--display);text-transform:uppercase;font-size:1.3rem}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg button{font:inherit;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;background:none;border:none;color:var(--muted);padding:9px;border-radius:8px;cursor:pointer;transition:background .2s,color .2s}
+.seg button[aria-selected="true"]{background:var(--lake);color:var(--bg)}
+.authform{display:grid;gap:10px}
+.authform label{display:grid;gap:4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.authform input[type=email],.authform input[type=password]{font:inherit;font-size:1rem;text-transform:none;letter-spacing:0;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box}
+.authform .chk{display:flex;gap:8px;align-items:flex-start;text-transform:none;letter-spacing:0;font-size:.85rem;color:var(--ink)}
+.authform .chk input{margin-top:3px;accent-color:var(--lake)}
+.lnk{background:none;border:none;padding:0;font:inherit;color:var(--lake);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:2px;justify-self:start}
+.autherr{color:#ff8a7a;font-size:.88rem;background:rgba(255,90,70,.08);border:1px solid rgba(255,90,70,.3);border-radius:8px;padding:8px 10px}
+.authok{color:var(--lake);font-size:.88rem;background:var(--lake-soft);border-radius:8px;padding:8px 10px}
+.btn:disabled{opacity:.6;cursor:default}
+.btn.red{background:#d63c2a}
+.who{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.88rem;color:var(--muted);margin-bottom:4px}
+.who b{color:var(--ink);word-break:break-all}
+.entry.ghost{opacity:.55}
+.danger{margin-top:18px;padding-top:12px;border-top:1px solid var(--line);font-size:.9rem;display:grid;gap:8px}
+.danger p{margin:0;color:#ff8a7a}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
 .sheet{animation:fade .25s ease both}
 .sheet .pane{animation:up .4s var(--ease) both;border-top:1px solid var(--line)}
@@ -158,6 +178,9 @@ form.log input,form.log select{font:inherit;font-size:.95rem;text-transform:none
 </div></nav>
 <div class="sheet" id="sheet" hidden></div>
 
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-auth-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-firestore-compat.js"></script>
 <script>
 const SP={bass:"Black bass",carpa:"Carpa",siluro:"Siluro",lucio:"Lucio",lucioperca:"Lucioperca",barbo:"Barbo",perca:"Perca",trucha:"Trucha",boga:"Boga",tenca:"Tenca",carpin:"Carpín",alburno:"Alburno",pezsol:"Pez sol"};
 // meses: 2 = muy buena, 1 = buena
@@ -407,7 +430,6 @@ const MES="EFMAMJJASOND".split("");
 let S={tab:"embalses",q:"",sp:"",cc:"",fav:false};
 const ls={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 let favs=new Set(ls.get("pt-favs",[]));
-let log=ls.get("pt-log",null);
 const SAMPLE=[{id:1,ex:true,f:"2026-10-04",e:"chorro",s:"bass",w:1.2,l:"Vinilo worm verde"},{id:2,ex:true,f:"2026-09-20",e:"iznajar",s:"carpa",w:6.8,l:"Boilie de fresa"}];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -495,38 +517,146 @@ function vSpecies(){
     <button class="chip" data-go="${s.k}" style="justify-self:start;margin-top:4px">Ver ${n} embalses con ${SP[s.k].toLowerCase()} →</button></div>`}).join("")}</div>`;
   document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{S.sp=b.dataset.go;S.tab="embalses";render(true);scrollTo(0,0)});
 }
-function vLog(){
-  const items=log||SAMPLE;
-  const real=items.filter(i=>!i.ex);
+/* ---------- Cuentas y cuaderno en la nube (Firebase) ---------- */
+const FB_CFG={apiKey:"AIzaSyD6oIzpBJHbTliAK-Mhe5PmfyN6p1MXb1w",authDomain:"pantanero-fdbed.firebaseapp.com",projectId:"pantanero-fdbed",storageBucket:"pantanero-fdbed.firebasestorage.app",messagingSenderId:"144661549244",appId:"1:144661549244:web:969c340f422611711fc0b9"};
+let fb=null,user=null,cloud=null,cloudErr="",authReady=false,unsub=null,authMode="entrar",authMsg="",authBusy=false,delAsk=false;
+const ERR={"auth/invalid-email":"El email no es válido.","auth/missing-password":"Escribe una contraseña.","auth/weak-password":"La contraseña debe tener al menos 6 caracteres.","auth/email-already-in-use":"Ya existe una cuenta con ese email. Prueba a entrar.","auth/invalid-credential":"Email o contraseña incorrectos.","auth/wrong-password":"Email o contraseña incorrectos.","auth/user-not-found":"Email o contraseña incorrectos.","auth/invalid-login-credentials":"Email o contraseña incorrectos.","auth/too-many-requests":"Demasiados intentos. Espera unos minutos y vuelve a probar.","auth/network-request-failed":"No hay conexión con el servidor. Revisa tu internet.","auth/requires-recent-login":"Por seguridad, cierra sesión y vuelve a entrar antes de borrar la cuenta.","auth/api-key-not-valid.-please-pass-a-valid-api-key.":"La configuración de Firebase no es correcta (clave no válida)."};
+const errTxt=e=>ERR[e&&e.code]||("No se ha podido completar. "+((e&&e.code)||""));
+function col(){return fb.db.collection("usuarios").doc(user.uid).collection("capturas")}
+function initFB(){
+  if(!window.firebase){authReady=true;return}
+  try{
+    firebase.initializeApp(FB_CFG);
+    fb={auth:firebase.auth(),db:firebase.firestore()};
+    fb.auth.languageCode="es";
+    fb.auth.onAuthStateChanged(u=>{
+      user=u;authReady=true;cloud=null;cloudErr="";delAsk=false;
+      if(unsub){unsub();unsub=null}
+      if(u){
+        migrateLocal();
+        unsub=col().orderBy("f","desc").onSnapshot(sn=>{cloud=sn.docs.map(d=>({id:d.id,...d.data()}));drawEntries()},e=>{cloudErr=errTxt(e);drawEntries()});
+      }
+      if(S.tab==="cuaderno")vLog();
+    });
+  }catch(e){fb=null;authReady=true}
+}
+function migrateLocal(){ // sube las capturas que hubiera guardadas solo en el móvil
+  const old=(ls.get("pt-log",[])||[]).filter(i=>!i.ex);if(!old.length)return;
+  const b=fb.db.batch();old.forEach(i=>b.set(col().doc(),{f:i.f,e:i.e,s:i.s,w:i.w,l:i.l||""}));
+  b.commit().then(()=>ls.set("pt-log",[])).catch(()=>{});
+}
+function fmtDate(f){return new Date(f+"T12:00").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"})}
+function drawEntries(){
+  const box=$("#entries");if(!box)return;
+  const items=user?(cloud||[]):SAMPLE;
   const best=items.reduce((a,b)=>(!a||b.w>a.w)?b:a,null);
+  $("#stats").innerHTML=`<div class="fact"><b>${items.length}</b><small>Capturas</small></div>
+    <div class="fact"><b>${best?best.w.toLocaleString("es-ES"):"–"} kg</b><small>Mayor pieza</small></div>
+    <div class="fact"><b>${new Set(items.map(i=>i.e)).size}</b><small>Embalses</small></div>`;
+  if(user&&cloud===null&&!cloudErr){box.innerHTML=`<p class="mapnote">Cargando tu cuaderno…</p>`;return}
+  box.innerHTML=(cloudErr?`<p class="autherr">${esc(cloudErr)}</p>`:"")+
+    (user&&!items.length?`<p class="mapnote">Todavía no has apuntado ninguna captura. Rellena el formulario de arriba para guardar la primera.</p>`:"")+
+    items.map((i,k)=>`<div class="entry ${user?"":"ghost"}" style="--i:${Math.min(k,14)}">
+      <div class="w">${Number(i.w).toLocaleString("es-ES")}</div>
+      <div class="t">${SP[i.s]||""} · ${esc(byId(i.e)?.n||"")} ${user?"":'<span class="ex">Ejemplo</span>'}</div>
+      ${user?`<button class="x" data-del="${i.id}" aria-label="Borrar captura">✕</button>`:""}
+      <div class="s">${fmtDate(i.f)}${i.l?" · "+esc(i.l):""}</div>
+    </div>`).join("");
+  box.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>col().doc(b.dataset.del).delete().catch(e=>{cloudErr=errTxt(e);drawEntries()}));
+}
+function authCard(){
+  if(!fb)return `<div class="authcard"><h3>Necesitas internet</h3><p class="mapnote">Para entrar en tu cuenta y ver tu cuaderno, conéctate a internet y vuelve a abrir la app.</p></div>`;
+  if(!authReady)return `<div class="authcard"><p class="mapnote">Comprobando tu sesión…</p></div>`;
+  const reg=authMode==="crear";
+  return `<div class="authcard">
+    <div class="seg" role="tablist">
+      <button type="button" data-mode="entrar" aria-selected="${!reg}">Entrar</button>
+      <button type="button" data-mode="crear" aria-selected="${reg}">Crear cuenta</button>
+    </div>
+    <p class="mapnote" style="margin:0">${reg?"Crea tu cuenta gratis para guardar tu cuaderno en la nube y verlo en cualquier móvil.":"Entra con tu cuenta para ver y guardar tus capturas."}</p>
+    <form id="af" class="authform">
+      <label>Email<input id="aem" type="email" autocomplete="email" required></label>
+      <label>Contraseña<input id="apw" type="password" minlength="6" autocomplete="${reg?"new-password":"current-password"}" required placeholder="${reg?"Mínimo 6 caracteres":""}"></label>
+      ${reg?`<label>Repite la contraseña<input id="apw2" type="password" minlength="6" autocomplete="new-password" required></label>
+      <label class="chk"><input id="aage" type="checkbox" required> Tengo 14 años o más, o mis padres me dan permiso.</label>
+      <label class="chk"><input id="apriv" type="checkbox" required> He leído y acepto la <button type="button" class="lnk" id="privlink">política de privacidad</button>.</label>`:""}
+      <div id="amsg" class="${authMsg.startsWith("✓")?"authok":"autherr"}" ${authMsg?"":"hidden"}>${esc(authMsg.replace(/^✓ /,""))}</div>
+      <button class="btn" type="submit">${reg?"Crear cuenta":"Entrar"}</button>
+      ${reg?"":`<button type="button" class="lnk" id="forgot">¿Has olvidado la contraseña?</button>`}
+    </form>
+  </div>`;
+}
+function vLog(){
   const today=new Date().toISOString().slice(0,10);
   $("#view").innerHTML=`<h2>Mi cuaderno de capturas</h2>
-    <div class="stats">
-      <div class="fact"><b>${items.length}</b><small>Capturas</small></div>
-      <div class="fact"><b>${best?best.w.toLocaleString("es-ES"):"–"} kg</b><small>Mayor pieza</small></div>
-      <div class="fact"><b>${new Set(items.map(i=>i.e)).size}</b><small>Embalses</small></div>
-    </div>
-    <form class="log" id="f">
+    ${user?`<div class="who"><span>Has entrado como <b>${esc(user.email)}</b></span><button class="chip" id="logout">Cerrar sesión</button></div>`:""}
+    <div class="stats" id="stats"></div>
+    ${user?`<form class="log" id="f">
       <label>Fecha<input id="lf" type="date" value="${today}" required></label>
-      <label>Peso (kg)<input id="lw" type="number" step="0.1" min="0" placeholder="1,5" required></label>
+      <label>Peso (kg)<input id="lw" type="text" inputmode="decimal" placeholder="1,5" required></label>
       <label>Embalse<select id="le">${E.map(e=>`<option value="${e.id}">${e.n}</option>`).join("")}</select></label>
       <label>Especie<select id="ls">${Object.keys(SP).map(k=>`<option value="${k}">${SP[k]}</option>`).join("")}</select></label>
-      <label class="full">Señuelo o cebo<input id="ll" type="text" placeholder="Vinilo, boilie, cucharilla…"></label>
-      <button class="btn full" type="submit">Apuntar captura</button>
-    </form>
-    <div id="entries" style="margin-top:8px">${items.map((i,k)=>`<div class="entry" style="--i:${Math.min(k,14)}">
-      <div class="w">${i.w.toLocaleString("es-ES")}</div>
-      <div class="t">${SP[i.s]} · ${esc(byId(i.e)?.n||"")} ${i.ex?'<span class="ex">Ejemplo</span>':""}</div>
-      <button class="x" data-del="${i.id}" aria-label="Borrar">✕</button>
-      <div class="s">${new Date(i.f+"T12:00").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"})}${i.l?" · "+esc(i.l):""}</div>
-    </div>`).join("")}</div>
-    <p class="mapnote">Tus capturas se guardan solo en este navegador.${!real.length?" Las dos de arriba son de ejemplo y desaparecen al apuntar la primera tuya.":""}</p>`;
-  $("#f").onsubmit=ev=>{ev.preventDefault();
-    const w=parseFloat($("#lw").value.replace(",","."));if(!(w>=0))return;
-    const base=(log||[]).filter(i=>!i.ex);
-    base.unshift({id:Date.now(),f:$("#lf").value,e:$("#le").value,s:$("#ls").value,w,l:$("#ll").value.trim()});
-    log=base;ls.set("pt-log",log);vLog()};
-  document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{log=items.filter(i=>String(i.id)!==b.dataset.del);ls.set("pt-log",log);vLog()});
+      <label class="full">Señuelo o cebo<input id="ll" type="text" maxlength="80" placeholder="Vinilo, boilie, cucharilla…"></label>
+      <button class="btn full" type="submit" id="fsave">Apuntar captura</button>
+    </form>`:authCard()}
+    <div id="entries" style="margin-top:8px"></div>
+    ${user?`<div class="danger">${delAsk?`<p>Se borrarán tu cuenta y todas tus capturas. No se puede deshacer.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn red" id="delyes">Sí, borrar todo</button><button class="chip" id="delno">Cancelar</button></div>`
+      :`<button class="lnk" id="delacc">Borrar mi cuenta y mis datos</button>`}</div>`
+      :`<p class="mapnote">Estas capturas son de ejemplo. Crea una cuenta para guardar las tuyas.</p>`}
+    <p class="mapnote"><button class="lnk" id="privlink2">Política de privacidad</button></p>`;
+  drawEntries();
+  const pv=$("#privlink"),pv2=$("#privlink2");[pv,pv2].forEach(b=>b&&(b.onclick=openPrivacy));
+  if(user){
+    $("#logout").onclick=()=>fb.auth.signOut();
+    $("#f").onsubmit=ev=>{ev.preventDefault();
+      const w=parseFloat($("#lw").value.replace(",","."));
+      if(!(w>=0&&w<500)){$("#lw").setCustomValidity("Escribe un peso válido en kg, por ejemplo 1,5");$("#lw").reportValidity();return}
+      const btn=$("#fsave");btn.disabled=true;btn.textContent="Guardando…";
+      col().add({f:$("#lf").value,e:$("#le").value,s:$("#ls").value,w,l:$("#ll").value.trim().slice(0,80)})
+        .then(()=>{$("#lw").value="";$("#ll").value="";btn.textContent="Guardada ✓";setTimeout(()=>{btn.disabled=false;btn.textContent="Apuntar captura"},1200)})
+        .catch(e=>{btn.disabled=false;btn.textContent="Apuntar captura";cloudErr=errTxt(e);drawEntries()});
+    };
+    $("#lw").oninput=e=>e.target.setCustomValidity("");
+    const da=$("#delacc");if(da)da.onclick=()=>{delAsk=true;vLog()};
+    const dn=$("#delno");if(dn)dn.onclick=()=>{delAsk=false;vLog()};
+    const dy=$("#delyes");if(dy)dy.onclick=async()=>{
+      dy.disabled=true;dy.textContent="Borrando…";
+      try{const sn=await col().get();const b=fb.db.batch();sn.docs.forEach(d=>b.delete(d.ref));await b.commit();await user.delete();authMsg="✓ Tu cuenta y tus datos se han borrado.";authMode="entrar"}
+      catch(e){cloudErr=errTxt(e);delAsk=false;vLog()}
+    };
+    return;
+  }
+  document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{authMode=b.dataset.mode;authMsg="";vLog()});
+  const af=$("#af");if(!af)return;
+  const say=(t,ok)=>{const m=$("#amsg");if(!m)return;m.textContent=t;m.className=ok?"authok":"autherr";m.hidden=!t};
+  const fg=$("#forgot");if(fg)fg.onclick=()=>{
+    const em=$("#aem").value.trim();
+    if(!em){say("Escribe tu email arriba y vuelve a pulsar aquí para recibir un enlace.");$("#aem").focus();return}
+    fb.auth.sendPasswordResetEmail(em).then(()=>say("Te hemos enviado un email para cambiar la contraseña. Mira también en la carpeta de spam.",true)).catch(e=>say(errTxt(e)));
+  };
+  af.onsubmit=async ev=>{ev.preventDefault();
+    const em=$("#aem").value.trim(),pw=$("#apw").value,btn=af.querySelector("button[type=submit]"),label=btn.textContent;
+    if(authMode==="crear"&&pw!==$("#apw2").value){say("Las dos contraseñas no coinciden.");$("#apw2").focus();return}
+    say("");btn.disabled=true;btn.textContent="Un momento…";
+    try{ if(authMode==="crear")await fb.auth.createUserWithEmailAndPassword(em,pw); else await fb.auth.signInWithEmailAndPassword(em,pw); authMsg="" }
+    catch(e){say(errTxt(e));btn.disabled=false;btn.textContent=label}
+  };
+}
+function openPrivacy(){
+  const sh=$("#sheet");
+  sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="Política de privacidad">
+    <div class="grab"></div><button class="close" id="cl">Cerrar</button>
+    <h2>Privacidad</h2>
+    <h4>Qué datos guardamos</h4><p>Tu email, una contraseña cifrada que nadie puede leer, y las capturas que apuntes en el cuaderno (fecha, embalse, especie, peso y señuelo).</p>
+    <h4>Para qué</h4><p>Solo para que puedas entrar en tu cuenta y ver tu cuaderno desde cualquier móvil. No usamos tus datos para publicidad ni se los damos a nadie.</p>
+    <h4>Dónde se guardan</h4><p>En Firebase, un servicio de Google, en servidores de la Unión Europea. Cada persona solo puede ver sus propias capturas.</p>
+    <h4>Menores de edad</h4><p>Si tienes menos de 14 años, necesitas el permiso de tu padre, madre o tutor para crear una cuenta.</p>
+    <h4>Tus derechos</h4><p>Puedes borrar tu cuenta y todos tus datos cuando quieras con el botón «Borrar mi cuenta y mis datos» del cuaderno. También puedes pedir ver, corregir o borrar tus datos escribiendo al responsable de Pantanero.</p>
+  </div>`;
+  sh.classList.remove("closing");sh.hidden=false;
+  const close=()=>{sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
+  $("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};$("#cl").focus();
 }
 function openSheet(id){
   const e=byId(id),sh=$("#sheet");
@@ -559,6 +689,7 @@ function openSheet(id){
   $("#cl").focus();
 }
 document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{if(S.tab===b.dataset.tab)return;S.tab=b.dataset.tab;render(true);scrollTo(0,0)});
+initFB();
 render(true);
 setTimeout(()=>{const s=$("#splash");if(s)s.remove()},2100);
 </script>
