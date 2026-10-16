@@ -46,7 +46,7 @@ jobs:
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <uses-permission android:name="android.permission.INTERNET" />
               <application android:label="Pantanero" android:icon="@drawable/ic_launcher"
-                  android:theme="@android:style/Theme.Material.Light.NoActionBar">
+                  android:theme="@android:style/Theme.Material.NoActionBar">
                   <activity android:name=".MainActivity" android:exported="true"
                       android:configChanges="orientation|screenSize|uiMode">
                       <intent-filter>
@@ -71,6 +71,7 @@ jobs:
               @Override protected void onCreate(Bundle b) {
                   super.onCreate(b);
                   web = new WebView(this);
+                  web.setBackgroundColor(0xFF040605);
                   web.getSettings().setJavaScriptEnabled(true);
                   web.getSettings().setDomStorageEnabled(true);
                   web.setWebViewClient(new WebViewClient() {
@@ -92,11 +93,13 @@ jobs:
           cat > src/main/res/drawable/ic_launcher.xml <<'EOF'
           <vector xmlns:android="http://schemas.android.com/apk/res/android"
               android:width="108dp" android:height="108dp"
-              android:viewportWidth="108" android:viewportHeight="108">
-              <path android:fillColor="#1F5A55" android:pathData="M0,0h108v108h-108z"/>
-              <path android:fillColor="#F7F8F3" android:pathData="M30,54 C38,40 58,38 70,48 L80,40 L78,54 L80,68 L70,60 C58,70 38,68 30,54 Z"/>
-              <path android:fillColor="#1F5A55" android:pathData="M37,54 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0 Z"/>
-              <path android:fillColor="#E8590C" android:pathData="M53,26 h3 v12 h-3 Z"/>
+              android:viewportWidth="48" android:viewportHeight="48">
+              <path android:fillColor="#040605" android:pathData="M0,0h48v48h-48z"/>
+              <path android:fillColor="#141C19" android:strokeColor="#3FC1A8" android:strokeWidth="2.5" android:pathData="M24,2.5a21.5,21.5 0 1,1 -0.01,0z"/>
+              <path android:strokeColor="#3FC1A8" android:strokeWidth="2" android:strokeLineCap="round" android:pathData="M12,36.5q3,-2.2 6,0t6,0 6,0 6,0"/>
+              <path android:fillColor="#E9F0EC" android:pathData="M9.5,25.5c6,-7.5 17.5,-8.5 24.5,-2.6l5.8,-4.6 -1.4,7.4 1.4,7.4 -5.8,-4.6c-7,5.9 -18.5,4.9 -24.5,-3z"/>
+              <path android:fillColor="#040605" android:pathData="M13.9,25a1.6,1.6 0 1,0 3.2,0a1.6,1.6 0 1,0 -3.2,0z"/>
+              <path android:strokeColor="#FF6B1A" android:strokeWidth="2.4" android:strokeLineCap="round" android:pathData="M25,4v11.5a3,3 0 0,1 -6,0"/>
           </vector>
           EOF
       - name: Compilar APK
@@ -105,3 +108,4 @@ jobs:
         with:
           name: Pantanero-APK
           path: build/outputs/apk/debug/*.apk
+  
