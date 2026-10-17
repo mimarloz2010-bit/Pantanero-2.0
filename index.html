@@ -32,12 +32,14 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15p
 @keyframes ripple{from{transform:scale(.8);opacity:.8}to{transform:scale(2.6);opacity:0}}
 @keyframes rise{from{transform:translateY(14px);opacity:0}}
 @keyframes splashOut{to{opacity:0;visibility:hidden}}
-.app{max-width:560px;margin:0 auto;min-height:100%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 96px}
+.app{max-width:560px;margin:0 auto;min-height:100%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
 header.top{padding-block:20px 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .brand{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:.9;letter-spacing:.01em;text-transform:uppercase}
 .brand span{color:var(--lure)}
 .tag{color:var(--muted);font-size:.8rem;text-align:right;max-width:18ch;line-height:1.3}
 @media (max-width:480px){.tag{display:none}}
+@media (min-width:540px){.pagename{display:block}}
+header.top .brand{font-size:clamp(1.7rem,7vw,2.4rem)}
 h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:1.6rem;margin:18px 0 8px;letter-spacing:.02em;text-wrap:balance}
 .search{width:100%;box-sizing:border-box;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
@@ -67,11 +69,33 @@ select.chip{appearance:none;padding-right:12px}
 .fav{grid-row:1/3;grid-column:2;align-self:start;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);padding:2px}
 .fav.on{color:var(--lure)}
 .km{font-family:var(--display);font-weight:600;font-size:1rem;color:var(--lake)}
-nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);z-index:5}
-nav.tabs .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);position:relative}
-nav.tabs .ind{position:absolute;top:0;left:0;width:20%;height:3px;background:var(--lure);border-radius:0 0 3px 3px;transition:transform .35s var(--ease)}
-nav.tabs button{font:inherit;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:none;border:none;color:var(--muted);padding:12px 4px 14px;cursor:pointer;transition:color .25s}
-nav.tabs button[aria-selected="true"]{color:var(--lake)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:8;background:linear-gradient(var(--bg) 78%,rgba(4,6,5,0));padding-block:12px 14px!important;align-items:center!important;justify-content:flex-start!important}
+.menubtn{flex:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-content:center;gap:5px;cursor:pointer;transition:transform .15s,border-color .2s}
+.menubtn:active{transform:scale(.92)}
+.menubtn span{display:block;width:20px;height:2px;border-radius:2px;background:var(--ink);transition:transform .3s var(--ease),opacity .2s}
+.menubtn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menubtn[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menubtn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.pagename{display:none;margin-left:auto;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.drawer{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.65);backdrop-filter:blur(3px);animation:fade .25s ease both}
+.drawer .dpanel{position:absolute;top:0;left:0;bottom:0;width:min(320px,86vw);box-sizing:border-box;background:var(--surface);border-right:1px solid var(--line);overflow-y:auto;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(20px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));animation:slidein .38s var(--ease) both}
+.drawer.closing{animation:fade .22s ease reverse both}
+.drawer.closing .dpanel{animation:slideout .22s ease-in both}
+@keyframes slidein{from{transform:translateX(-100%)}}
+@keyframes slideout{to{transform:translateX(-100%)}}
+.dhead{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.dhead .brand{font-size:1.8rem}
+.dhead .logo{width:38px;height:38px}
+.dgroup{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:16px 10px 6px}
+.ditem{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:10px;border-radius:12px;background:none;border:none;color:var(--ink);font:inherit;cursor:pointer;transition:background .2s;animation:rise .4s var(--ease) both;animation-delay:calc(.08s + var(--i,0)*35ms)}
+.ditem:hover{background:var(--surface-2)}
+.ditem svg{flex:none;width:34px;height:34px;padding:7px;box-sizing:border-box;border-radius:10px;background:var(--bg);border:1px solid var(--line);stroke:var(--lake);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ditem b{display:block;font-size:.98rem}
+.ditem small{display:block;color:var(--muted);font-size:.78rem}
+.ditem[aria-current="page"]{background:var(--lake-soft)}
+.ditem[aria-current="page"] b{color:var(--lake)}
+.ditem[aria-current="page"] svg{stroke:var(--lure);border-color:var(--lure)}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--lure);outline-offset:2px}
 /* mapa */
 .mapbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px}
@@ -164,6 +188,35 @@ form.log input,form.log select{font:inherit;font-size:.95rem;text-transform:none
 .legend2 .lg{display:inline-flex;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:2px 10px 2px 2px;font-size:.82rem}
 .legend2 .lg canvas{width:44px;height:22px}
 .legend2 .lg b{color:var(--lake)}
+.pickemb{display:grid;gap:6px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px}
+.pickemb select{font:inherit;font-size:1rem;text-transform:none;letter-spacing:0;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
+.embbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:4px}
+.embbox h3{margin:0 0 4px;font-family:var(--display);font-size:1.5rem;text-transform:uppercase;line-height:1.05}
+.embbox .list{gap:0}
+.brow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0)*40ms)}
+.brow:last-child{border-bottom:none}
+.brow .bt{min-width:0}.brow b{display:block}.brow small{color:var(--muted);font-size:.82rem}
+.brow .fav{grid-row:auto;grid-column:auto}
+.bdot{width:22px;height:22px;border-radius:50%;flex:none;box-shadow:inset -3px -3px 0 rgba(0,0,0,.25),0 0 0 2px var(--surface-2)}
+.mymine{margin:10px 0 0;font-size:.9rem;color:var(--muted)}.mymine b{color:var(--lure)}
+.rig{display:grid;gap:8px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;font:inherit;color:var(--ink);cursor:pointer;transition:border-color .2s,transform .15s;animation:rise .45s var(--ease) both;animation-delay:calc(var(--i,0)*40ms)}
+.rig:hover{border-color:var(--lake)}.rig:active{transform:scale(.98)}
+.rigsvg{width:100%;height:auto;background:var(--bg);border-radius:10px;display:block}
+.rigsvg.big{margin:12px 0}
+.rigsvg .ln{stroke:#d6e2dc;stroke-width:1.6;fill:none}
+.rigsvg .tube{stroke:#3a5a52;stroke-width:6;fill:none;stroke-linecap:round}
+.rigsvg .hk{stroke:#c9d2cf;stroke-width:2.2;fill:none;stroke-linecap:round}
+.rigsvg .hair{stroke:#ff9a5c;stroke-width:1.4;fill:none;stroke-dasharray:3 2}
+.rigsvg text{fill:var(--muted);font-size:10px;font-family:var(--body)}
+.rigname{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rigname b{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;letter-spacing:.02em}
+.lvl{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid currentColor}
+.lvl-básico{color:var(--lake)}.lvl-medio{color:#f2c230}.lvl-avanzado{color:var(--lure)}
+ul.mat,ol.steps{margin:0 0 8px;padding-left:20px;display:grid;gap:6px}
+ol.steps li::marker{color:var(--lure);font-weight:700}
+.lurehead{display:flex;gap:12px;align-items:center}
+.lureico{width:80px;height:48px;flex:none;background:var(--bg);border-radius:10px;border:1px solid var(--line)}
+.lure .sp{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
 .sheet{animation:fade .25s ease both}
 .sheet .pane{animation:up .4s var(--ease) both;border-top:1px solid var(--line)}
@@ -194,18 +247,13 @@ form.log input,form.log select{font:inherit;font-size:.95rem;text-transform:none
 </div></div>
 <div class="app">
   <header class="top">
+    <button class="menubtn" id="menubtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
     <div class="brandrow"><svg class="logo" role="img" aria-label="Logo de Pantanero"><use href="#mark"/></svg><div class="brand">Panta<span>nero</span></div></div>
-    <div class="tag">Guía de pesca en los embalses de España</div>
+    <div class="pagename" id="pagename"></div>
   </header>
   <main id="view"></main>
 </div>
-<nav class="tabs"><div class="in" role="tablist"><span class="ind" aria-hidden="true"></span>
-  <button role="tab" data-tab="embalses" aria-selected="true">Embalses</button>
-  <button role="tab" data-tab="mapa">Mapa</button>
-  <button role="tab" data-tab="especies">Especies</button>
-  <button role="tab" data-tab="cuaderno">Cuaderno</button>
-  <button role="tab" data-tab="acuario">Acuario</button>
-</div></nav>
+<div class="drawer" id="drawer" hidden></div>
 <div class="sheet" id="sheet" hidden></div>
 
 <script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"></script>
@@ -217,7 +265,7 @@ const SP={bass:"Black bass",carpa:"Carpa",siluro:"Siluro",lucio:"Lucio",lucioper
 const E=[
  {id:"mequinenza",n:"Mequinenza",apodo:"El Mar de Aragón",ccaa:"Aragón",prov:"Zaragoza / Huesca / Lleida",lat:41.37,lon:0.27,km2:75,sp:["siluro","carpa","bass","lucioperca","perca"],m:[1,1,2,2,2,2,1,1,2,2,1,1],
   d:"El embalse más famoso de España entre pescadores de toda Europa. Más de 100 km de cola por el Ebro con fondos de hasta 60 m. Es el templo del siluro: aquí se sacan ejemplares de más de 2 metros.",
-  t:"Siluro con vinilos grandes, clonk desde barca o cebo vivo en las zonas profundas. Carpa a fondo con boilies en las colas. En invierno, lucioperca y perca con vinilo pequeño pegado al fondo.",
+  t:"Siluro con vinilos grandes, clonk desde barca o calamar y pellets grandes en las zonas profundas. Carpa a fondo con boilies en las colas. En invierno, lucioperca y perca con vinilo pequeño pegado al fondo.",
   acc:"Base en Caspe o Mequinenza pueblo. Hay mucho alquiler de barcas y guías."},
  {id:"ribarroja",n:"Riba-roja",apodo:"Aguas abajo de Mequinenza",ccaa:"Cataluña",prov:"Tarragona",lat:41.25,lon:0.48,km2:21,sp:["siluro","carpa","bass"],m:[1,1,2,2,2,1,1,1,2,2,1,1],
   d:"Embalse estrecho y encajonado en el Ebro, con corriente en la cola. Conocido mundialmente por los siluros gigantes y las carpas de récord.",
@@ -444,7 +492,7 @@ E.sort((a,b)=>(b.top?1:0)-(a.top?1:0)||a.n.localeCompare(b.n,"es"));
 const SPECIES=[
  {k:"bass",lat:"Micropterus salmoides",d:"Depredador americano. Es la especie estrella de los concursos con señuelo en España.",tec:"Vinilos, jerkbait, crankbait, señuelos de superficie",ep:"Primavera y otoño. En verano, al amanecer y al atardecer",tip:"Busca estructura: piedras, árboles hundidos, puntas y cambios de fondo."},
  {k:"carpa",lat:"Cyprinus carpio",d:"El pez más buscado en el carpfishing. Puede pasar de 20 kg en los grandes embalses.",tec:"Fondo con boilie, maíz, masilla; método feeder",ep:"De abril a octubre",tip:"Ceba la zona con antelación y pesca las colas cuando sube la temperatura."},
- {k:"siluro",lat:"Silurus glanis",d:"El gigante del Ebro. Llega a superar los 2,5 m y 100 kg.",tec:"Vinilos grandes, cebo vivo, clonk desde barca",ep:"De abril a octubre, con agua templada",tip:"Usa equipo muy fuerte: trenzado grueso y anzuelos de calidad."},
+ {k:"siluro",lat:"Silurus glanis",d:"El gigante del Ebro. Llega a superar los 2,5 m y 100 kg.",tec:"Vinilos grandes, calamar o pellets de halibut, clonk desde barca",ep:"De abril a octubre, con agua templada",tip:"Usa equipo muy fuerte: trenzado grueso y anzuelos de calidad."},
  {k:"lucio",lat:"Esox lucius",d:"Depredador de emboscada con dientes muy afilados.",tec:"Cucharillas, jerkbait, swimbait, spinnerbait",ep:"Otoño, invierno y principios de primavera",tip:"Usa siempre bajo de línea de acero o fluorocarbono grueso por los dientes."},
  {k:"lucioperca",lat:"Sander lucioperca",d:"Vive cerca del fondo y caza en penumbra. Muy buena en invierno.",tec:"Vinilo con cabeza plomada a ras de fondo",ep:"Otoño e invierno; al atardecer y de noche",tip:"Recoge lento con pequeños saltos tocando el fondo."},
  {k:"barbo",lat:"Luciobarbus spp.",d:"Especie autóctona de la península. Hay varias especies según la cuenca.",tec:"Masilla, lombriz, maíz; también cucharilla pequeña en río",ep:"Primavera, cuando remonta a frezar",tip:"Al ser autóctono, en muchas zonas es obligatorio devolverlo al agua."},
@@ -466,10 +514,39 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const byId=id=>E.find(x=>x.id===id);
 
 let popId=null,animT;
+const ICO={
+ embalses:'<path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>',
+ mapa:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+ especies:'<path d="M2 12c3-5 11-6 15-2l4-3v10l-4-3c-4 4-12 3-15-2z"/><circle cx="7" cy="11" r=".6"/>',
+ cebos:'<circle cx="8" cy="15" r="4"/><circle cx="16" cy="9" r="4"/><path d="M14.5 7.5l1 1"/>',
+ montajes:'<path d="M15 3v11a5 5 0 0 1-10 0v-2l3 3"/><circle cx="15" cy="3" r="1.2"/><path d="M15 14l5 6"/>',
+ senuelos:'<path d="M3 11c3-4 10-5 14-2l2-2v8l-2-2c-4 3-11 2-14-2z"/><path d="M8 15v3l-1.5 1.5M8 18l1.5 1.5M14 15v3l-1.5 1.5M14 18l1.5 1.5"/>',
+ cuaderno:'<path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M5 18a3 3 0 0 1 3-3h11M9 7h6M9 10h4"/>',
+ acuario:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M6 15c1.5-2 4-2.3 6-1l2-1.5v4l-2-1.5c-2 1.3-4.5 1-6-1z"/><circle cx="17" cy="9" r="1"/><circle cx="15" cy="7" r=".6"/>'
+};
+const PAGES=[
+ {g:"Guía",items:[["embalses","Embalses",()=>E.length+" embalses de España"],["mapa","Mapa",()=>"Dónde está cada embalse"],["especies","Especies",()=>"Peces de agua dulce"]]},
+ {g:"Técnica",items:[["cebos","Cebos",()=>"Qué cebo usar en cada embalse"],["montajes","Montajes de carpfishing",()=>"Paso a paso con dibujos"],["senuelos","Señuelos",()=>"Para depredadores"]]},
+ {g:"Mi pesca",items:[["cuaderno","Cuaderno",()=>"Tus capturas"],["acuario","Acuario",()=>"Tus capturas nadando"]]}];
+const pageName=k=>{for(const g of PAGES)for(const it of g.items)if(it[0]===k)return it[1];return ""};
+function go(tab){if(S.tab!==tab){S.tab=tab;render(true)}closeMenu();scrollTo(0,0)}
+function openMenu(){
+  const d=$("#drawer");let i=0;
+  d.innerHTML=`<nav class="dpanel" aria-label="Páginas de Pantanero">
+    <div class="dhead"><svg class="logo" aria-hidden="true"><use href="#mark"/></svg><div class="brand">Panta<span>nero</span></div></div>
+    ${PAGES.map(g=>`<div class="dgroup">${g.g}</div>`+g.items.map(([k,n,sub])=>`<button class="ditem" data-go="${k}" style="--i:${i++}" ${S.tab===k?'aria-current="page"':""}>
+      <svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg><span><b>${n}</b><small>${sub()}</small></span></button>`).join("")).join("")}
+  </nav>`;
+  d.classList.remove("closing");d.hidden=false;$("#menubtn").setAttribute("aria-expanded","true");$("#menubtn").setAttribute("aria-label","Cerrar menú");
+  d.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+  d.onclick=ev=>{if(ev.target===d)closeMenu()};
+  const cur=d.querySelector('[aria-current="page"]')||d.querySelector(".ditem");cur&&cur.focus();
+}
+function closeMenu(){const d=$("#drawer");if(d.hidden||d.classList.contains("closing"))return;d.classList.add("closing");$("#menubtn").setAttribute("aria-expanded","false");$("#menubtn").setAttribute("aria-label","Abrir menú");
+  setTimeout(()=>{d.hidden=true;d.innerHTML="";d.classList.remove("closing")},220)}
 function render(anim){
-  const tabs=[...document.querySelectorAll("nav.tabs button")];
-  tabs.forEach((b,i)=>{b.setAttribute("aria-selected",b.dataset.tab===S.tab);if(b.dataset.tab===S.tab)$("nav.tabs .ind").style.transform=`translateX(${i*100}%)`});
-  ({embalses:vList,mapa:vMap,especies:vSpecies,cuaderno:vLog,acuario:vAcuario})[S.tab]();
+  $("#pagename").textContent=pageName(S.tab);
+  ({embalses:vList,mapa:vMap,especies:vSpecies,cebos:vCebos,montajes:vMontajes,senuelos:vSenuelos,cuaderno:vLog,acuario:vAcuario})[S.tab]();
   popId=null;
   if(anim){const v=$("#view");v.classList.remove("anim");void v.offsetWidth;v.classList.add("anim");clearTimeout(animT);animT=setTimeout(()=>v.classList.remove("anim"),1400)}
 }
@@ -741,7 +818,7 @@ const TANK_SAMPLE=[...SAMPLE,
  {id:"ex7",ex:true,f:"2026-05-02",e:"orellana",s:"pezsol",w:.15},{id:"ex8",ex:true,f:"2026-04-18",e:"belesar",s:"trucha",w:.9}];
 function rng(seed){let a=0;for(const c of String(seed))a=(a*31+c.charCodeAt(0))|0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function fishLen(c){const f=FISH[c.s]||FISH.carpa;return Math.min(175,Math.max(30,(22+30*Math.cbrt(Math.max(.02,+c.w||.1)))*f.k))}
-function drawFish(g,sp,L,t,seed,sel){
+function drawFish(g,sp,L,t,seed,sel,part){
   const f=FISH[sp]||FISH.carpa,H=L*f.h,T=Math.max(H,L*.24),R=rng(seed);
   const body=()=>{g.beginPath();const n=f.snout==="duck"?.52:.5;
     g.moveTo(L*n,f.snout==="duck"?H*.05:0);
@@ -753,10 +830,11 @@ function drawFish(g,sp,L,t,seed,sel){
   const wag=Math.sin(t*(4+f.spd*3))*.28;
   g.lineJoin="round";g.fillStyle=f.fin;g.globalAlpha=.92;
   // cola
-  g.save();g.translate(-L*.31,0);g.rotate(wag);g.beginPath();
+  if(part!=="body"){g.save();if(part!=="tail"){g.translate(-L*.31,0);g.rotate(wag)}g.beginPath();
   if(f.tail==="round"){const r=Math.max(H*.9,L*.12);g.ellipse(-r*.45,0,r*.5,r*.55,0,0,Math.PI*2)}
   else{g.moveTo(0,-H*.08);g.quadraticCurveTo(-T*.3,-T*.18,-T*.62,-T*.55);g.quadraticCurveTo(-T*.38,0,-T*.62,T*.55);g.quadraticCurveTo(-T*.3,T*.18,0,H*.08)}
-  g.fill();g.restore();
+  g.fill();g.restore();}
+  if(part==="tail"){g.globalAlpha=1;return}
   // aletas dorsales
   g.beginPath();
   if(f.dors==="spiny"){g.moveTo(L*.18,-H*.46);for(let i=0;i<=6;i++){const x=L*.18-i*L*.055;g.lineTo(x-L*.02,-H*.5-H*(i<4?.42:.25));g.lineTo(x-L*.05,-H*.46)}g.lineTo(-L*.2,-H*.32)}
@@ -817,56 +895,75 @@ function vAcuario(){
   startTank(shown);
 }
 function tankSync(){if(S.tab!=="acuario")return;const keep=tank&&tank.fish;vAcuario();if(keep&&tank)tank.fish.forEach(f=>{const o=keep.find(k=>k.c.id===f.c.id);if(o)Object.assign(f,{x:o.x,y:o.y,vx:o.vx,vy:o.vy,face:o.face})})}
+function fishSprites(c,L,dpr){ // dibuja cada pez una sola vez en una imagen y luego solo se mueve
+  const f=FISH[c.s]||FISH.carpa,H=L*f.h,T=Math.max(H,L*.24);
+  const bw=Math.ceil(L*1.05+8),ox=L*.42+4,bh=Math.ceil(2*Math.max(H*1.15,H*.3+L*.25)+10),oy=bh/2;
+  const body=document.createElement("canvas");body.width=Math.ceil(bw*dpr);body.height=Math.ceil(bh*dpr);
+  let g=body.getContext("2d");g.scale(dpr,dpr);g.translate(ox,oy);drawFish(g,c.s,L,0,c.id,false,"body");
+  const tw=Math.ceil(Math.max(T*.7,H*1.1)+6),th=Math.ceil(Math.max(T*1.15,H*1.3)+6),tox=tw-3,toy=th/2;
+  const tail=document.createElement("canvas");tail.width=Math.ceil(tw*dpr);tail.height=Math.ceil(th*dpr);
+  g=tail.getContext("2d");g.scale(dpr,dpr);g.translate(tox,toy);drawFish(g,c.s,L,0,c.id,false,"tail");
+  return {body,bw,bh,ox,oy,tail,tw,th,tox,toy};
+}
 function startTank(items){
-  const cv=$("#tank"),g=cv.getContext("2d"),dpr=Math.min(2,window.devicePixelRatio||1),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let W=0,Hh=0;const size=()=>{W=cv.clientWidth;Hh=Math.round(Math.min(560,Math.max(360,W*.95)));cv.style.height=Hh+"px";cv.width=W*dpr;cv.height=Hh*dpr};size();
-  const R=rng("tank"),sandY=()=>Hh-38;
+  const cv=$("#tank"),g=cv.getContext("2d"),dpr=Math.min(1.75,window.devicePixelRatio||1),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const R=rng("tank");
   const plants=Array.from({length:7},(_,i)=>({x:(i+.5)/7+(R()-.5)*.08,h:.25+R()*.3,n:2+Math.floor(R()*3),c:R()<.5?"#2e7d4f":"#3d9a5f",ph:R()*6}));
   const rocks=Array.from({length:5},()=>({x:R(),w:24+R()*50,h:14+R()*26,c:R()<.5?"#2a3431":"#334039"}));
-  const bubbles=Array.from({length:18},()=>({x:.88+(R()-.5)*.03,y:R(),r:1.5+R()*3,s:.3+R()*.5,p:R()*6}));
+  const bubbles=Array.from({length:14},()=>({x:.88+(R()-.5)*.03,y:R(),r:1.5+R()*3,s:.3+R()*.5,p:R()*6}));
+  let W=0,Hh=0,sy=0,bg=null;
+  const size=()=>{W=cv.clientWidth;Hh=Math.round(Math.min(560,Math.max(360,W*.95)));sy=Hh-38;cv.style.height=Hh+"px";cv.width=Math.round(W*dpr);cv.height=Math.round(Hh*dpr);
+    // fondo fijo (agua, arena, piedras) dibujado una vez
+    bg=document.createElement("canvas");bg.width=cv.width;bg.height=cv.height;const b=bg.getContext("2d");b.scale(dpr,dpr);
+    const wg=b.createLinearGradient(0,0,0,Hh);wg.addColorStop(0,"#0d4652");wg.addColorStop(.55,"#08303a");wg.addColorStop(1,"#041a1f");b.fillStyle=wg;b.fillRect(0,0,W,Hh);
+    b.fillStyle="rgba(150,230,220,.045)";for(let i=0;i<4;i++){const x=W*(.15+i*.25);b.beginPath();b.moveTo(x-18,0);b.lineTo(x+18,0);b.lineTo(x+70,Hh);b.lineTo(x-10,Hh);b.fill()}
+    b.fillStyle="#3e3424";b.beginPath();b.moveTo(0,Hh);for(let x=0;x<=W;x+=10)b.lineTo(x,sy+Math.sin(x*.03)*4+6);b.lineTo(W,Hh);b.fill();
+    rocks.forEach(r=>{b.fillStyle=r.c;b.beginPath();b.ellipse(r.x*W,sy+10,r.w/2,r.h/2,0,Math.PI,0);b.fill()});
+    const gl=b.createLinearGradient(0,0,W,0);gl.addColorStop(0,"rgba(255,255,255,.05)");gl.addColorStop(.1,"rgba(255,255,255,0)");gl.addColorStop(.9,"rgba(255,255,255,0)");gl.addColorStop(1,"rgba(255,255,255,.04)");b.fillStyle=gl;b.fillRect(0,0,W,Hh)};
+  size();
   let food=[];
-  const fish=items.map(c=>{const f=FISH[c.s]||FISH.carpa,r=rng(c.id),L=fishLen(c);
-    const y0=f.zone[0],y1=f.zone[1];return {c,L,f,x:.1+r()*.8,y:y0+r()*(y1-y0),tx:r(),ty:y0+r()*(y1-y0),vx:0,vy:0,face:r()<.5?1:-1,ph:r()*10,boost:0}});
+  const fish=items.map(c=>{const f=FISH[c.s]||FISH.carpa,r=rng(c.id),L=fishLen(c),y0=f.zone[0],y1=f.zone[1];
+    return {c,L,f,spr:fishSprites(c,L,dpr),x:.1+r()*.8,y:y0+r()*(y1-y0),tx:r(),ty:y0+r()*(y1-y0),vx:0,vy:0,face:r()<.5?1:-1,dir:1,ph:r()*10,boost:0}});
   tank={fish,sel:null};
   cv.onpointerdown=ev=>{const b=cv.getBoundingClientRect(),px=ev.clientX-b.left,py=ev.clientY-b.top;
-    let hit=null;for(const f of [...fish].reverse()){const dx=px-f.x*W,dy=py-f.y*sandY();if((dx*dx)/((f.L*.6)**2)+(dy*dy)/((Math.max(f.L*f.f.h,f.L*.2)*.9)**2)<1){hit=f;break}}
+    let hit=null;for(const f of [...fish].reverse()){const dx=px-f.x*W,dy=py-f.y*sy;if((dx*dx)/((f.L*.6)**2)+(dy*dy)/((Math.max(f.L*f.f.h,f.L*.2)*.9)**2)<1){hit=f;break}}
     tank.sel=hit;if(hit){hit.boost=1;showFish(hit.c)}else $("#fishinfo").hidden=true};
-  $("#feed").onclick=()=>{for(let i=0;i<8;i++)food.push({x:.15+Math.random()*.7,y:-.02-Math.random()*.08,vy:.0012+Math.random()*.001})};
+  $("#feed").onclick=()=>{if(food.length>30)return;for(let i=0;i<8;i++)food.push({x:.15+Math.random()*.7,y:-.02-Math.random()*.08,vy:.0012+Math.random()*.001})};
   let last=performance.now(),raf;
   const step=now=>{if(!cv.isConnected){cancelAnimationFrame(raf);return}
+    raf=requestAnimationFrame(step);
+    if(document.hidden)return;
     if(cv.clientWidth!==W)size();
-    const dt=Math.min(50,now-last)/16.7;last=now;const t=now/1000*(reduce?.2:1);
-    g.setTransform(dpr,0,0,dpr,0,0);
-    // agua
-    const wg=g.createLinearGradient(0,0,0,Hh);wg.addColorStop(0,"#0d4652");wg.addColorStop(.55,"#08303a");wg.addColorStop(1,"#041a1f");g.fillStyle=wg;g.fillRect(0,0,W,Hh);
-    // rayos de luz
-    g.save();g.globalCompositeOperation="lighter";for(let i=0;i<4;i++){const x=W*(.15+i*.25)+Math.sin(t*.3+i)*20,a=.035+.02*Math.sin(t*.7+i*2);g.fillStyle=`rgba(150,230,220,${a})`;g.beginPath();g.moveTo(x-18,0);g.lineTo(x+18,0);g.lineTo(x+70,Hh);g.lineTo(x-10,Hh);g.fill()}g.restore();
+    const dt=Math.min(3,(now-last)/16.7);last=now;const t=now/1000*(reduce?.2:1);
+    g.setTransform(1,0,0,1,0,0);g.drawImage(bg,0,0);g.setTransform(dpr,0,0,dpr,0,0);
     // superficie
-    g.strokeStyle="rgba(170,240,230,.35)";g.lineWidth=2;g.beginPath();for(let x=0;x<=W;x+=8)g.lineTo(x,6+Math.sin(x*.04+t*2)*2);g.stroke();
-    // arena y piedras
-    const sy=sandY();g.fillStyle="#3e3424";g.beginPath();g.moveTo(0,Hh);for(let x=0;x<=W;x+=10)g.lineTo(x,sy+Math.sin(x*.03)*4+6);g.lineTo(W,Hh);g.fill();
-    rocks.forEach(r=>{g.fillStyle=r.c;g.beginPath();g.ellipse(r.x*W,sy+10,r.w/2,r.h/2,0,Math.PI,0);g.fill()});
+    g.strokeStyle="rgba(170,240,230,.35)";g.lineWidth=2;g.beginPath();for(let x=0;x<=W;x+=12)g.lineTo(x,6+Math.sin(x*.04+t*2)*2);g.stroke();
     // plantas
-    plants.forEach(p=>{for(let k=0;k<p.n;k++){const bx=p.x*W+k*6-p.n*3,top=sy-p.h*Hh*(1-k*.12),sw=Math.sin(t*1.2+p.ph+k)*14;
-      g.strokeStyle=p.c;g.lineWidth=5-k;g.lineCap="round";g.beginPath();g.moveTo(bx,sy+8);g.quadraticCurveTo(bx+sw*.4,(sy+top)/2,bx+sw,top);g.stroke()}});
+    g.lineCap="round";plants.forEach(p=>{g.strokeStyle=p.c;for(let k=0;k<p.n;k++){const bx=p.x*W+k*6-p.n*3,top=sy-p.h*Hh*(1-k*.12),sw=Math.sin(t*1.2+p.ph+k)*14;
+      g.lineWidth=5-k;g.beginPath();g.moveTo(bx,sy+8);g.quadraticCurveTo(bx+sw*.4,(sy+top)/2,bx+sw,top);g.stroke()}});
     // comida
-    food.forEach(p=>{p.y+=p.vy*dt;g.fillStyle="#c9773a";g.beginPath();g.arc(p.x*W,p.y*sy,2.6,0,7);g.fill()});
-    food=food.filter(p=>p.y<.98&&!p.eaten);
+    g.fillStyle="#c9773a";food.forEach(p=>{p.y+=p.vy*dt;g.fillRect(p.x*W-2.5,p.y*sy-2.5,5,5)});
     // peces
-    fish.forEach(f=>{const zx=f.x*W,zy=f.y*sy;let tx=f.tx,ty=f.ty;
-      if(food.length){let best=null,bd=1e9;food.forEach(p=>{const d=(p.x-f.x)**2+(p.y-f.y)**2;if(d<bd){bd=d;best=p}});tx=best.x;ty=best.y;if(bd<.0009)best.eaten=true}
-      else if(Math.abs(tx-f.x)<.03&&Math.abs(ty-f.y)<.03||Math.random()<.002){const r=Math.random;f.tx=.06+r()*.88;f.ty=f.f.zone[0]+r()*(f.f.zone[1]-f.f.zone[0])}
-      const sp=(.0009+f.boost*.004+(food.length?.0012:0))*f.f.spd*(reduce?.3:1);
-      f.vx+=(Math.sign(tx-f.x)*sp-f.vx)*.04*dt;f.vy+=((ty-f.y)*.02-f.vy)*.05*dt;
-      f.x=Math.max(.04,Math.min(.96,f.x+f.vx*dt));f.y=Math.max(.06,Math.min(.97,f.y+f.vy*dt));f.boost*=.97;
-      const want=f.vx>=0?1:-1;f.face+=(want-f.face)*.08*dt;
-      g.save();g.translate(zx,zy);g.scale(Math.abs(f.face)<.15?(f.face<0?-.15:.15):f.face,1);g.rotate(Math.max(-.25,Math.min(.25,f.vy*40))*Math.sign(f.face));
-      drawFish(g,f.c.s,f.L,t*(1+f.boost*2)+f.ph,f.c.id,tank.sel===f);g.restore()});
+    fish.forEach(f=>{let tx=f.tx,ty=f.ty;
+      if(food.length){let best=food[0],bd=1e9;for(const p of food){const d=(p.x-f.x)**2+(p.y-f.y)**2;if(d<bd){bd=d;best=p}}tx=best.x;ty=best.y;if(bd<.0012)best.eaten=true}
+      else if((Math.abs(tx-f.x)<.03&&Math.abs(ty-f.y)<.03)||Math.random()<.002*dt){f.tx=.06+Math.random()*.88;f.ty=f.f.zone[0]+Math.random()*(f.f.zone[1]-f.f.zone[0])}
+      const max=(.0011+f.boost*.004+(food.length?.0016:0))*f.f.spd*(reduce?.3:1);
+      const wantVx=Math.max(-max,Math.min(max,(tx-f.x)*.03)),wantVy=Math.max(-max*.7,Math.min(max*.7,(ty-f.y)*.03));
+      f.vx+=(wantVx-f.vx)*Math.min(1,.06*dt);f.vy+=(wantVy-f.vy)*Math.min(1,.06*dt);
+      f.x=Math.max(.04,Math.min(.96,f.x+f.vx*dt));f.y=Math.max(.06,Math.min(.97,f.y+f.vy*dt));f.boost*=Math.pow(.97,dt);
+      if(Math.abs(f.vx)>max*.25)f.dir=f.vx>0?1:-1; // no se gira a cada momento
+      f.face+=(f.dir-f.face)*Math.min(1,.1*dt);
+      const sx=Math.abs(f.face)<.15?(f.face<0?-.15:.15):f.face,S=f.spr,wag=Math.sin((t*(1+f.boost*2)+f.ph)*(4+f.f.spd*3+(food.length?3:0)))*.28;
+      g.save();g.translate(f.x*W,f.y*sy);g.scale(sx,1);g.rotate(Math.max(-.25,Math.min(.25,f.vy*60))*Math.sign(sx));
+      g.save();g.translate(-f.L*.31,0);g.rotate(wag);g.drawImage(S.tail,-S.tox,-S.toy,S.tw,S.th);g.restore();
+      g.drawImage(S.body,-S.ox,-S.oy,S.bw,S.bh);
+      if(tank.sel===f){g.strokeStyle="#ff6b1a";g.lineWidth=2;g.setLineDash([5,4]);g.beginPath();g.ellipse(0,0,f.L*.62,Math.max(f.L*f.f.h,f.L*.24)*.85,0,0,7);g.stroke();g.setLineDash([])}
+      g.restore()});
+    food=food.filter(p=>p.y<.98&&!p.eaten);
     // burbujas
-    bubbles.forEach(b=>{b.y-=b.s*.004*dt;if(b.y<0)b.y=1;const x=b.x*W+Math.sin(t*2+b.p)*4,y=b.y*sy;g.strokeStyle="rgba(200,240,240,.55)";g.lineWidth=1;g.beginPath();g.arc(x,y,b.r,0,7);g.stroke()});
-    // cristal
-    const gl=g.createLinearGradient(0,0,W,0);gl.addColorStop(0,"rgba(255,255,255,.05)");gl.addColorStop(.1,"rgba(255,255,255,0)");gl.addColorStop(.9,"rgba(255,255,255,0)");gl.addColorStop(1,"rgba(255,255,255,.04)");g.fillStyle=gl;g.fillRect(0,0,W,Hh);
-    raf=requestAnimationFrame(step)};
+    g.strokeStyle="rgba(200,240,240,.55)";g.lineWidth=1;g.beginPath();
+    bubbles.forEach(b=>{b.y-=b.s*.004*dt;if(b.y<0)b.y=1;const x=b.x*W+Math.sin(t*2+b.p)*4,y=b.y*sy;g.moveTo(x+b.r,y);g.arc(x,y,b.r,0,7)});g.stroke();
+  };
   raf=requestAnimationFrame(step);
 }
 function showFish(c){
@@ -878,6 +975,171 @@ function showFish(c){
   box.hidden=false;box.style.animation="none";void box.offsetWidth;box.style.animation="";
   const g=$("#fiic").getContext("2d");g.translate(60,30);drawFish(g,c.s,96,0,c.id);
   const ph=$("#fiph");if(ph)ph.onclick=()=>openPhoto(c.id,c.mini,`${SP[c.s]} de ${Number(c.w).toLocaleString("es-ES")} kg · ${e?e.n:""}`);
+}
+
+/* ---------- Cebos ---------- */
+const CEBOS=[
+ {k:"boilie",n:"Boilies",sp:["carpa"],c:"#d9a441",d:"Bolas de harinas y huevo cocidas. Es el cebo estrella del carpfishing: aguantan mucho en el agua y seleccionan carpas grandes.",uso:"Con montaje de pelo. Ceba alrededor del puesto con un puñado de bolas o con cohete. Tamaños de 15 a 20 mm.",tip:"En invierno, sabores dulces y pocas bolas. En verano, sabores de pescado y más cebado."},
+ {k:"maiz",n:"Maíz",sp:["carpa","barbo","carpin","tenca"],c:"#f2c230",d:"Barato y muy eficaz. Se usa maíz dulce de lata o maíz duro preparado.",uso:"Varios granos en el pelo o en el anzuelo. Para cebar, mézclalo con pellets o úsalo en la cesta del method.",tip:"El maíz duro hay que dejarlo en remojo y cocerlo antes. Crudo hincha dentro del pez y le hace daño."},
+ {k:"chufa",n:"Chufa (tigernut)",sp:["carpa"],c:"#9a6b3c",d:"Tubérculo dulce y crujiente que encanta a las carpas. Los peces pequeños no pueden comérselo.",uso:"Una o dos chufas en el pelo, a veces con un grano de maíz artificial encima.",tip:"Remojo de 24 horas y 20 a 30 minutos de cocción. Ceba con poca cantidad, porque llena mucho."},
+ {k:"pellet",n:"Pellets",sp:["carpa","barbo","siluro","carpin"],c:"#7a4f2a",d:"Pastillas de harina de pescado que se deshacen y crean una nube de olor en el fondo.",uso:"En bolsas PVA o en la cesta del method feeder. Los pellets grandes de halibut, en el pelo, también sirven para siluro.",tip:"Mezcla tamaños: los pequeños se deshacen rápido y atraen, y los grandes mantienen a los peces en el puesto."},
+ {k:"masilla",n:"Masilla (pasta)",sp:["carpa","barbo","carpin","tenca","boga"],c:"#c8a36a",d:"Pasta de harinas, pan o engodo con agua. Muy usada al coup y con feeder.",uso:"Una bola del tamaño de una avellana tapando el anzuelo, o en la cesta del method.",tip:"Hazla más dura si hay corriente o si los peces pequeños te la roban."},
+ {k:"lombriz",n:"Lombriz",sp:["perca","barbo","tenca","trucha","carpin","pezsol","bass"],c:"#c0605a",d:"El cebo natural de toda la vida. Casi todos los peces se la comen.",uso:"Entera o a trozos en anzuelo fino, al fondo o con flotador.",tip:"Para trucha, mira antes la normativa: en muchos tramos solo se permite señuelo o mosca."},
+ {k:"asticot",n:"Asticot (gusano blanco)",sp:["carpin","boga","alburno","barbo","tenca"],c:"#efe6c8",d:"Larva de mosca, pequeña y muy viva. Ideal para peces pequeños y para la pesca al coup.",uso:"Dos o tres en un anzuelo del 16 al 20, con flotador.",tip:"Échalos poco a poco con un tirachinas para que los peces no se vayan del puesto."},
+ {k:"pan",n:"Pan",sp:["carpa","carpin","alburno","boga"],c:"#e9cf9a",d:"Miga o corteza de pan. La corteza flota y sirve para pescar carpas en superficie.",uso:"Miga apretada en el anzuelo, o un trozo de corteza para pescar arriba.",tip:"En verano, si ves carpas comiendo en la superficie, prueba con corteza flotante."},
+ {k:"pescado",n:"Calamar y cebos de pescado",sp:["siluro"],c:"#e8d9d0",d:"Trozos de calamar o sardina y pellets grandes de halibut. Sueltan mucho olor en el fondo.",uso:"Montaje de fondo fuerte, con anzuelo grande y un bajo de línea muy resistente.",tip:"Usar peces vivos como cebo está prohibido en casi toda España. Consulta siempre la normativa de tu comunidad."},
+ {k:"cangrejo",n:"Imitación de cangrejo",sp:["bass","barbo","siluro","lucioperca"],c:"#b5462e",d:"En muchos embalses el cangrejo americano es la comida principal de los depredadores. Por eso los vinilos con forma de cangrejo funcionan tan bien.",uso:"Vinilo de cangrejo en montaje texas o jig, arrastrado por el fondo.",tip:"El cangrejo americano es invasor: no se puede llevar vivo ni soltar en otro sitio."}
+];
+let myBaits=ls.get("pt-mybaits",{});
+function cebosFor(e){return CEBOS.map(c=>({c,m:c.sp.filter(s=>e.sp.includes(s))})).filter(x=>x.m.length).sort((a,b)=>b.m.length-a.m.length)}
+function baitDot(c){return `<span class="bdot" style="background:${c.c}"></span>`}
+function vCebos(){
+  const e=byId(S.cebo)||byId("iznajar")||E[0],rec=cebosFor(e),mine=myBaits[e.id]||[];
+  $("#view").innerHTML=`<h2>Cebos</h2>
+    <label class="pickemb">Elige un embalse
+      <select id="cemb">${E.map(x=>`<option value="${x.id}" ${x.id===e.id?"selected":""}>${esc(x.n)} · ${esc(x.prov)}</option>`).join("")}</select></label>
+    <div class="embbox">
+      <div class="count" style="margin:0">${esc(e.ccaa)}</div>
+      <h3>Cebos para ${esc(e.n)}</h3>
+      <p class="mapnote" style="margin:0 0 10px">Según las especies que hay en este embalse. Marca con la estrella los que tú usas aquí.</p>
+      <div class="list">${rec.map(({c,m},i)=>`<div class="brow" style="--i:${i}">
+        ${baitDot(c)}<div class="bt"><b>${c.n}</b><small>Para ${m.map(s=>SP[s].toLowerCase()).join(", ")}</small></div>
+        <button class="fav ${mine.includes(c.k)?"on":""}" data-mine="${c.k}" aria-label="Lo uso en este embalse">${mine.includes(c.k)?"★":"☆"}</button></div>`).join("")}</div>
+      ${mine.length?`<p class="mymine">Tus cebos aquí: <b>${mine.map(k=>CEBOS.find(c=>c.k===k)?.n).filter(Boolean).join(", ")}</b></p>`:""}
+      <button class="chip" id="toLures" style="margin-top:10px">Ver señuelos para sus depredadores →</button>
+    </div>
+    <h2 style="font-size:1.3rem;margin-top:22px">Todos los cebos</h2>
+    <div class="list">${CEBOS.map((c,i)=>`<div class="spec" style="--i:${i}">
+      <div style="display:flex;align-items:center;gap:10px">${baitDot(c)}<h3>${c.n}</h3></div>
+      <p style="margin:0">${c.d}</p>
+      <dl><dt>Cómo se usa</dt><dd>${c.uso}</dd><dt>Consejo</dt><dd>${c.tip}</dd><dt>Para</dt><dd>${c.sp.map(s=>SP[s]).join(", ")}</dd></dl></div>`).join("")}</div>
+    <p class="mapnote">Tus cebos marcados se guardan en este móvil.</p>`;
+  $("#cemb").onchange=ev=>{S.cebo=ev.target.value;vCebos()};
+  document.querySelectorAll("[data-mine]").forEach(b=>b.onclick=()=>{const k=b.dataset.mine,arr=myBaits[e.id]||[];
+    myBaits[e.id]=arr.includes(k)?arr.filter(x=>x!==k):[...arr,k];ls.set("pt-mybaits",myBaits);
+    const y=scrollY;vCebos();scrollTo(0,y);const nb=document.querySelector(`[data-mine="${k}"]`);if(nb&&myBaits[e.id].includes(k))nb.classList.add("pop")});
+  $("#toLures").onclick=()=>{const pred=["bass","lucio","lucioperca","perca","siluro","trucha"].find(s=>e.sp.includes(s));S.lure=pred||"";go("senuelos")};
+}
+
+/* ---------- Montajes de carpfishing ---------- */
+const DG={
+ ln:(d,cls="ln")=>`<path d="${d}" class="${cls}"/>`,
+ hook:(x,y,s=1)=>`<circle cx="${x}" cy="${y-3*s}" r="${3*s}" class="hk"/><path d="M${x} ${y} v${22*s} a${8*s} ${8*s} 0 0 1 ${-16*s} 0 v${-7*s} l${4*s} ${4*s}" class="hk"/>`,
+ bait:(x,y,r=11,c="#d9a441")=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${x-r*.35}" cy="${y-r*.35}" r="${r*.25}" fill="#fff" opacity=".25"/>`,
+ swivel:(x,y)=>`<circle cx="${x-5}" cy="${y}" r="3" class="hk"/><rect x="${x-2}" y="${y-3}" width="8" height="6" rx="2" class="hk"/><circle cx="${x+9}" cy="${y}" r="3" class="hk"/>`,
+ lead:(x,y,w=34)=>`<path d="M${x} ${y} q${w*.15} ${-w*.3} ${w*.5} ${-w*.3} q${w*.5} 0 ${w*.5} ${w*.3} q0 ${w*.3} ${-w*.5} ${w*.3} q${-w*.35} 0 ${-w*.5} ${-w*.3}z" fill="#8d9490"/>`,
+ stop:(x,y)=>`<rect x="${x-1.5}" y="${y-6}" width="3" height="12" rx="1" fill="#ff6b1a"/>`,
+ t:(x,y,txt,a="middle")=>`<text x="${x}" y="${y}" text-anchor="${a}">${txt}</text>`,
+ water:(w,h)=>`<rect x="0" y="0" width="${w}" height="${h}" fill="#0a2c33" rx="10"/>`
+};
+const MONT=[
+ {k:"pelo",n:"Montaje de pelo",lvl:"Básico",cuando:"Es la base de casi todos los montajes de carpa. El cebo va en un hilo aparte y el anzuelo queda libre, así clava mucho mejor.",
+  mat:["Trenzado para bajo de línea (15–25 lb)","Anzuelo del 4 al 8","Aguja de cebar y topes","Destorcedor"],
+  pasos:["Corta unos 25 cm de trenzado y haz un lazo pequeño en un extremo. Ese lazo será el pelo.","Mete el cebo en el lazo con la aguja de cebar y ponle un tope para que no se salga.","Pasa el trenzado por el ojo del anzuelo y deja el cebo separado 1 o 2 cm de la curva.","Haz el nudo sin nudo: da 7 u 8 vueltas al trenzado alrededor de la pata del anzuelo, bajando hacia la curva, y vuelve a pasar el hilo por el ojo.","Ata el otro extremo a un destorcedor con un nudo palomar. El bajo debe medir entre 15 y 25 cm."],
+  svg:()=>`${DG.swivel(26,40)}${DG.ln("M35 40 C 90 40, 150 30, 196 30")}${DG.hook(200,34,1.4)}${DG.ln("M186 70 C 196 84, 214 88, 222 90","hair")}${DG.bait(234,90,12)}${DG.stop(250,90)}
+   ${DG.t(6,64,"Destorcedor","start")}${DG.t(110,26,"Bajo de línea")}${DG.t(222,18,"Anzuelo")}${DG.t(176,98,"Pelo")}${DG.t(234,118,"Boilie")}${DG.t(270,78,"Tope")}`},
+ {k:"clip",n:"Clip de plomo de seguridad",lvl:"Básico",cuando:"El montaje más usado en carpfishing. Si se rompe la línea, el plomo se suelta y el pez no se queda arrastrándolo.",
+  mat:["Clip de plomo de seguridad con cola de goma","Tubo antienredos","Plomo de 80 a 120 g","Bajo de línea con pelo"],
+  pasos:["Mete en la línea madre el tubo antienredos y la cola de goma.","Ata la línea madre al destorcedor que trae el clip y encájalo a presión dentro del clip.","Engancha el plomo en la patilla del clip.","Sube la cola de goma sobre la patilla sin apretarla del todo, para que el plomo pueda soltarse si se engancha.","Pon el bajo de línea con el pelo en el destorcedor."],
+  svg:()=>`${DG.ln("M0 46 H140")}${DG.ln("M60 46 H140","tube")}<rect x="138" y="40" width="22" height="12" rx="4" fill="#5d6b66"/>${DG.ln("M149 52 v8","ln")}${DG.lead(132,76,36)}${DG.ln("M160 46 C 200 46, 230 36, 256 34")}${DG.hook(260,38,1.2)}${DG.ln("M248 70 C 254 78, 262 82, 268 84","hair")}${DG.bait(278,86,10)}
+   ${DG.t(4,36,"Línea madre","start")}${DG.t(100,66,"Tubo antienredos")}${DG.t(150,30,"Clip")}${DG.t(150,108,"Plomo 80–120 g")}${DG.t(214,24,"Bajo de línea")}${DG.t(278,112,"Boilie")}`},
+ {k:"inline",n:"Plomo en línea (inline)",lvl:"Básico",cuando:"Muy autoclavante: la carpa se pincha sola al notar el peso. Va muy bien a corta y media distancia.",
+  mat:["Plomo inline de 70 a 110 g","Tubo antienredos","Destorcedor","Bajo de línea con pelo (10–20 cm)"],
+  pasos:["Mete en la línea madre el tubo antienredos y después el plomo inline.","Ata la línea madre a un destorcedor.","Encaja el destorcedor dentro del plomo apretando con los dedos.","Pon un bajo de línea corto, de 10 a 20 cm."],
+  svg:()=>`${DG.ln("M0 50 H120")}${DG.ln("M50 50 H120","tube")}<path d="M118 50 q6 -12 30 -12 h18 q10 0 10 12 q0 12 -10 12 h-18 q-24 0 -30 -12z" fill="#8d9490"/>${DG.ln("M176 50 C 210 50, 232 40, 252 38")}${DG.hook(256,42,1.2)}${DG.ln("M244 74 C 250 82, 258 86, 264 88","hair")}${DG.bait(274,90,10)}
+   ${DG.t(4,40,"Línea madre","start")}${DG.t(147,30,"Plomo inline")}${DG.t(214,30,"Bajo corto")}${DG.t(274,116,"Cebo")}`},
+ {k:"method",n:"Method feeder",lvl:"Básico",cuando:"Ideal para carpas y carpines a media distancia en embalses con mucho pez. El cebo queda metido en una bola de engodo.",
+  mat:["Cesta method de 20 a 40 g y su molde","Engodo o pellets mojados","Bajo corto de 8 a 12 cm","Cebo pequeño: pellet, maíz o boilie mini"],
+  pasos:["Pasa la cesta method por la línea madre, ata un destorcedor al final y encájalo en la cesta.","Pon un bajo de línea corto, de 8 a 12 cm.","Llena el molde con engodo, coloca el cebo encima, añade otra capa y aprieta la cesta contra el molde.","Lanza siempre al mismo sitio y recarga cada 10 o 20 minutos para hacer un buen cebadero."],
+  svg:()=>`${DG.ln("M0 48 H110")}<path d="M110 36 h70 l-10 26 h-50z" fill="#6f5233"/><path d="M118 36 h62 l-8 20 h-46z" fill="#a97f4f"/>${DG.ln("M120 62 h44","hk")}${DG.ln("M175 48 C 200 48, 214 42, 228 40")}${DG.hook(232,44,1.1)}${DG.bait(246,86,7,"#f2c230")}${DG.ln("M222 74 C 230 82, 236 86, 240 86","hair")}
+   ${DG.t(36,38,"Línea madre")}${DG.t(146,26,"Cesta con engodo")}${DG.t(212,28,"Bajo 8–12 cm")}${DG.t(250,112,"Maíz o pellet")}`},
+ {k:"pva",n:"Bolsa PVA",lvl:"Medio",cuando:"Deja un montón de comida justo al lado del anzuelo. Muy útil en invierno o cuando los peces comen poco.",
+  mat:["Bolsas PVA (se deshacen en el agua)","Pellets pequeños secos","Montaje de clip o inline"],
+  pasos:["Llena la bolsa con pellets secos. Nada mojado: el agua deshace el PVA.","Mete el plomo dentro de la bolsa y clava el anzuelo con el cebo en ella.","Ciérrala con un nudo, corta lo que sobre y lanza enseguida.","En el agua se deshace en uno o dos minutos y deja los pellets junto al cebo."],
+  svg:()=>`${DG.ln("M0 50 H120")}<rect x="120" y="22" width="120" height="70" rx="22" fill="none" stroke="#9fd7cf" stroke-dasharray="5 4" stroke-width="2"/>
+   ${Array.from({length:26},(_,i)=>`<circle cx="${138+(i*37)%92}" cy="${36+(i*23)%46}" r="3.5" fill="#7a4f2a"/>`).join("")}${DG.lead(132,60,30)}${DG.ln("M166 50 C 190 48, 200 42, 212 40")}${DG.hook(216,44,1)}${DG.bait(226,80,8)}
+   ${DG.t(40,40,"Línea madre")}${DG.t(180,112,"Bolsa con pellets: se deshace en el agua")}`},
+ {k:"zig",n:"Zig rig",lvl:"Medio",cuando:"Para cuando las carpas están a media agua, en días de calor o con viento.",
+  mat:["Plomo de 80 a 110 g con clip","Bajo largo de nylon fino (de 1 a 3 m)","Anzuelo pequeño (del 8 al 10)","Cebo flotante de espuma (foam)"],
+  pasos:["Mide la profundidad del sitio donde vas a pescar.","Prepara un bajo que suba hasta la altura donde crees que están las carpas, por ejemplo a 1 m de la superficie.","Pon el foam en el pelo: tiene que flotar y dejar el bajo recto.","Lanza con el montaje de clip. Ceba muy poco o nada."],
+  svg:()=>`${DG.water(320,130)}<path d="M0 12 Q40 6 80 12 T160 12 T240 12 T320 12" stroke="#9fd7cf" fill="none" stroke-width="1.5"/><rect x="0" y="110" width="320" height="20" fill="#3e3424"/>
+   ${DG.lead(140,108,30)}${DG.ln("M156 100 C 158 80, 162 60, 168 40","ln")}${DG.hook(170,40,1)}<rect x="176" y="22" width="16" height="12" rx="4" fill="#f2c230"/>${DG.ln("M60 104 L140 104","ln")}
+   ${DG.t(60,96,"Línea madre","start")}${DG.t(214,30,"Foam flotante","start")}${DG.t(190,72,"Bajo largo (1–3 m)","start")}${DG.t(140,126,"Fondo")}`},
+ {k:"chod",n:"Chod rig",lvl:"Avanzado",cuando:"Para fondos con algas, hojas o barro. El cebo queda flotando encima y siempre se ve.",
+  mat:["Leadcore o tubo pesado","Topes o bolas","Bajo rígido y corto (5–8 cm)","Anzuelo curvo","Boilie flotante (pop-up)"],
+  pasos:["Haz un bajo rígido y corto, con el anzuelo y un anillo pequeño para el pop-up.","Pasa el bajo por la línea con un tope encima y otro debajo, a unos 30–60 cm del plomo según lo altas que sean las algas.","Pon el plomo al final de la línea.","Al caer, el plomo se hunde en las algas y el cebo queda arriba, a la vista."],
+  svg:()=>`${DG.water(320,130)}<rect x="0" y="110" width="320" height="20" fill="#3e3424"/>${Array.from({length:14},(_,i)=>`<path d="M${10+i*22} 112 q6 -14 0 -26" stroke="#2e7d4f" stroke-width="3" fill="none"/>`).join("")}
+   ${DG.ln("M20 20 C 120 30, 200 60, 250 104","ln")}${DG.lead(240,108,30)}<circle cx="150" cy="44" r="3" fill="#ff6b1a"/><circle cx="182" cy="60" r="3" fill="#ff6b1a"/>
+   ${DG.ln("M166 52 C 170 40, 176 34, 182 32","hk")}${DG.hook(184,30,.9)}${DG.bait(196,16,9,"#f3efe2")}
+   ${DG.t(40,40,"Línea pesada","start")}${DG.t(214,22,"Pop-up","start")}${DG.t(110,70,"Topes","start")}${DG.t(160,100,"Algas")}`},
+ {k:"snowman",n:"Snowman",lvl:"Medio",cuando:"Un cebo grande y muy visible que deja el anzuelo un poco levantado. Muy bueno para carpas grandes.",
+  mat:["Montaje de pelo con el pelo algo más largo","Un boilie de fondo","Un pop-up o un maíz artificial flotante"],
+  pasos:["Haz un montaje de pelo con el pelo un poco más largo de lo normal.","Mete en el pelo un boilie de fondo y un pop-up más pequeño, de forma que el pop-up quede arriba.","Ponle el tope y comprueba en el agua que el conjunto se hunde despacio y queda de pie, como un muñeco de nieve."],
+  svg:()=>`${DG.swivel(26,40)}${DG.ln("M35 40 C 90 40, 150 30, 196 30")}${DG.hook(200,34,1.4)}${DG.ln("M186 70 C 196 84, 214 88, 224 96","hair")}${DG.bait(234,98,13)}${DG.bait(234,76,9,"#f3efe2")}${DG.stop(234,114)}
+   ${DG.t(110,26,"Bajo de línea")}${DG.t(272,76,"Pop-up","start")}${DG.t(272,104,"Boilie de fondo","start")}`}
+];
+function vMontajes(){
+  $("#view").innerHTML=`<h2>Montajes de carpfishing</h2>
+    <p class="mapnote" style="margin:-4px 0 12px">Toca un montaje para ver los materiales y cómo se hace paso a paso.</p>
+    <div class="list">${MONT.map((m,i)=>`<button class="rig" data-rig="${m.k}" style="--i:${i}">
+      <svg viewBox="0 0 320 130" class="rigsvg" aria-hidden="true">${m.svg()}</svg>
+      <span class="rigname"><b>${m.n}</b><span class="lvl lvl-${m.lvl.toLowerCase()}">${m.lvl}</span></span>
+      <span class="mapnote" style="text-align:left">${m.cuando}</span></button>`).join("")}</div>`;
+  document.querySelectorAll("[data-rig]").forEach(b=>b.onclick=()=>openRig(b.dataset.rig));
+}
+function openRig(k){
+  const m=MONT.find(x=>x.k===k),sh=$("#sheet");
+  sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="${m.n}">
+    <div class="grab"></div><button class="close" id="cl">Cerrar</button>
+    <div class="count" style="margin:0">Montaje · ${m.lvl}</div><h2>${m.n}</h2>
+    <svg viewBox="0 0 320 130" class="rigsvg big" role="img" aria-label="Dibujo del ${m.n}">${m.svg()}</svg>
+    <p>${m.cuando}</p>
+    <h4>Qué necesitas</h4><ul class="mat">${m.mat.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <h4>Paso a paso</h4><ol class="steps">${m.pasos.map(x=>`<li>${x}</li>`).join("")}</ol>
+    <div class="warn">Cuida a la carpa: usa moqueta o colchoneta para dejarla en el suelo, mójala y devuélvela al agua rápido.</div></div>`;
+  sh.classList.remove("closing");sh.hidden=false;
+  const close=()=>{sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
+  $("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};$("#cl").focus();
+}
+
+/* ---------- Señuelos para depredadores ---------- */
+const LI={ // dibujos de los señuelos
+ vinilo:`<path d="M10 24c8-6 18-6 26 0s18 6 26 0c6-4 12-4 18 2" stroke="#7fae4a" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="12" cy="24" r="4" fill="#9aa09d"/>`,
+ crank:`<path d="M22 24c4-11 26-13 40-6c8 4 8 10 0 14c-14 7-36 5-40-8z" fill="#c9773a"/><path d="M22 24l-12 6 4-10z" fill="#cfe7ee" opacity=".8"/><circle cx="30" cy="21" r="2.5" fill="#111"/><path d="M44 34v6M58 32v6" stroke="#9aa09d" stroke-width="1.5"/>`,
+ jerk:`<path d="M8 24c6-6 50-8 66-2c4 2 4 4 0 6c-16 6-60 4-66-4z" fill="#b9c6c8"/><path d="M8 22l-4 6 6-2z" fill="#cfe7ee"/><path d="M12 22h56" stroke="#3a5a60" stroke-width="2"/><circle cx="16" cy="23" r="2" fill="#111"/><path d="M34 30v6M56 30v6" stroke="#9aa09d" stroke-width="1.5"/>`,
+ spinner:`<path d="M10 30L44 14M10 30l40 6" stroke="#9aa09d" stroke-width="2" fill="none"/><ellipse cx="50" cy="12" rx="10" ry="5" fill="#d9d9d9" transform="rotate(-20 50 12)"/><circle cx="10" cy="30" r="4" fill="#ff6b1a"/><path d="M12 30c10 2 20 8 24 14M12 32c8 4 14 10 16 14" stroke="#f2f2f2" stroke-width="2"/>`,
+ cuchara:`<path d="M6 24h66" stroke="#9aa09d" stroke-width="2"/><ellipse cx="30" cy="24" rx="12" ry="7" fill="#e6c85a"/><circle cx="48" cy="24" r="3" fill="#ff6b1a"/><path d="M72 24l4-4M72 24l4 4" stroke="#9aa09d" stroke-width="1.5"/>`,
+ ondulante:`<path d="M10 26c10-12 44-14 58-4c-12 10-46 12-58 4z" fill="#cfd6d4"/><path d="M14 26c14-6 36-8 50-4" stroke="#b5462e" stroke-width="3" fill="none"/><path d="M68 22l6 6" stroke="#9aa09d" stroke-width="1.5"/>`,
+ superficie:`<path d="M18 24c0-8 6-12 18-12h24c10 0 14 6 14 12s-4 12-14 12H36c-12 0-18-4-18-12z" fill="#f2c230"/><ellipse cx="18" cy="24" rx="4" ry="9" fill="#3a3a3a"/><circle cx="28" cy="20" r="2.5" fill="#111"/><path d="M44 36v6M62 34v6" stroke="#9aa09d" stroke-width="1.5"/>`,
+ swim:`<path d="M8 24c8-10 30-12 40-4l8 0c6 0 10 2 14-4l4 8-4 8c-4-6-8-4-14-4l-8 0c-10 8-32 6-40-4z" fill="#a7b8b0"/><path d="M48 16v16" stroke="#566" stroke-width="1"/><circle cx="16" cy="22" r="2.5" fill="#111"/>`,
+ jig:`<circle cx="18" cy="24" r="8" fill="#3d3b36"/><path d="M24 18c10 0 30-6 44-2M24 24h46M24 30c10 0 30 6 44 2" stroke="#6b4a2a" stroke-width="3" fill="none"/><path d="M18 16c0-6 10-8 12 0" stroke="#9aa09d" stroke-width="1.5" fill="none"/>`,
+ clonk:`<path d="M10 40L56 10" stroke="#a07a4a" stroke-width="4" stroke-linecap="round"/><ellipse cx="58" cy="9" rx="8" ry="4" fill="#5b4a33" transform="rotate(-33 58 9)"/><path d="M18 34c6 0 8 4 4 6" stroke="#3a3a3a" stroke-width="2" fill="none"/>`
+};
+const SENU=[
+ {k:"vinilo",n:"Vinilos",sp:["bass","lucioperca","perca","lucio","siluro"],d:"Señuelos blandos de goma con forma de gusano, pez o cangrejo. Son los más versátiles porque se pueden montar de muchas formas.",rec:"Según el montaje: arrastrando por el fondo, a saltitos o en recogida continua.",cuando:"Todo el año. Con el agua fría, lento y pegado al fondo.",color:"Naturales (verde, marrón) en agua clara; oscuros o llamativos en agua turbia.",
+  extra:["Texas: plomo bala deslizante y anzuelo antienganche, para meterlo entre ramas y piedras.","Cabeza plomada (jig head): el más sencillo, ideal para lucioperca y perca.","Drop shot: plomo abajo y vinilo pequeño unos 30 cm más arriba, para peces desconfiados.","Ned rig: vinilo corto en una cabeza ligera, que se arrastra muy despacio."]},
+ {k:"crank",n:"Crankbait",sp:["bass","perca","lucio"],d:"Pez duro con un babero que lo hace bajar y vibrar. Cuanto más grande es el babero, más profundo nada.",rec:"Recogida continua. Deja que choque con piedras y ramas: ahí llegan muchas picadas.",cuando:"Primavera y otoño, con el agua algo movida.",color:"Imitaciones de cangrejo y de pez (alburno, perca)."},
+ {k:"jerk",n:"Jerkbait (minnow)",sp:["bass","lucio","trucha","perca"],d:"Pececillo alargado que imita a un pez herido. Algunos se quedan quietos a media agua (suspending).",rec:"Tirones cortos con la puntera y pausas. La picada suele llegar durante la pausa.",cuando:"Con agua fría y clara, de finales de invierno a primavera.",color:"Plateados y naturales; con sol, los que tienen brillos."},
+ {k:"spinner",n:"Spinnerbait",sp:["bass","lucio"],d:"Alambre en forma de V con una o dos palas que giran y una falda. Casi nunca se engancha.",rec:"Recogida constante a media agua, o rozando la vegetación.",cuando:"Días con viento o nubes, y agua turbia.",color:"Blanco, chartreuse (amarillo verdoso) o combinaciones oscuras."},
+ {k:"cuchara",n:"Cucharilla",sp:["trucha","perca","lucio","bass"],d:"Pala metálica que gira alrededor de un eje. Clásica y muy fácil de usar.",rec:"Recogida continua, lo bastante rápida para que la pala gire.",cuando:"Todo el año. Tamaños 0 a 2 para trucha y perca, y 3 a 5 para lucio.",color:"Plata con sol; oro y cobre con agua turbia o poca luz."},
+ {k:"ondulante",n:"Cuchara ondulante",sp:["lucio","lucioperca","trucha"],d:"Chapa metálica curvada que se mueve de lado a lado. Pesa mucho y llega muy lejos.",rec:"Recogida lenta con algún tirón y dejándola caer.",cuando:"Cuando quieres recorrer mucha agua desde la orilla.",color:"Plata, cobre y combinaciones con rojo."},
+ {k:"superficie",n:"Señuelos de superficie",sp:["bass","lucio"],d:"Poppers, stickbaits y ranas que se mueven por encima del agua. Las picadas son espectaculares.",rec:"Popper: tirones que hacen «blop». Stickbait: zigzag a un lado y a otro. Rana: por encima de la vegetación.",cuando:"En verano, al amanecer y al atardecer, con el agua tranquila.",color:"Importa poco: desde abajo el pez ve sobre todo la silueta."},
+ {k:"swim",n:"Swimbait",sp:["lucio","bass","lucioperca","siluro"],d:"Imitación muy realista de un pez, blanda o articulada. Sirve para buscar los ejemplares grandes.",rec:"Recogida lenta y constante, que nade como un pez de verdad.",cuando:"En otoño, cuando los depredadores comen fuerte antes del invierno.",color:"Imitaciones de alburno, carpín o perca."},
+ {k:"jig",n:"Jig",sp:["bass","lucioperca"],d:"Cabeza de plomo con falda de silicona y un vinilo detrás (trailer). Imita a un cangrejo.",rec:"Arrastrarlo y darle saltitos por el fondo, entre piedras y ramas.",cuando:"Todo el año. En invierno es el señuelo de los bass grandes.",color:"Marrón, verde calabaza y negro con azul."},
+ {k:"clonk",n:"Clonk y vinilos grandes",sp:["siluro"],d:"El clonk es un palo que hace «glup» al golpear el agua y atrae a los siluros. Se usa junto a vinilos grandes o cebos.",rec:"Desde barca: deja el señuelo a la altura del siluro (lo ves en la sonda) y golpea el agua con el clonk.",cuando:"De primavera a otoño, con el agua templada.",color:"Colores llamativos y vinilos de 15 a 30 cm."}
+];
+function vSenuelos(){
+  const PRED=["bass","lucio","lucioperca","perca","siluro","trucha"],f=S.lure||"",list=SENU.filter(x=>!f||x.sp.includes(f));
+  $("#view").innerHTML=`<h2>Señuelos para depredadores</h2>
+    <div class="chips"><button class="chip" data-lure="" aria-pressed="${!f}">Todos</button>${PRED.map(k=>`<button class="chip" data-lure="${k}" aria-pressed="${f===k}">${SP[k]}</button>`).join("")}</div>
+    <div class="count">${list.length} señuelo${list.length===1?"":"s"}${f?" para "+SP[f].toLowerCase():""}</div>
+    <div class="list">${list.map((x,i)=>`<div class="spec lure" style="--i:${i}">
+      <div class="lurehead"><svg viewBox="0 0 80 48" class="lureico" aria-hidden="true">${LI[x.k]}</svg><div><h3>${x.n}</h3><div class="sp">${x.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div></div></div>
+      <p style="margin:0">${x.d}</p>
+      <dl><dt>Cómo recogerlo</dt><dd>${x.rec}</dd><dt>Cuándo</dt><dd>${x.cuando}</dd><dt>Colores</dt><dd>${x.color}</dd></dl>
+      ${x.extra?`<h4 style="margin:6px 0 0;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)">Formas de montarlo</h4><ul class="mat">${x.extra.map(e=>`<li>${e}</li>`).join("")}</ul>`:""}</div>`).join("")}</div>
+    <p class="mapnote">Consejo: lleva siempre unos alicates para quitar el anzuelo rápido y devolver el pez en buen estado.</p>`;
+  document.querySelectorAll("[data-lure]").forEach(b=>b.onclick=()=>{S.lure=b.dataset.lure;vSenuelos()});
 }
 
 function openPrivacy(){
@@ -916,16 +1178,19 @@ function openSheet(id){
     <div class="legend"><span><i style="background:var(--lure)"></i>Muy buena</span><span><i style="background:var(--lake-soft)"></i>Buena</span><span><i style="background:var(--land)"></i>Floja</span></div>
     <h4>Cómo pescarlo</h4><p>${esc(e.t||e.sp.map(s=>SP[s]+": "+SPECIES.find(x=>x.k===s).tec.toLowerCase()).join(". ")+".")}</p>
     <h4>A tener en cuenta</h4><p>${esc(e.acc)}</p>
+    <button class="chip" id="tocebos" style="margin:4px 0 12px">Ver cebos para este embalse →</button>
     <p><a href="https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lon}" target="_blank" rel="noopener" style="color:var(--lake);font-weight:700">Abrir en Google Maps ↗</a></p>
     <div class="warn">Necesitas licencia de pesca de la comunidad autónoma. Las normas (cupos, tallas, pesca sin muerte o sacrificio de especies invasoras) cambian según la comunidad y el año: consúltalas siempre antes de ir.</div>
   </div>`;
   sh.classList.remove("closing");sh.hidden=false;
   const close=()=>{if(sh.classList.contains("closing"))return;sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
+  $("#tocebos").onclick=()=>{S.cebo=e.id;close();go("cebos")};
   $("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
   document.onkeydown=ev=>{if(ev.key==="Escape"&&!sh.hidden)close()};
   $("#cl").focus();
 }
-document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{if(S.tab===b.dataset.tab)return;S.tab=b.dataset.tab;render(true);scrollTo(0,0)});
+$("#menubtn").onclick=()=>$("#drawer").hidden?openMenu():closeMenu();
+document.addEventListener("keydown",ev=>{if(ev.key==="Escape")closeMenu()});
 initFB();
 render(true);
 setTimeout(()=>{const s=$("#splash");if(s)s.remove()},2100);
