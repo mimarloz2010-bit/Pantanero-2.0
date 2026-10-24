@@ -217,6 +217,56 @@ ol.steps li::marker{color:var(--lure);font-weight:700}
 .lurehead{display:flex;gap:12px;align-items:center}
 .lureico{width:80px;height:48px;flex:none;background:var(--bg);border-radius:10px;border:1px solid var(--line)}
 .lure .sp{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.seg4{grid-template-columns:repeat(4,1fr);margin-bottom:10px}
+.subh{font-family:var(--display);text-transform:uppercase;font-size:1.25rem;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
+.subh span{font-family:var(--body);font-size:.75rem;color:var(--lake);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.seg4 button{font-size:.68rem;padding:9px 2px;letter-spacing:0}
+.btag{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 5px;vertical-align:2px;margin-left:4px}
+.btag.art{color:#f2c230;border-color:rgba(242,194,48,.4)}
+.bhead{display:flex;align-items:center;gap:12px}
+.bmono{width:48px;height:48px;flex:none;border-radius:14px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.3rem;letter-spacing:.02em;color:hsl(var(--h) 80% 82%);
+  background:linear-gradient(145deg,hsl(var(--h) 45% 26%),hsl(var(--h) 50% 14%));border:1px solid hsl(var(--h) 45% 38%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 4px 12px rgba(0,0,0,.35)}
+.bweb{justify-self:start;font-weight:700;font-size:.88rem;color:var(--lake);text-decoration:underline;text-underline-offset:3px}
+.prods{display:flex;flex-wrap:wrap;gap:6px}
+.prod{display:grid;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+.prod b{font-size:.9rem}.prod small{color:var(--muted);font-size:.75rem}
+.layers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.layer{font:inherit;font-size:.78rem;font-weight:700;display:grid;justify-items:center;gap:5px;padding:8px 4px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.layer i{display:block;width:30px;height:18px;border-radius:4px;background:linear-gradient(#0d4652,#041a1f);position:relative;overflow:hidden}
+.layer i::after{content:"";position:absolute;left:4px;right:4px;height:4px;border-radius:2px;background:var(--lure)}
+.l-sup i::after{top:2px}.l-media i::after{top:7px}.l-fondo i::after{bottom:2px}.l-all i::after{top:2px;bottom:2px;height:auto;opacity:.5}
+.layer[aria-pressed="true"]{background:var(--lake-soft);color:var(--lake);border-color:var(--lake)}
+.capa{display:inline-block;margin-top:4px;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid currentColor}
+.c-sup{color:#f2c230}.c-media{color:var(--lake)}.c-fondo{color:#c9a37a}
+.mods{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.mods span{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);width:100%}
+.mods b{font-size:.82rem;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+.card,.rig,.chip,.btn,.ditem,.layer,.seg button,.feed{position:relative;overflow:hidden}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.14);transform:scale(0);pointer-events:none;animation:ripple .6s ease-out forwards}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+header.top{transition:box-shadow .3s,background .3s}
+header.top.scrolled{box-shadow:0 1px 0 var(--line);background:rgba(4,6,5,.92);backdrop-filter:blur(8px)}
+header.top .logo{transition:width .3s var(--ease),height .3s var(--ease)}
+header.top.scrolled .logo{width:36px;height:36px}
+header.top .brand{transition:font-size .3s var(--ease)}
+header.top.scrolled .brand{font-size:1.6rem}
+header.top{view-transition-name:cabecera}
+::view-transition-old(root){animation:vtout .2s ease both}
+::view-transition-new(root){animation:vtin .38s var(--ease) both}
+@keyframes vtout{to{opacity:0;transform:translateY(-10px)}}
+@keyframes vtin{from{opacity:0;transform:translateY(18px)}}
+@media (hover:hover){.card::after,.rig::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.05) 50%,transparent 70%);transform:translateX(-100%);transition:transform .7s var(--ease);pointer-events:none}
+ .card:hover::after,.rig:hover::after{transform:translateX(100%)}}
+.mapland{animation:fade .6s ease both}
+.maprio{stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 1.6s ease .2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.capg{animation:fade .5s ease .4s both}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}}
+#splash .bub{position:absolute;bottom:-70px;width:8px;height:8px;border:1.5px solid var(--lake);border-radius:50%;opacity:0;animation:bub 1.6s ease-in var(--d) both}
+@keyframes bub{0%{opacity:0;transform:translateY(0)}20%{opacity:.8}100%{opacity:0;transform:translateY(-140px) translateX(var(--x))}}
+#splash .wave{width:180px;height:14px;animation:rise .6s var(--ease) .6s both}
+#splash .wave path{stroke-dasharray:240;stroke-dashoffset:240;animation:draw 1s ease .7s forwards}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
 .sheet{animation:fade .25s ease both}
 .sheet .pane{animation:up .4s var(--ease) both;border-top:1px solid var(--line)}
@@ -243,7 +293,9 @@ ol.steps li::marker{color:var(--lure);font-weight:700}
   <span class="ring"></span><span class="ring r2"></span>
   <svg class="logo"><use href="#mark"/></svg>
   <div class="word">Panta<span>nero</span></div>
+  <svg class="wave" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 7 Q 17 0 32 7 T 62 7 T 92 7 T 122 7 T 152 7 T 178 7" fill="none" stroke="var(--lake)" stroke-width="2.5" stroke-linecap="round"/></svg>
   <div class="sub">Pesca en los embalses de España</div>
+  <span class="bub" style="left:20%;--d:0.2s;--x:-8px"></span><span class="bub" style="left:35%;--d:0.5s;--x:6px"></span><span class="bub" style="left:50%;--d:0.1s;--x:-4px"></span><span class="bub" style="left:62%;--d:0.7s;--x:10px"></span><span class="bub" style="left:78%;--d:0.35s;--x:-6px"></span><span class="bub" style="left:44%;--d:0.9s;--x:4px"></span>
 </div></div>
 <div class="app">
   <header class="top">
@@ -263,6 +315,62 @@ ol.steps li::marker{color:var(--lure);font-weight:700}
 const SP={bass:"Black bass",carpa:"Carpa",siluro:"Siluro",lucio:"Lucio",lucioperca:"Lucioperca",barbo:"Barbo",perca:"Perca",trucha:"Trucha",boga:"Boga",tenca:"Tenca",carpin:"Carpín",alburno:"Alburno",pezsol:"Pez sol"};
 // meses: 2 = muy buena, 1 = buena
 const E=[
+ {id:"iznajar",n:"Iznájar",apodo:"El lago de Andalucía",ccaa:"Andalucía",prov:"Córdoba / Granada",lat:37.26,lon:-4.31,km2:26,sp:["bass","carpa","siluro","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"El embalse más grande de Andalucía, en el río Genil. Agua clara, orillas de olivar y black bass de buen tamaño durante casi todo el año. También hay siluros.",
+  t:"Black bass con drop shot en orillas rocosas cuando el agua está muy clara. Siluro con vinilos grandes o cebo en las zonas más profundas. Barbo y carpa con masilla en las colas.",
+  acc:"El pueblo de Iznájar, sobre una península, tiene playa y zona de baño."},
+ {id:"encinarejo",n:"Encinarejo",apodo:"Sierra de Andújar",ccaa:"Andalucía",prov:"Jaén",lat:38.12,lon:-4.07,km2:2,sp:["bass","carpa","barbo","boga"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse pequeño del río Jándula, justo debajo del gran embalse del Jándula, en pleno Parque Natural de la Sierra de Andújar. Es estrecho, con orillas de piedra y monte mediterráneo, y muy apreciado por los pescadores de la zona.",
+  t:"Black bass con vinilo texas y jig pegado a las piedras y a la vegetación de la orilla. En primavera, jerkbait y señuelos de superficie al amanecer. Carpa y barbo a fondo con maíz o masilla en las zonas tranquilas.",
+  acc:"Está dentro de un parque natural: respeta los accesos, no hagas fuego y llévate tu basura. Comprueba en la normativa de la Junta qué tramos y modalidades están permitidos."},
+ {id:"yeguas",n:"Yeguas",apodo:"Sierra Morena",ccaa:"Andalucía",prov:"Córdoba / Jaén",lat:38.13,lon:-4.24,km2:8,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse del río Yeguas, en la frontera entre Córdoba y Jaén, rodeado de la dehesa y el monte de Sierra Morena. Tiene muchas colas y ensenadas, y poca gente en buena parte de sus orillas.",
+  t:"Black bass en las colas y puntas con crankbait, spinnerbait en días de viento y vinilos en las zonas de piedra. Carpa grande con boilies en las ensenadas. En invierno, más profundo y más lento.",
+  acc:"Muchos accesos son por caminos de tierra: lleva agua y comida de sobra y avisa a alguien de a dónde vas."},
+ {id:"chorro",n:"El Chorro",apodo:"Conde de Guadalhorce",ccaa:"Andalucía",prov:"Málaga",lat:36.92,lon:-4.78,km2:5,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Conjunto de tres embalses (Conde de Guadalhorce, Guadalhorce y Guadalteba) junto al Caminito del Rey. Agua turquesa y black bass muy desconfiado.",
+  t:"Señuelos finos y colores naturales. Funciona bien el vinilo tipo worm lanzado a las paredes de piedra.",
+  acc:"Zona muy turística en verano: madruga para pescar tranquilo."},
+ {id:"bornos",n:"Bornos",apodo:"Sierra de Cádiz",ccaa:"Andalucía",prov:"Cádiz",lat:36.83,lon:-5.72,km2:23,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,0,0,0,1,1,2,2],
+  d:"Embalse del Guadalete con muchas orillas suaves y vegetación. Muy buena carpa y black bass en primavera.",
+  t:"Carpa con maíz y boilie en las orillas bajas. Black bass con señuelos de superficie entre la vegetación.",
+  acc:"Tiene al lado el embalse de Arcos, más pequeño."},
+ {id:"labrenaii",n:"La Breña II",apodo:"Guadiato y Guadalquivir",ccaa:"Andalucía",prov:"Córdoba",lat:37.85,lon:-5.03,km2:24,sp:["bass","carpa","lucio","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Uno de los embalses más grandes de Córdoba, en el río Guadiato, muy cerca de Almodóvar del Río y del Guadalquivir. Tiene mucha orilla, colas largas y fondos variados.",
+  t:"Black bass con vinilos y crankbait en las puntas y colas. Lucio con jerkbait y swimbait en las zonas de vegetación en otoño e invierno. Carpa con boilies en las ensenadas grandes.",
+  acc:"Es muy grande y el nivel cambia bastante. Infórmate de las zonas de acceso antes de ir."},
+ {id:"puentenuevo",n:"Puente Nuevo",apodo:"Valle del Guadiato",ccaa:"Andalucía",prov:"Córdoba",lat:38.02,lon:-4.98,km2:10,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse del río Guadiato en la sierra cordobesa, entre Espiel y Villaviciosa de Córdoba. Rodeado de monte mediterráneo y con muchas zonas de piedra.",
+  t:"Black bass con texas y jig entre las piedras, y spinnerbait los días de viento. Carpa y barbo a fondo con maíz y masilla en las colas.",
+  acc:"Muchos accesos son por caminos de tierra: ve con cuidado si ha llovido."},
+ {id:"guadalmellato",n:"Guadalmellato",apodo:"Sierra de Córdoba",ccaa:"Andalucía",prov:"Córdoba",lat:38.0,lon:-4.67,km2:8,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse del río Guadalmellato, al noreste de Córdoba capital, en Sierra Morena. Muy cerca de la ciudad y con orillas de sierra y dehesa.",
+  t:"Black bass con vinilos y señuelos de superficie al amanecer en verano. Carpa con boilies y maíz en las ensenadas tranquilas.",
+  acc:"Al estar cerca de la capital tiene bastante gente los fines de semana: madruga."},
+ {id:"bembezar",n:"Bembézar",apodo:"Sierra de Hornachuelos",ccaa:"Andalucía",prov:"Córdoba",lat:37.92,lon:-5.27,km2:8,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse del río Bembézar, en el Parque Natural de la Sierra de Hornachuelos. Encajonado entre sierras, con aguas limpias y poca presión de pesca en muchas zonas.",
+  t:"Black bass con jerkbait y crankbait en primavera y con jig en invierno, buscando las paredes de piedra. Barbo con masilla en las colas.",
+  acc:"Está dentro de un parque natural: respeta los caminos y las normas del parque."},
+ {id:"sierraboyera",n:"Sierra Boyera",apodo:"Norte de Córdoba",ccaa:"Andalucía",prov:"Córdoba",lat:38.28,lon:-5.33,km2:4,sp:["carpa","bass","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse del norte de Córdoba, cerca de Belmez y Peñarroya-Pueblonuevo, en el Valle del Guadiato. Orillas suaves y fáciles de pescar.",
+  t:"Carpa a fondo con maíz, pellets y boilies. Black bass en las zonas con piedra o vegetación con vinilos y crankbait.",
+  acc:"En verano el nivel puede bajar mucho: comprueba cómo está antes de ir."},
+ {id:"negratin",n:"Negratín",apodo:"Altiplano de Granada",ccaa:"Andalucía",prov:"Granada",lat:37.57,lon:-2.95,km2:21,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse del río Guadiana Menor, en el altiplano granadino, entre Freila y Zújar. Agua de color turquesa rodeada de paisaje de cárcavas, muy espectacular.",
+  t:"Black bass con drop shot y vinilos finos cuando el agua está muy clara. Carpa grande con boilies en las colas. En verano, al amanecer y al atardecer.",
+  acc:"Hace mucho calor en verano y hay poca sombra: lleva agua y gorra."},
+ {id:"tranco",n:"El Tranco de Beas",apodo:"Sierra de Cazorla",ccaa:"Andalucía",prov:"Jaén",lat:38.17,lon:-2.8,km2:18,sp:["bass","carpa","trucha","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse del Guadalquivir en pleno Parque Natural de las Sierras de Cazorla, Segura y Las Villas. Paisaje de montaña con pinares y aguas frías.",
+  t:"Black bass en las orillas de piedra con vinilos y jerkbait. Trucha en las zonas de agua fría según la normativa. Carpa en las colas con maíz.",
+  acc:"Parque natural muy visitado: consulta las normas del parque y los tramos de pesca permitidos."},
+ {id:"giribaile",n:"Giribaile",apodo:"Guadalimar",ccaa:"Andalucía",prov:"Jaén",lat:38.1,lon:-3.47,km2:25,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Embalse grande del río Guadalimar, entre Vilches e Ibros, con campiña de olivar alrededor y muchas colas.",
+  t:"Black bass con crankbait y spinnerbait en las colas y puntas. Carpa con boilies en las ensenadas grandes. Barbo en las colas cuando sube el agua.",
+  acc:"Hay poca sombra: en verano pesca a primera y última hora."},
+ {id:"guadalcacin",n:"Guadalcacín",apodo:"Majaceite",ccaa:"Andalucía",prov:"Cádiz",lat:36.67,lon:-5.67,km2:34,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
+  d:"Uno de los embalses más grandes de Cádiz, en el río Majaceite, cerca de San José del Valle y Algar. Mucha orilla y zonas de vegetación.",
+  t:"Black bass con señuelos de superficie y ranas en las zonas de vegetación en verano, y vinilos texas el resto del año. Carpa con boilies.",
+  acc:"El viento de levante puede soplar fuerte: si vas en embarcación, ten cuidado."},
  {id:"mequinenza",n:"Mequinenza",apodo:"El Mar de Aragón",ccaa:"Aragón",prov:"Zaragoza / Huesca / Lleida",lat:41.37,lon:0.27,km2:75,sp:["siluro","carpa","bass","lucioperca","perca"],m:[1,1,2,2,2,2,1,1,2,2,1,1],
   d:"El embalse más famoso de España entre pescadores de toda Europa. Más de 100 km de cola por el Ebro con fondos de hasta 60 m. Es el templo del siluro: aquí se sacan ejemplares de más de 2 metros.",
   t:"Siluro con vinilos grandes, clonk desde barca o calamar y pellets grandes en las zonas profundas. Carpa a fondo con boilies en las colas. En invierno, lucioperca y perca con vinilo pequeño pegado al fondo.",
@@ -287,18 +395,6 @@ const E=[
   d:"Embalse largo del Tajo con mucha orilla accesible. Muy popular en concursos de black bass y de carpfishing.",
   t:"Black bass con spinnerbait en zonas con viento. Carpa a fondo en las ensenadas.",
   acc:"Cerca de la A-5, fácil de llegar desde Madrid."},
- {id:"iznajar",n:"Iznájar",apodo:"El lago de Andalucía",ccaa:"Andalucía",prov:"Córdoba / Granada",lat:37.26,lon:-4.31,km2:26,sp:["bass","carpa","siluro","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
-  d:"El embalse más grande de Andalucía, en el río Genil. Agua clara, orillas de olivar y black bass de buen tamaño durante casi todo el año. También hay siluros.",
-  t:"Black bass con drop shot en orillas rocosas cuando el agua está muy clara. Siluro con vinilos grandes o cebo en las zonas más profundas. Barbo y carpa con masilla en las colas.",
-  acc:"El pueblo de Iznájar, sobre una península, tiene playa y zona de baño."},
- {id:"chorro",n:"El Chorro",apodo:"Conde de Guadalhorce",ccaa:"Andalucía",prov:"Málaga",lat:36.92,lon:-4.78,km2:5,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
-  d:"Conjunto de tres embalses (Conde de Guadalhorce, Guadalhorce y Guadalteba) junto al Caminito del Rey. Agua turquesa y black bass muy desconfiado.",
-  t:"Señuelos finos y colores naturales. Funciona bien el vinilo tipo worm lanzado a las paredes de piedra.",
-  acc:"Zona muy turística en verano: madruga para pescar tranquilo."},
- {id:"bornos",n:"Bornos",apodo:"Sierra de Cádiz",ccaa:"Andalucía",prov:"Cádiz",lat:36.83,lon:-5.72,km2:23,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,0,0,0,1,1,2,2],
-  d:"Embalse del Guadalete con muchas orillas suaves y vegetación. Muy buena carpa y black bass en primavera.",
-  t:"Carpa con maíz y boilie en las orillas bajas. Black bass con señuelos de superficie entre la vegetación.",
-  acc:"Tiene al lado el embalse de Arcos, más pequeño."},
  {id:"buendia",n:"Buendía",apodo:"Mar de Castilla",ccaa:"Castilla-La Mancha",prov:"Cuenca / Guadalajara",lat:40.38,lon:-2.77,km2:81,sp:["carpa","bass","lucio","barbo"],m:[0,1,2,2,2,1,1,1,2,2,1,0],
   d:"Junto con Entrepeñas forma el llamado Mar de Castilla. Es un clásico de la carpa en el centro de España, con mucho espacio y colas largas.",
   t:"Carpfishing de varios días en las colas del Guadiela. Lucio con cucharilla y jerkbait en primavera.",
@@ -351,29 +447,70 @@ const E=[
 E.forEach(e=>e.top=true);
 // Resto de embalses: [nombre, comunidad, provincia, lat, lon, km², especies]
 const MORE=[
- ["La Breña II","Andalucía","Córdoba",37.80,-5.10,24,"bass carpa lucio barbo"],
- ["Puente Nuevo","Andalucía","Córdoba",38.02,-4.98,10,"bass carpa barbo"],
- ["Sierra Boyera","Andalucía","Córdoba",38.28,-5.33,4,"carpa bass barbo"],
- ["Yeguas","Andalucía","Córdoba / Jaén",38.05,-4.25,8,"bass carpa barbo"],
- ["Giribaile","Andalucía","Jaén",38.10,-3.47,25,"bass carpa barbo"],
- ["El Tranco de Beas","Andalucía","Jaén",38.17,-2.80,18,"bass carpa trucha barbo"],
+ ["San Rafael de Navallana","Andalucía","Córdoba",37.93,-4.62,2,"bass carpa barbo"],
+ ["Arenoso","Andalucía","Córdoba",38.05,-4.38,3,"bass carpa barbo"],
+ ["Martín Gonzalo","Andalucía","Córdoba",38.2,-4.35,1,"bass carpa"],
+ ["El Vacar","Andalucía","Córdoba",38.12,-4.88,1,"bass carpa"],
+ ["La Colada","Andalucía","Córdoba",38.45,-5.1,5,"bass carpa barbo"],
+ ["Hornachuelos","Andalucía","Córdoba",37.84,-5.25,1,"bass carpa barbo"],
+ ["Retortillo","Andalucía","Córdoba / Sevilla",37.83,-5.33,4,"bass carpa barbo"],
+ ["Malpasillo","Andalucía","Córdoba / Sevilla",37.32,-4.47,1,"carpa barbo bass"],
+ ["Cordobilla","Andalucía","Córdoba / Sevilla",37.37,-4.67,3,"carpa barbo bass"],
+ ["Vadomojón","Andalucía","Córdoba / Jaén",37.63,-4.18,3,"bass carpa barbo"],
  ["La Fernandina","Andalucía","Jaén",38.27,-3.47,8,"bass carpa"],
  ["El Jándula","Andalucía","Jaén",38.23,-3.98,7,"bass carpa barbo"],
- ["Negratín","Andalucía","Granada",37.57,-2.95,21,"bass carpa barbo"],
+ ["Rumblar","Andalucía","Jaén",38.17,-3.93,7,"bass carpa barbo"],
+ ["Guadalén","Andalucía","Jaén",38.17,-3.53,13,"bass carpa barbo"],
+ ["Guadalmena","Andalucía","Jaén",38.33,-2.82,16,"bass carpa barbo"],
+ ["La Bolera","Andalucía","Jaén",37.77,-2.89,3,"trucha bass carpa"],
+ ["Quiebrajano","Andalucía","Jaén",37.63,-3.73,1,"bass carpa"],
+ ["Aguascebas","Andalucía","Jaén",38.03,-3.0,1,"trucha bass"],
+ ["Pedro Marín","Andalucía","Jaén",37.97,-3.3,2,"carpa barbo bass"],
+ ["Doña Aldonza","Andalucía","Jaén",37.98,-3.4,2,"carpa barbo bass"],
+ ["Víboras","Andalucía","Jaén",37.62,-4.05,1,"bass carpa"],
+ ["Marmolejo","Andalucía","Jaén",38.05,-4.17,1,"carpa barbo bass"],
+ ["Dañador","Andalucía","Jaén",38.42,-3.15,1,"bass carpa"],
  ["Cubillas","Andalucía","Granada",37.28,-3.68,2,"bass carpa"],
  ["Béznar","Andalucía","Granada",36.92,-3.55,2,"bass carpa"],
  ["Rules","Andalucía","Granada",36.86,-3.48,3,"bass carpa"],
+ ["Los Bermejales","Andalucía","Granada",37.0,-3.89,6,"bass carpa barbo"],
+ ["Canales","Andalucía","Granada",37.15,-3.47,2,"trucha bass carpa"],
+ ["Quéntar","Andalucía","Granada",37.2,-3.42,1,"trucha bass"],
+ ["Francisco Abellán","Andalucía","Granada",37.36,-3.33,2,"bass carpa"],
+ ["San Clemente","Andalucía","Granada",37.85,-2.63,4,"bass carpa barbo"],
+ ["El Portillo","Andalucía","Granada",37.82,-2.8,2,"trucha bass"],
+ ["Colomera","Andalucía","Granada",37.4,-3.7,2,"bass carpa barbo"],
  ["Cuevas del Almanzora","Andalucía","Almería",37.32,-1.97,6,"bass carpa"],
+ ["Benínar","Andalucía","Almería",36.88,-2.86,2,"bass carpa"],
  ["La Viñuela","Andalucía","Málaga",36.86,-4.15,6,"bass carpa"],
- ["Zahara-El Gastor","Andalucía","Cádiz",36.83,-5.38,4,"bass carpa barbo"],
- ["Guadalcacín","Andalucía","Cádiz",36.67,-5.67,34,"bass carpa barbo"],
+ ["Casasola","Andalucía","Málaga",36.83,-4.55,1,"bass carpa"],
+ ["Limonero","Andalucía","Málaga",36.75,-4.42,1,"bass carpa"],
+ ["La Concepción","Andalucía","Málaga",36.53,-4.95,1,"bass carpa"],
  ["Arcos","Andalucía","Cádiz",36.76,-5.81,1,"bass carpa"],
- ["Charco Redondo","Andalucía","Cádiz",36.30,-5.55,5,"bass carpa"],
+ ["Zahara-El Gastor","Andalucía","Cádiz",36.83,-5.38,4,"bass carpa barbo"],
+ ["Charco Redondo","Andalucía","Cádiz",36.3,-5.55,5,"bass carpa"],
+ ["Barbate","Andalucía","Cádiz",36.4,-5.8,15,"bass carpa barbo"],
+ ["Celemín","Andalucía","Cádiz",36.32,-5.78,1,"bass carpa"],
+ ["Los Hurones","Andalucía","Cádiz",36.73,-5.47,6,"bass carpa barbo"],
+ ["Guadarranque","Andalucía","Cádiz",36.28,-5.45,2,"bass carpa"],
  ["El Pintado","Andalucía","Sevilla",38.02,-5.98,10,"bass carpa barbo"],
  ["José Torán","Andalucía","Sevilla",37.78,-5.42,7,"bass carpa"],
+ ["Melonares","Andalucía","Sevilla",37.95,-5.83,7,"bass carpa"],
+ ["Huesna","Andalucía","Sevilla",37.82,-5.7,4,"bass carpa barbo"],
+ ["Gergal","Andalucía","Sevilla",37.58,-6.05,3,"bass carpa"],
+ ["Cala","Andalucía","Sevilla",37.72,-6.08,2,"bass carpa"],
+ ["La Minilla","Andalucía","Sevilla",37.7,-6.16,5,"bass carpa barbo"],
+ ["El Agrio","Andalucía","Sevilla",37.55,-6.25,1,"bass carpa"],
+ ["Torre del Águila","Andalucía","Sevilla",37.08,-5.55,6,"carpa barbo bass"],
+ ["La Puebla de Cazalla","Andalucía","Sevilla",37.25,-5.3,3,"bass carpa barbo"],
  ["Aracena","Andalucía","Huelva",37.93,-6.45,9,"bass carpa"],
- ["El Chanza","Andalucía","Huelva",37.60,-7.40,22,"bass carpa barbo"],
+ ["Zufre","Andalucía","Huelva",37.83,-6.33,9,"bass carpa barbo"],
+ ["El Chanza","Andalucía","Huelva",37.6,-7.4,22,"bass carpa barbo"],
  ["Andévalo","Andalucía","Huelva",37.58,-7.18,50,"bass carpa"],
+ ["Sancho","Andalucía","Huelva",37.43,-7.02,4,"bass carpa"],
+ ["Piedras","Andalucía","Huelva",37.35,-7.17,4,"bass carpa"],
+ ["Jarrama","Andalucía","Huelva",37.72,-6.75,2,"bass carpa barbo"],
+ ["Corumbel Bajo","Andalucía","Huelva",37.42,-6.62,2,"bass carpa"],
  ["Cíjara","Extremadura","Badajoz",39.37,-4.88,70,"bass carpa lucio lucioperca barbo"],
  ["García de Sola","Extremadura","Badajoz",39.15,-5.18,34,"bass carpa lucio barbo"],
  ["Alange","Extremadura","Badajoz",38.78,-6.25,50,"bass carpa barbo"],
@@ -452,7 +589,71 @@ const MORE=[
  ["Castrelo de Miño","Galicia","Ourense",42.30,-8.07,6,"bass carpa"],
  ["Frieira","Galicia","Ourense / Pontevedra",42.13,-8.18,4,"bass carpa"],
  ["Tanes","Asturias","Asturias",43.20,-5.38,2,"trucha"],
- ["Salime","Asturias","Asturias",43.20,-6.92,7,"trucha"]
+ ["Salime","Asturias","Asturias",43.20,-6.92,7,"trucha"],
+ ["Montijo","Extremadura","Badajoz",38.93,-6.43,4,"bass carpa lucio barbo"],
+ ["Los Canchales","Extremadura","Badajoz",39.05,-6.38,9,"bass carpa lucio"],
+ ["Proserpina","Extremadura","Badajoz",38.97,-6.36,1,"bass carpa"],
+ ["Villar del Rey","Extremadura","Badajoz",39.13,-6.82,7,"bass carpa barbo"],
+ ["Zújar","Extremadura","Badajoz",38.93,-5.45,13,"bass carpa barbo lucio"],
+ ["Guadiloba","Extremadura","Cáceres",39.53,-6.27,2,"bass carpa"],
+ ["Arrocampo","Extremadura","Cáceres",39.83,-5.72,7,"bass carpa siluro lucioperca"],
+ ["Torrejón-Tiétar","Extremadura","Cáceres",39.83,-5.97,10,"bass carpa barbo"],
+ ["Valdeobispo","Extremadura","Cáceres",40.08,-6.27,2,"bass carpa trucha"],
+ ["Navalcán","Castilla-La Mancha","Toledo",40.06,-5.11,7,"bass carpa"],
+ ["Castrejón","Castilla-La Mancha","Toledo",39.87,-4.28,7,"carpa siluro barbo lucioperca"],
+ ["El Torcón","Castilla-La Mancha","Toledo",39.64,-4.28,1,"bass carpa"],
+ ["Peñarroya","Castilla-La Mancha","Ciudad Real",39.07,-3.03,3,"bass carpa"],
+ ["La Tajera","Castilla-La Mancha","Guadalajara",40.93,-2.40,2,"bass carpa lucio"],
+ ["El Atance","Castilla-La Mancha","Guadalajara",41.07,-2.85,2,"bass carpa"],
+ ["Valmayor","Comunidad de Madrid","Madrid",40.55,-4.03,7,"bass carpa lucioperca"],
+ ["Santillana","Comunidad de Madrid","Madrid",40.73,-3.86,10,"carpa bass lucio"],
+ ["Riosequillo","Comunidad de Madrid","Madrid",40.96,-3.65,3,"carpa trucha bass"],
+ ["El Villar","Comunidad de Madrid","Madrid",40.88,-3.57,1,"carpa bass"],
+ ["La Pinilla","Comunidad de Madrid","Madrid",40.92,-3.83,4,"carpa trucha"],
+ ["Burgomillodo","Castilla y León","Segovia",41.32,-3.88,1,"carpa lucio barbo"],
+ ["Las Cogotas","Castilla y León","Ávila",40.72,-4.73,4,"carpa bass lucio"],
+ ["Villameca","Castilla y León","León",42.65,-6.10,2,"trucha carpa"],
+ ["Cernadilla","Castilla y León","Zamora",42.03,-6.48,15,"trucha carpa bass"],
+ ["Uzquiza","Castilla y León","Burgos",42.25,-3.22,5,"trucha carpa"],
+ ["Arlanzón","Castilla y León","Burgos",42.25,-3.33,2,"trucha"],
+ ["Compuerto","Castilla y León","Palencia",42.84,-4.75,6,"trucha"],
+ ["Camporredondo","Castilla y León","Palencia",42.90,-4.73,4,"trucha"],
+ ["La Requejada","Castilla y León","Palencia",42.90,-4.53,2,"trucha"],
+ ["La Peña","Aragón","Huesca",42.37,-0.72,4,"carpa bass"],
+ ["Vadiello","Aragón","Huesca",42.27,-0.30,1,"trucha bass"],
+ ["Ardisa","Aragón","Zaragoza",42.18,-0.76,1,"carpa barbo"],
+ ["Búbal","Aragón","Huesca",42.70,-0.32,2,"trucha"],
+ ["Arguis","Aragón","Huesca",42.32,-0.44,1,"carpa trucha"],
+ ["Mezalocha","Aragón","Zaragoza",41.43,-1.08,1,"bass carpa"],
+ ["Maidevera","Aragón","Zaragoza",41.63,-1.42,1,"bass carpa"],
+ ["Moneva","Aragón","Zaragoza",41.12,-0.85,1,"bass carpa"],
+ ["La Estanca de Alcañiz","Aragón","Teruel",41.07,-0.18,1,"carpa bass lucioperca"],
+ ["Caspe","Aragón","Zaragoza",41.25,-0.02,5,"siluro carpa bass lucioperca"],
+ ["Pena","Aragón","Teruel",40.92,0.15,1,"bass carpa"],
+ ["Terradets","Cataluña","Lleida",42.05,0.88,3,"carpa bass siluro"],
+ ["Sant Ponç","Cataluña","Lleida",41.98,1.62,2,"carpa bass"],
+ ["La Llosa del Cavall","Cataluña","Lleida",42.10,1.58,3,"carpa trucha bass"],
+ ["Utxesa","Cataluña","Lleida",41.48,0.53,1,"carpa siluro bass"],
+ ["Foix","Cataluña","Barcelona",41.27,1.65,1,"carpa bass"],
+ ["Ulldecona","Comunitat Valenciana","Castellón",40.62,0.20,1,"bass carpa"],
+ ["Regajo","Comunitat Valenciana","Castellón",39.88,-0.55,1,"bass carpa trucha"],
+ ["Bellús","Comunitat Valenciana","Valencia",38.95,-0.48,4,"bass carpa"],
+ ["Buseo","Comunitat Valenciana","Valencia",39.63,-0.94,1,"bass carpa"],
+ ["Amadorio","Comunitat Valenciana","Alicante",38.53,-0.27,1,"bass carpa"],
+ ["La Pedrera","Comunitat Valenciana","Alicante",38.05,-0.87,12,"carpa bass"],
+ ["Santomera","Región de Murcia","Murcia",38.08,-1.05,2,"carpa bass"],
+ ["Taibilla","Castilla-La Mancha","Albacete",38.18,-2.25,1,"trucha bass"],
+ ["Portodemouros","Galicia","A Coruña / Pontevedra",42.85,-8.18,13,"bass carpa trucha"],
+ ["Cecebre","Galicia","A Coruña",43.27,-8.33,4,"carpa trucha"],
+ ["Salas","Galicia","Ourense",41.93,-7.92,6,"trucha carpa"],
+ ["Doiras","Asturias","Asturias",43.35,-6.82,3,"trucha"],
+ ["Arbón","Asturias","Asturias",43.47,-6.68,2,"trucha"],
+ ["Trasona","Asturias","Asturias",43.55,-5.88,1,"carpa trucha"],
+ ["Alsa","Cantabria","Cantabria",43.13,-4.03,1,"trucha"],
+ ["Mairaga","Navarra","Navarra",42.62,-1.62,1,"carpa bass"],
+ ["Mansilla","La Rioja","La Rioja",42.18,-2.92,1,"trucha carpa"],
+ ["Albina","País Vasco","Álava",42.98,-2.62,1,"trucha carpa"],
+ ["Añarbe","Navarra / País Vasco","Gipuzkoa",43.20,-1.95,2,"trucha"]
 ];
 const PAT={s:[2,2,2,2,1,1,0,0,1,2,2,2],c:[0,1,2,2,2,1,1,1,2,2,1,0],n:[0,0,1,2,2,2,1,1,2,2,1,0]};
 MORE.forEach(([n,ccaa,prov,lat,lon,km2,sps])=>{
@@ -468,6 +669,7 @@ MORE.forEach(([n,ccaa,prov,lat,lon,km2,sps])=>{
   const add=(ids,s)=>ids.forEach(id=>{const e=g(id);if(e&&!e.sp.includes(s))e.sp.push(s)});
   add(["ribarroja","flix","camarasa","santaana","canelles","alcantara","valdecanas","cedillo","azutan","sobron"],"siluro");
   add(["ribarroja","flix","valdecanas","susqueda","santaana","buendia","alcantara","garciadesola","cijara"],"lucioperca");
+  add(["caspe","terradets","utxesa"],"lucioperca");add(["caspe"],"perca");
   add(["alange","mequinenza","ribarroja"],"lucio");
   add(["ribarroja","mequinenza","flix","valdecanas","alcantara","cijara","orellana","laserena","buendia","entrepenas","bolarque","alarcon"],"barbo");
   E.forEach(e=>{
@@ -516,20 +718,41 @@ const byId=id=>E.find(x=>x.id===id);
 let popId=null,animT;
 const ICO={
  embalses:'<path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>',
+ andalucia:'<path d="M2 14l3-5 5-1 4-3 5 2 2 4-3 5-6 3-7-1z"/><circle cx="11" cy="12" r="1.6"/>',
  mapa:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
  especies:'<path d="M2 12c3-5 11-6 15-2l4-3v10l-4-3c-4 4-12 3-15-2z"/><circle cx="7" cy="11" r=".6"/>',
  cebos:'<circle cx="8" cy="15" r="4"/><circle cx="16" cy="9" r="4"/><path d="M14.5 7.5l1 1"/>',
+ montbass:'<path d="M14 3v10a4 4 0 0 1-8 0v-1.5l2.5 2.5"/><path d="M14 13c3 0 6 2 7 5" stroke-dasharray="2 2"/><path d="M15 9c4-2 6 0 6 2"/>',
  montajes:'<path d="M15 3v11a5 5 0 0 1-10 0v-2l3 3"/><circle cx="15" cy="3" r="1.2"/><path d="M15 14l5 6"/>',
  senuelos:'<path d="M3 11c3-4 10-5 14-2l2-2v8l-2-2c-4 3-11 2-14-2z"/><path d="M8 15v3l-1.5 1.5M8 18l1.5 1.5M14 15v3l-1.5 1.5M14 18l1.5 1.5"/>',
  cuaderno:'<path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M5 18a3 3 0 0 1 3-3h11M9 7h6M9 10h4"/>',
  acuario:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M6 15c1.5-2 4-2.3 6-1l2-1.5v4l-2-1.5c-2 1.3-4.5 1-6-1z"/><circle cx="17" cy="9" r="1"/><circle cx="15" cy="7" r=".6"/>'
 };
 const PAGES=[
- {g:"Guía",items:[["embalses","Embalses",()=>E.length+" embalses de España"],["mapa","Mapa",()=>"Dónde está cada embalse"],["especies","Especies",()=>"Peces de agua dulce"]]},
- {g:"Técnica",items:[["cebos","Cebos",()=>"Qué cebo usar en cada embalse"],["montajes","Montajes de carpfishing",()=>"Paso a paso con dibujos"],["senuelos","Señuelos",()=>"Para depredadores"]]},
+ {g:"Guía",items:[["embalses","Embalses de España",()=>E.length+" embalses"],["andalucia","Andalucía",()=>E.filter(e=>e.ccaa==="Andalucía").length+" embalses andaluces y su mapa"],["mapa","Mapa de España",()=>"Dónde está cada embalse"],["especies","Especies",()=>"Peces de agua dulce"]]},
+ {g:"Técnica",items:[["cebos","Cebos",()=>"Naturales, artificiales y marcas"],["montajes","Montajes de carpa",()=>"Carpfishing paso a paso"],["montbass","Montajes de black bass",()=>"Texas, drop shot, ned…"],["senuelos","Señuelos",()=>SENU.length+" tipos para depredadores"]]},
  {g:"Mi pesca",items:[["cuaderno","Cuaderno",()=>"Tus capturas"],["acuario","Acuario",()=>"Tus capturas nadando"]]}];
 const pageName=k=>{for(const g of PAGES)for(const it of g.items)if(it[0]===k)return it[1];return ""};
-function go(tab){if(S.tab!==tab){S.tab=tab;render(true)}closeMenu();scrollTo(0,0)}
+const spIn=(L=E)=>Object.keys(SP).filter(k=>L.some(e=>e.sp.includes(k)));
+const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function go(tab){closeMenu();if(S.tab===tab){scrollTo({top:0,behavior:"smooth"});return}
+  const swap=()=>{S.tab=tab;render(true);scrollTo(0,0)};
+  if(document.startViewTransition&&!REDUCE)document.startViewTransition(swap);else swap()}
+/* ---------- Animaciones ---------- */
+function countUp(root){if(REDUCE)return;(root||document).querySelectorAll(".fact b").forEach(el=>{
+  const txt=el.textContent.trim(),m=txt.match(/^([~]?)(\d+(?:[.,]\d+)?)(.*)$/);if(!m)return;
+  const end=parseFloat(m[2].replace(",",".")),dec=(m[2].split(/[.,]/)[1]||"").length,sep=m[2].includes(",")?",":".",t0=performance.now();
+  const f=now=>{const p=Math.min(1,(now-t0)/700),e=1-Math.pow(1-p,3),v=(end*e).toFixed(dec);el.textContent=m[1]+(sep===","?v.replace(".",","):v)+m[3];if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
+document.addEventListener("pointerdown",ev=>{if(REDUCE)return;const t=ev.target.closest(".card,.rig,.chip,.btn,.ditem,.layer,.seg button,.feed,.menubtn");if(!t)return;
+  const r=t.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,sp=document.createElement("span");sp.className="ripple";
+  sp.style.cssText=`width:${d}px;height:${d}px;left:${ev.clientX-r.left-d/2}px;top:${ev.clientY-r.top-d/2}px`;t.appendChild(sp);setTimeout(()=>sp.remove(),600)});
+addEventListener("scroll",()=>{const h=document.querySelector("header.top");if(h)h.classList.toggle("scrolled",scrollY>12)},{passive:true});
+(()=>{let y0=null,dy=0,pane=null; // cerrar fichas deslizando hacia abajo
+  document.addEventListener("pointerdown",ev=>{const p=ev.target.closest("#sheet .pane");if(!p||p.scrollTop>0||ev.target.closest("button,a,input,select,canvas"))return;pane=p;y0=ev.clientY;dy=0},{passive:true});
+  document.addEventListener("pointermove",ev=>{if(y0===null)return;dy=Math.max(0,ev.clientY-y0);if(dy>4){pane.style.transition="none";pane.style.transform=`translateY(${dy}px)`}},{passive:true});
+  const end=()=>{if(y0===null)return;const sh=$("#sheet");pane.style.transition="transform .25s var(--ease)";
+    if(dy>110&&sh._close){pane.style.transform=`translateY(100%)`;setTimeout(()=>sh._close(),120)}else pane.style.transform="";y0=null;pane=null};
+  document.addEventListener("pointerup",end);document.addEventListener("pointercancel",end)})();
 function openMenu(){
   const d=$("#drawer");let i=0;
   d.innerHTML=`<nav class="dpanel" aria-label="Páginas de Pantanero">
@@ -546,15 +769,16 @@ function closeMenu(){const d=$("#drawer");if(d.hidden||d.classList.contains("clo
   setTimeout(()=>{d.hidden=true;d.innerHTML="";d.classList.remove("closing")},220)}
 function render(anim){
   $("#pagename").textContent=pageName(S.tab);
-  ({embalses:vList,mapa:vMap,especies:vSpecies,cebos:vCebos,montajes:vMontajes,senuelos:vSenuelos,cuaderno:vLog,acuario:vAcuario})[S.tab]();
-  popId=null;
+  ({embalses:()=>vList(false),andalucia:()=>vList(true),mapa:vMap,especies:vSpecies,cebos:vCebos,montajes:vMontajes,montbass:vMontBass,senuelos:vSenuelos,cuaderno:vLog,acuario:vAcuario})[S.tab]();
+  popId=null;countUp($("#view"));
   if(anim){const v=$("#view");v.classList.remove("anim");void v.offsetWidth;v.classList.add("anim");clearTimeout(animT);animT=setTimeout(()=>v.classList.remove("anim"),1400)}
 }
-function filtered(){
-  const q=S.q.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+function filtered(an){
+  const q=((an?S.qa:S.q)||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""),sp=an?S.spa:S.sp;
   return E.filter(e=>{
+    if(an&&e.ccaa!=="Andalucía")return false;
     const hay=(e.n+" "+(e.apodo||"")+" "+e.prov+" "+e.ccaa).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
-    return (!q||hay.includes(q))&&(!S.sp||e.sp.includes(S.sp))&&(!S.cc||e.ccaa.includes(S.cc))&&(!S.fav||favs.has(e.id));
+    return (!q||hay.includes(q))&&(!sp||e.sp.includes(sp))&&(an?(!S.prov||e.prov.includes(S.prov)):(!S.cc||e.ccaa.includes(S.cc)))&&(!S.fav||favs.has(e.id));
   });
 }
 function card(e,i){
@@ -565,55 +789,80 @@ function card(e,i){
     <div class="sp">${e.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div>
   </div>`;
 }
-function vList(){
-  const ccs=[...new Set(E.flatMap(e=>e.ccaa.split(" / ")))].sort();
-  const r=filtered();
+function vList(an){
+  const scope=an?E.filter(e=>e.ccaa==="Andalucía"):E,r=filtered(an),spk=an?"spa":"sp",cur=an?S.spa:S.sp;
+  const opts=an?[...new Set(scope.flatMap(e=>e.prov.split(" / ")))].sort((a,b)=>a.localeCompare(b,"es"))
+               :[...new Set(E.flatMap(e=>e.ccaa.split(" / ")))].sort((a,b)=>a.localeCompare(b,"es"));
+  const sel=an?S.prov:S.cc;
   $("#view").innerHTML=`
-    <input id="q" class="search" type="search" placeholder="Busca un embalse, provincia o comunidad" value="${esc(S.q)}">
+    <h2>${an?"Embalses de Andalucía":"Embalses de España"}</h2>
+    ${an?`<p class="mapnote" style="margin:-4px 0 10px">${scope.length} embalses andaluces. Elige una provincia para acercar el mapa.</p>`:""}
+    <input id="q" class="search" type="search" placeholder="${an?"Busca un embalse o una provincia":"Busca un embalse, provincia o comunidad"}" value="${esc((an?S.qa:S.q)||"")}">
     <div class="chips">
-      <button class="chip" data-sp="" aria-pressed="${!S.sp}">Todas</button>
-      ${Object.keys(SP).map(k=>`<button class="chip" data-sp="${k}" aria-pressed="${S.sp===k}">${SP[k]}</button>`).join("")}
+      <button class="chip" data-sp="" aria-pressed="${!cur}">Todas</button>
+      ${spIn(scope).map(k=>`<button class="chip" data-sp="${k}" aria-pressed="${cur===k}">${SP[k]}</button>`).join("")}
     </div>
     <div class="chips" style="padding-top:0">
       <button class="chip" id="favbtn" aria-pressed="${S.fav}">★ Favoritos</button>
-      <select class="chip" id="cc" aria-label="Comunidad">
-        <option value="">Toda España</option>${ccs.map(c=>`<option ${S.cc===c?"selected":""}>${c}</option>`).join("")}
+      <select class="chip" id="cc" aria-label="${an?"Provincia":"Comunidad"}">
+        <option value="">${an?"Toda Andalucía":"Toda España"}</option>${opts.map(c=>`<option ${sel===c?"selected":""}>${c}</option>`).join("")}
       </select>
     </div>
+    ${an?anMap(r):""}
     <div class="count">${r.length} embalse${r.length===1?"":"s"}</div>
     <div class="list">${r.map(card).join("")||`<p class="mapnote">No hay embalses con esos filtros. Prueba a quitar alguno.</p>`}</div>`;
-  const q=$("#q");q.oninput=()=>{S.q=q.value;const pos=q.selectionStart;vList();const n=$("#q");n.focus();n.setSelectionRange(pos,pos)};
-  document.querySelectorAll("[data-sp]").forEach(b=>b.onclick=()=>{S.sp=b.dataset.sp;vList()});
-  $("#favbtn").onclick=()=>{S.fav=!S.fav;vList()};
-  $("#cc").onchange=ev=>{S.cc=ev.target.value;vList()};
+  const q=$("#q");q.oninput=()=>{if(an)S.qa=q.value;else S.q=q.value;const pos=q.selectionStart;vList(an);const n=$("#q");n.focus();n.setSelectionRange(pos,pos)};
+  document.querySelectorAll("#view [data-sp]").forEach(b=>b.onclick=()=>{S[spk]=b.dataset.sp;vList(an)});
+  $("#favbtn").onclick=()=>{S.fav=!S.fav;vList(an)};
+  $("#cc").onchange=ev=>{if(an)S.prov=ev.target.value;else S.cc=ev.target.value;vList(an)};
   bindCards();
 }
 function bindCards(){
   document.querySelectorAll("[data-fav]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();const id=b.dataset.fav;favs.has(id)?favs.delete(id):(favs.add(id),popId=id);ls.set("pt-favs",[...favs]);render()});
   document.querySelectorAll("[data-open]").forEach(c=>{c.onclick=()=>openSheet(c.dataset.open);c.onkeydown=ev=>{if(ev.key==="Enter")openSheet(c.dataset.open)}});
 }
-// Mapa: contorno simplificado de la España peninsular
-const OUT=[[-9.3,43.0],[-8.9,43.4],[-8.2,43.7],[-7.7,43.78],[-7.0,43.55],[-5.8,43.6],[-4.5,43.42],[-3.5,43.48],[-2.9,43.42],[-1.78,43.36],[-1.3,43.05],[-0.7,42.85],[0.7,42.8],[1.5,42.45],[2.4,42.4],[3.2,42.42],[3.2,41.9],[2.2,41.4],[1.0,41.05],[0.7,40.7],[0.0,40.0],[-0.3,39.5],[0.2,38.8],[-0.5,38.3],[-0.8,37.6],[-1.6,37.3],[-2.1,36.73],[-3.0,36.75],[-4.4,36.7],[-5.0,36.45],[-5.6,36.02],[-6.2,36.4],[-6.4,36.8],[-7.4,37.2],[-7.5,37.5],[-7.3,38.2],[-7.1,38.8],[-7.3,39.4],[-6.9,40.0],[-6.8,40.3],[-6.9,41.0],[-6.4,41.6],[-6.6,41.95],[-7.4,41.85],[-8.1,41.85],[-8.9,41.9],[-8.9,42.4]];
-function vMap(){
-  const W=600,x0=-9.6,x1=3.6,y0=35.8,y1=44.0,k=Math.cos(40*Math.PI/180);
-  const sx=W/((x1-x0)*k),H=Math.round((y1-y0)*sx);
-  const P=([lo,la])=>[((lo-x0)*k*sx).toFixed(1),((y1-la)*sx).toFixed(1)];
-  const r=filtered();
+// Mapa: contorno simplificado de Andalucía
+const OUT_AN=[[-7.40,37.18],[-7.52,37.55],[-7.25,37.80],[-7.12,37.97],[-6.93,38.21],[-6.40,38.02],[-5.90,38.12],[-5.55,38.40],[-5.30,38.60],[-5.05,38.73],[-4.65,38.62],[-4.27,38.40],[-3.60,38.45],[-3.05,38.48],[-2.55,38.30],[-2.45,38.08],[-2.10,37.90],[-1.85,37.55],[-1.63,37.38],[-1.80,37.20],[-1.90,36.95],[-2.15,36.72],[-2.45,36.83],[-2.90,36.74],[-3.50,36.72],[-4.42,36.72],[-4.85,36.50],[-5.35,36.15],[-5.61,36.01],[-6.03,36.18],[-6.30,36.53],[-6.43,36.80],[-6.95,37.15]];
+const OUT_ES=[[-9.3,43.0],[-8.9,43.4],[-8.2,43.7],[-7.7,43.78],[-7.0,43.55],[-5.8,43.6],[-4.5,43.42],[-3.5,43.48],[-2.9,43.42],[-1.78,43.36],[-1.3,43.05],[-0.7,42.85],[0.7,42.8],[1.5,42.45],[2.4,42.4],[3.2,42.42],[3.2,41.9],[2.2,41.4],[1.0,41.05],[0.7,40.7],[0.0,40.0],[-0.3,39.5],[0.2,38.8],[-0.5,38.3],[-0.8,37.6],[-1.6,37.3],[-2.1,36.73],[-3.0,36.75],[-4.4,36.7],[-5.0,36.45],[-5.6,36.02],[-6.2,36.4],[-6.4,36.8],[-7.4,37.2],[-7.5,37.5],[-7.3,38.2],[-7.1,38.8],[-7.3,39.4],[-6.9,40.0],[-6.8,40.3],[-6.9,41.0],[-6.4,41.6],[-6.6,41.95],[-7.4,41.85],[-8.1,41.85],[-8.9,41.9],[-8.9,42.4]];
+const RIO=[[-2.85,37.95],[-3.40,38.00],[-3.80,37.97],[-4.05,38.03],[-4.45,37.98],[-4.78,37.88],[-5.25,37.75],[-5.65,37.55],[-5.98,37.39],[-6.15,37.05],[-6.36,36.79]];
+const CAPS=[["Córdoba",37.88,-4.78],["Sevilla",37.39,-5.98],["Jaén",37.77,-3.79],["Granada",37.18,-3.60],["Málaga",36.72,-4.42],["Cádiz",36.53,-6.29],["Huelva",37.26,-6.95],["Almería",36.84,-2.46]];
+function anMap(r){ // mapa de Andalucía (se acerca a la provincia elegida)
+  const W=600,x0=-7.75,x1=-1.35,y0=35.85,y1=38.95,k=Math.cos(37.5*Math.PI/180),sx=W/((x1-x0)*k),H=Math.round((y1-y0)*sx);
+  const P=([lo,la])=>[+((lo-x0)*k*sx).toFixed(1),+((y1-la)*sx).toFixed(1)];
+  let vb=[0,0,W,H];
+  if(S.prov&&r.length){const pts=r.map(e=>P([e.lon,e.lat]));let mx=Math.min(...pts.map(p=>p[0])),Mx=Math.max(...pts.map(p=>p[0])),my=Math.min(...pts.map(p=>p[1])),My=Math.max(...pts.map(p=>p[1]));
+    let w=Math.max(160,Mx-mx+90),h=Math.max(110,My-my+60);if(w/h<W/H)w=h*W/H;else h=w*H/W;vb=[(mx+Mx)/2-w/2+20,(my+My)/2-h/2,w,h]}
+  const z=vb[2]/W,lab=S.prov?r.length<=24:false;
+  return `<div class="mapbox" style="margin-bottom:12px"><svg viewBox="${vb.map(v=>v.toFixed(1)).join(" ")}" role="img" aria-label="Mapa de Andalucía con los embalses">
+      <path class="mapland" d="M${OUT_AN.map(p=>P(p).join(",")).join("L")}Z" fill="var(--land)" stroke="var(--line)" stroke-width="${2*z}"/>
+      <path class="maprio" d="M${RIO.map(p=>P(p).join(",")).join("L")}" fill="none" stroke="#2f8f9a" stroke-width="${3*z}" stroke-linecap="round" stroke-linejoin="round"/>
+      ${CAPS.map(([n,la,lo])=>{const[a,b]=P([lo,la]);return `<g class="capg"><rect x="${a-3*z}" y="${b-3*z}" width="${6*z}" height="${6*z}" fill="var(--muted)"/><text x="${a}" y="${b+17*z}" text-anchor="middle" font-size="${12*z}" fill="var(--muted)" font-family="Karla,sans-serif" letter-spacing="${z}">${n.toUpperCase()}</text></g>`}).join("")}
+      ${r.map((e,i)=>pinSvg(e,i,P,z,lab||(!S.prov&&e.top),S.prov?15:14)).join("")}
+    </svg></div>`;
+}
+function pinSvg(e,i,P,z,label,fs){const[a,b]=P([e.lon,e.lat]);return `<g class="pin" data-open="${e.id}" style="cursor:pointer;--i:${i}" tabindex="0">
+  <circle cx="${a}" cy="${b}" r="${Math.max(8,Math.sqrt(e.km2)*2.2)*z}" fill="var(--lake)" fill-opacity=".22"/>
+  ${e.top?`<circle class="pulse" cx="${a}" cy="${b}" r="${6*z}" fill="none" stroke="var(--lure)" stroke-width="${2*z}"/>`:""}
+  <circle cx="${a}" cy="${b}" r="${(e.top?6:4.5)*z}" fill="${e.top?"var(--lure)":"var(--lake)"}" stroke="var(--surface)" stroke-width="${1.5*z}"/>
+  ${label?`<text x="${a+9*z}" y="${b+4.5*z}" font-size="${fs*z}" font-weight="700" fill="var(--ink)" font-family="Karla,sans-serif" paint-order="stroke" stroke="var(--surface)" stroke-width="${3*z}">${esc(e.n)}</text>`:`<title>${esc(e.n)}</title>`}</g>`}
+function vMap(){ // mapa de toda España
+  const W=600,x0=-9.6,x1=3.6,y0=35.8,y1=44.0,k=Math.cos(40*Math.PI/180),sx=W/((x1-x0)*k),H=Math.round((y1-y0)*sx);
+  const P=([lo,la])=>[+((lo-x0)*k*sx).toFixed(1),+((y1-la)*sx).toFixed(1)];
+  const r=filtered(false),z=1.15;
   $("#view").innerHTML=`
-    <h2>Mapa de embalses</h2>
+    <h2>Mapa de España</h2>
     <div class="chips">
       <button class="chip" data-sp="" aria-pressed="${!S.sp}">Todas</button>
-      ${Object.keys(SP).map(k=>`<button class="chip" data-sp="${k}" aria-pressed="${S.sp===k}">${SP[k]}</button>`).join("")}
+      ${spIn(E).map(k=>`<button class="chip" data-sp="${k}" aria-pressed="${S.sp===k}">${SP[k]}</button>`).join("")}
     </div>
     <div class="mapbox"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa de España con los embalses">
-      <path d="M${OUT.map(p=>P(p).join(",")).join("L")}Z" fill="var(--land)" stroke="var(--line)" stroke-width="2"/>
-      ${r.map((e,i)=>{const[a,b]=P([e.lon,e.lat]);return `<g class="pin" data-open="${e.id}" style="cursor:pointer;--i:${i}" tabindex="0">
-        <circle cx="${a}" cy="${b}" r="${Math.max(7,Math.sqrt(e.km2)*1.6)}" fill="var(--lake)" fill-opacity=".25"/>
-        <circle cx="${a}" cy="${b}" r="${e.top?5:3.5}" fill="${e.top?"var(--lure)":"var(--lake)"}" stroke="var(--surface)" stroke-width="1.5"/>
-        ${e.top||r.length<=25?`<text x="${+a+9}" y="${+b+4}" font-size="13" font-weight="700" fill="var(--ink)" font-family="Karla,sans-serif">${esc(e.n)}</text>`:`<title>${esc(e.n)}</title>`}</g>`}).join("")}
+      <path class="mapland" d="M${OUT_ES.map(p=>P(p).join(",")).join("L")}Z" fill="var(--land)" stroke="var(--line)" stroke-width="2"/>
+      ${r.map((e,i)=>pinSvg(e,i,P,z*.8,e.top&&e.ccaa!=="Andalucía"||["iznajar","labrenaii","negratin","guadalcacin"].includes(e.id),13)).join("")}
     </svg></div>
-    <p class="mapnote">Puntos naranjas: embalses icónicos. Puntos verdes: resto de embalses. El círculo de fondo crece con la superficie. Toca un punto para ver su ficha. Mapa aproximado, solo como orientación.</p>`;
-  document.querySelectorAll("[data-sp]").forEach(b=>b.onclick=()=>{S.sp=b.dataset.sp;vMap()});
+    <p class="mapnote">${r.length} embalses. Puntos naranjas: embalses principales. Puntos verdes: resto de embalses. Toca un punto para ver su ficha. Mapa aproximado, solo como orientación.</p>
+    <button class="chip" id="toan">Ver el mapa de Andalucía →</button>`;
+  document.querySelectorAll("#view [data-sp]").forEach(b=>b.onclick=()=>{S.sp=b.dataset.sp;vMap()});
+  $("#toan").onclick=()=>go("andalucia");
   bindCards();
 }
 function vSpecies(){
@@ -621,7 +870,7 @@ function vSpecies(){
     const n=E.filter(e=>e.sp.includes(s.k)).length;
     return `<div class="spec" style="--i:${i}"><h3>${SP[s.k]}</h3><div class="lat">${s.lat}</div><p style="margin:0">${s.d}</p>
     <dl><dt>Técnica</dt><dd>${s.tec}</dd><dt>Época</dt><dd>${s.ep}</dd><dt>Consejo</dt><dd>${s.tip}</dd></dl>
-    <button class="chip" data-go="${s.k}" style="justify-self:start;margin-top:4px">Ver ${n} embalses con ${SP[s.k].toLowerCase()} →</button></div>`}).join("")}</div>`;
+    ${n?`<button class="chip" data-go="${s.k}" style="justify-self:start;margin-top:4px">Ver ${n} embalse${n===1?"":"s"} con ${SP[s.k].toLowerCase()} →</button>`:`<span class="mapnote">No aparece en los embalses de esta guía.</span>`}</div>`}).join("")}</div>`;
   document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{S.sp=b.dataset.go;S.tab="embalses";render(true);scrollTo(0,0)});
 }
 /* ---------- Cuentas y cuaderno en la nube (Firebase) ---------- */
@@ -649,7 +898,7 @@ function openPhoto(id,mini,title){
     <p class="mapnote" id="phmsg">Cargando la foto en grande…</p></div>`;
   sh.classList.remove("closing");sh.hidden=false;
   const close=()=>{sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
-  $("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
+  sh._close=close;$("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
   fotos().doc(id).get().then(d=>{const m=$("#phmsg");if(d.exists&&$("#bigph")){$("#bigph").src=d.data().img;m&&m.remove()}else if(m)m.textContent="No se ha encontrado la foto en grande."})
     .catch(e=>{const m=$("#phmsg");if(m)m.textContent=errTxt(e)});
 }
@@ -813,9 +1062,9 @@ const FISH={
  pezsol:{h:.58,k:.7,back:"#2f5e4f",mid:"#5e9a7a",belly:"#f39233",fin:"#4c7d68",pat:"sun",dors:"spiny",ear:true,zone:[.25,.75],spd:.9}
 };
 const TANK_SAMPLE=[...SAMPLE,
- {id:"ex3",ex:true,f:"2026-08-12",e:"mequinenza",s:"siluro",w:24},{id:"ex4",ex:true,f:"2026-07-03",e:"ricobayo",s:"lucio",w:4.1},
- {id:"ex5",ex:true,f:"2026-06-21",e:"alcantara",s:"lucioperca",w:1.8},{id:"ex6",ex:true,f:"2026-05-30",e:"sobron",s:"perca",w:.4},
- {id:"ex7",ex:true,f:"2026-05-02",e:"orellana",s:"pezsol",w:.15},{id:"ex8",ex:true,f:"2026-04-18",e:"belesar",s:"trucha",w:.9}];
+ {id:"ex3",ex:true,f:"2026-08-12",e:"iznajar",s:"siluro",w:24},{id:"ex4",ex:true,f:"2026-07-03",e:"labrenaii",s:"lucio",w:4.1},
+ {id:"ex5",ex:true,f:"2026-06-21",e:"guadalmellato",s:"barbo",w:1.8},{id:"ex6",ex:true,f:"2026-05-30",e:"bembezar",s:"carpin",w:.4},
+ {id:"ex7",ex:true,f:"2026-05-02",e:"negratin",s:"pezsol",w:.15},{id:"ex8",ex:true,f:"2026-04-18",e:"tranco",s:"trucha",w:.9}];
 function rng(seed){let a=0;for(const c of String(seed))a=(a*31+c.charCodeAt(0))|0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function fishLen(c){const f=FISH[c.s]||FISH.carpa;return Math.min(175,Math.max(30,(22+30*Math.cbrt(Math.max(.02,+c.w||.1)))*f.k))}
 function drawFish(g,sp,L,t,seed,sel,part){
@@ -983,6 +1232,7 @@ const CEBOS=[
  {k:"maiz",n:"Maíz",sp:["carpa","barbo","carpin","tenca"],c:"#f2c230",d:"Barato y muy eficaz. Se usa maíz dulce de lata o maíz duro preparado.",uso:"Varios granos en el pelo o en el anzuelo. Para cebar, mézclalo con pellets o úsalo en la cesta del method.",tip:"El maíz duro hay que dejarlo en remojo y cocerlo antes. Crudo hincha dentro del pez y le hace daño."},
  {k:"chufa",n:"Chufa (tigernut)",sp:["carpa"],c:"#9a6b3c",d:"Tubérculo dulce y crujiente que encanta a las carpas. Los peces pequeños no pueden comérselo.",uso:"Una o dos chufas en el pelo, a veces con un grano de maíz artificial encima.",tip:"Remojo de 24 horas y 20 a 30 minutos de cocción. Ceba con poca cantidad, porque llena mucho."},
  {k:"pellet",n:"Pellets",sp:["carpa","barbo","siluro","carpin"],c:"#7a4f2a",d:"Pastillas de harina de pescado que se deshacen y crean una nube de olor en el fondo.",uso:"En bolsas PVA o en la cesta del method feeder. Los pellets grandes de halibut, en el pelo, también sirven para siluro.",tip:"Mezcla tamaños: los pequeños se deshacen rápido y atraen, y los grandes mantienen a los peces en el puesto."},
+ {k:"semillas",n:"Semillas (particles)",sp:["carpa","barbo","tenca","carpin"],c:"#b8925a",d:"Semillas como cañamón, trigo, maíz, chufa o garbanzo. Son baratas y crean un cebadero muy atractivo que mantiene a los peces mucho tiempo en el puesto.",uso:"Para cebar: a mano, con cucharilla de cebado o con cohete. También en el pelo (chufa o maíz) o mezcladas en la cesta del method.",tip:"Las semillas secas siempre hay que dejarlas en remojo y cocerlas antes de usarlas: crudas hinchan dentro del pez y le hacen daño. También las venden ya preparadas, listas para usar."},
  {k:"masilla",n:"Masilla (pasta)",sp:["carpa","barbo","carpin","tenca","boga"],c:"#c8a36a",d:"Pasta de harinas, pan o engodo con agua. Muy usada al coup y con feeder.",uso:"Una bola del tamaño de una avellana tapando el anzuelo, o en la cesta del method.",tip:"Hazla más dura si hay corriente o si los peces pequeños te la roban."},
  {k:"lombriz",n:"Lombriz",sp:["perca","barbo","tenca","trucha","carpin","pezsol","bass"],c:"#c0605a",d:"El cebo natural de toda la vida. Casi todos los peces se la comen.",uso:"Entera o a trozos en anzuelo fino, al fondo o con flotador.",tip:"Para trucha, mira antes la normativa: en muchos tramos solo se permite señuelo o mosca."},
  {k:"asticot",n:"Asticot (gusano blanco)",sp:["carpin","boga","alburno","barbo","tenca"],c:"#efe6c8",d:"Larva de mosca, pequeña y muy viva. Ideal para peces pequeños y para la pesca al coup.",uso:"Dos o tres en un anzuelo del 16 al 20, con flotador.",tip:"Échalos poco a poco con un tirachinas para que los peces no se vayan del puesto."},
@@ -991,36 +1241,64 @@ const CEBOS=[
  {k:"cangrejo",n:"Imitación de cangrejo",sp:["bass","barbo","siluro","lucioperca"],c:"#b5462e",d:"En muchos embalses el cangrejo americano es la comida principal de los depredadores. Por eso los vinilos con forma de cangrejo funcionan tan bien.",uso:"Vinilo de cangrejo en montaje texas o jig, arrastrado por el fondo.",tip:"El cangrejo americano es invasor: no se puede llevar vivo ni soltar en otro sitio."}
 ];
 let myBaits=ls.get("pt-mybaits",{});
-function cebosFor(e){return CEBOS.map(c=>({c,m:c.sp.filter(s=>e.sp.includes(s))})).filter(x=>x.m.length).sort((a,b)=>b.m.length-a.m.length)}
+const ARTIF=[
+ {k:"maizart",n:"Maíz artificial",sp:["carpa","barbo","tenca","carpin"],c:"#f6d33a",d:"Granos de goma o plástico que imitan el maíz. Hay versiones que flotan y otras que se hunden.",uso:"En el pelo, solo o encima de un boilie o de maíz de verdad. El que flota levanta un poco el cebo del fondo.",tip:"Va genial con el method feeder: ponlo en el pelo y tápalo con engodo. Los peces pequeños no lo arrancan y no se deshace."},
+ {k:"boilieart",n:"Boilies y pop-ups artificiales",sp:["carpa"],c:"#f3efe2",d:"Bolas de goma o espuma con forma de boilie. Aguantan días en el agua.",uso:"En el pelo como pop-up (chod rig, snowman) o en sitios con muchos cangrejos que se comen los boilies normales.",tip:"Mójalos en un líquido atrayente (dip) para darles olor."},
+ {k:"chufaart",n:"Chufa artificial",sp:["carpa"],c:"#9a6b3c",d:"Imitación de chufa hecha de goma, flotante o de fondo.",uso:"Junto a chufas de verdad en el pelo, o cuando has cebado con chufa.",tip:"Sirve para equilibrar el cebo y que el anzuelo quede justo apoyado en el fondo."},
+ {k:"foam",n:"Foam (espuma) para zig rig",sp:["carpa"],c:"#ff6b1a",d:"Trocitos de espuma flotante de colores. Es el cebo típico del zig rig.",uso:"Un trozo pequeño en el pelo del zig. Puedes recortarlo con tijeras a tu gusto.",tip:"Negro y amarillo son los colores más usados. Prueba a distintas alturas hasta dar con las carpas."},
+ {k:"pelletart",n:"Pellet artificial",sp:["carpa","barbo","carpin"],c:"#7a4f2a",d:"Imitación de pellet que no se deshace en el agua.",uso:"En el pelo o con una banda, sobre todo con method feeder o con bolsa PVA de pellets.",tip:"Elige el mismo tamaño y color que los pellets con los que estás cebando."},
+ {k:"gusanoart",n:"Asticot y gusanos artificiales",sp:["carpa","carpin","tenca","boga","perca"],c:"#efe6c8",d:"Asticots y gusanos de silicona. No se mueven, pero duran mucho y los peces pequeños no los roban.",uso:"Varios en el pelo o en el anzuelo, a veces mezclados con asticot vivo.",tip:"Con ellos puedes formar un cebo grande que los peces pequeños no pueden arrancar."}
+];
+const MARCAS=[
+ {n:"Mainline",web:"https://www.mainline-baits.com",pais:"Reino Unido",tipo:"Boilies, pellets y pop-ups",prod:[["Cell","Boilie"],["Hybrid","Boilie"],["Essential Cell","Boilie"],["The Link","Boilie"]]},
+ {n:"Sticky Baits",web:"https://www.stickybaits.com",pais:"Reino Unido",tipo:"Boilies y pellets",prod:[["The Krill","Boilie"],["Manilla","Boilie"],["Signature","Boilie"],["Bloodworm","Boilie"]]},
+ {n:"Dynamite Baits",web:"https://www.dynamitebaits.com",pais:"Reino Unido",tipo:"Boilies, pellets y engodos",prod:[["Robin Red","Boilie y pellet"],["Marine Halibut","Pellet"],["The Source","Boilie"],["Monster Tiger Nut","Boilie"]]},
+ {n:"CC Moore",web:"https://www.ccmoore.com",pais:"Reino Unido",tipo:"Boilies y líquidos",prod:[["Odyssey XXX","Boilie"],["Live System","Boilie"],["Pacific Tuna","Boilie"]]},
+ {n:"Nash",web:"https://www.nashtackle.co.uk",pais:"Reino Unido",tipo:"Boilies, pop-ups y material",prod:[["Scopex Squid","Boilie"],["Key","Boilie"],["Citruz","Pop-up"]]},
+ {n:"Sonubaits",web:"https://www.sonubaits.com",pais:"Reino Unido",tipo:"Engodos y pellets",prod:[["Bag & Method","Engodo para method y bolsa PVA"]]},
+ {n:"Sensas",pais:"Francia",tipo:"Engodos y boilies",prod:[["3000","Engodos para coup y feeder"],["Crazy Bait","Boilie"]]},
+ {n:"Enterprise Tackle",web:"https://www.enterprisetackle.co.uk",pais:"Reino Unido",tipo:"Cebos artificiales",prod:[["Maíz artificial","Flotante y de fondo"],["Boilies artificiales","Pop-ups de goma"]]},
+ {n:"Korda",web:"https://www.korda.co.uk",pais:"Reino Unido",tipo:"Aditivos y material",prod:[["Goo","Líquido atrayente"],["Material terminal","Clips, anzuelos y bajos"]]},
+ {n:"Peralbaits",tipo:"Cebos para carpfishing",prod:[],nota:"Se vende en la web de La Tanqueta Fishing.",web:"https://latanquetafishing.es/",webtxt:"Ver en La Tanqueta Fishing ↗"},
+ {n:"Superbaits",tipo:"Cebos para carpfishing",prod:[]},
+ {n:"DSA Baits",web:"https://dsabaits.com/",tipo:"Cebos para carpfishing",prod:[]},
+ {n:"Particles for Fish",web:"https://particleforfishing.com/",tipo:"Semillas para cebar",prod:[["Semillas preparadas","Para cebar y para el anzuelo"]],nota:"Mira en la ficha de «Semillas» cómo se preparan y se usan."}
+];
+const ALLB=()=>[...CEBOS.map(c=>({...c,tipo:"Natural"})),...ARTIF.map(c=>({...c,tipo:"Artificial"}))];
+function cebosFor(e){return ALLB().map(c=>({c,m:c.sp.filter(s=>e.sp.includes(s))})).filter(x=>x.m.length).sort((a,b)=>b.m.length-a.m.length||(a.c.tipo>b.c.tipo?1:-1))}
 function baitDot(c){return `<span class="bdot" style="background:${c.c}"></span>`}
+function baitCard(c,i){return `<div class="spec" style="--i:${i}">
+  <div style="display:flex;align-items:center;gap:10px">${baitDot(c)}<h3>${c.n}</h3></div>
+  <p style="margin:0">${c.d}</p>
+  <dl><dt>Cómo se usa</dt><dd>${c.uso}</dd><dt>Consejo</dt><dd>${c.tip}</dd><dt>Para</dt><dd>${c.sp.map(s=>SP[s]).join(", ")}</dd></dl></div>`}
 function vCebos(){
-  const e=byId(S.cebo)||byId("iznajar")||E[0],rec=cebosFor(e),mine=myBaits[e.id]||[];
+  const tab=S.cebTab&&S.cebTab!=="embalse"?S.cebTab:"todos",TABS=[["todos","Todos"],["naturales","Naturales"],["artificiales","Artificiales"],["marcas","Marcas"]];
+  const f=S.cebSp||"",SPB=["carpa","barbo","carpin","tenca","boga","siluro","bass","perca","trucha"];
+  const flt=L=>L.filter(c=>!f||c.sp.includes(f));
+  const chips=`<div class="chips"><button class="chip" data-csp="" aria-pressed="${!f}">Todos los peces</button>${SPB.map(k=>`<button class="chip" data-csp="${k}" aria-pressed="${f===k}">${SP[k]}</button>`).join("")}</div>`;
+  const listOf=(L,start=0)=>L.length?`<div class="list">${L.map((c,i)=>baitCard(c,i+start)).join("")}</div>`:`<p class="mapnote">No hay cebos de este tipo para ${SP[f].toLowerCase()}.</p>`;
+  let body="";
+  if(tab==="todos"){const n=flt(CEBOS),a=flt(ARTIF);
+    body=chips+`<h3 class="subh">Naturales <span>${n.length}</span></h3>${listOf(n)}<h3 class="subh">Artificiales <span>${a.length}</span></h3>${listOf(a,n.length)}`;
+  }else if(tab==="naturales"){
+    body=chips+`<p class="mapnote" style="margin:0 0 10px">Cebos de verdad: los que se comen los peces.</p>${listOf(flt(CEBOS))}`;
+  }else if(tab==="artificiales"){
+    body=chips+`<p class="mapnote" style="margin:0 0 10px">Imitaciones de goma, plástico o espuma. Duran mucho en el agua y los peces pequeños no los roban.</p>${listOf(flt(ARTIF))}`;
+  }else{
+    body=`<p class="mapnote" style="margin:0 0 10px">Marcas de cebos de carpfishing muy conocidas en España y algunos de sus productos más famosos.</p>
+    <div class="list">${MARCAS.map((b,i)=>`<div class="spec brandcard" style="--i:${i}">
+      <div class="bhead"><span class="bmono" style="--h:${(i*47+160)%360}">${b.n.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase()}</span><div><h3>${b.n}</h3><div class="lat" style="font-style:normal">${b.pais?b.pais+" · ":""}${b.tipo}</div></div></div>
+      ${b.prod.length?`<div class="prods">${b.prod.map(([p,t])=>`<span class="prod"><b>${p}</b><small>${t}</small></span>`).join("")}</div>`:b.nota?"":`<p class="mapnote" style="margin:0">Consulta su catálogo en tu tienda de pesca o en su web.</p>`}
+      ${b.nota?`<p class="mapnote" style="margin:0">${b.nota}</p>`:""}
+      ${b.web?`<a class="bweb" href="${b.web}" target="_blank" rel="noopener">${b.webtxt||"Ver su web oficial ↗"}</a>`:""}</div>`).join("")}</div>
+    <p class="mapnote">No es publicidad. Las gamas y sabores cambian con los años, así que pregunta en tu tienda de pesca qué funciona en tu zona.</p>`;
+  }
   $("#view").innerHTML=`<h2>Cebos</h2>
-    <label class="pickemb">Elige un embalse
-      <select id="cemb">${E.map(x=>`<option value="${x.id}" ${x.id===e.id?"selected":""}>${esc(x.n)} · ${esc(x.prov)}</option>`).join("")}</select></label>
-    <div class="embbox">
-      <div class="count" style="margin:0">${esc(e.ccaa)}</div>
-      <h3>Cebos para ${esc(e.n)}</h3>
-      <p class="mapnote" style="margin:0 0 10px">Según las especies que hay en este embalse. Marca con la estrella los que tú usas aquí.</p>
-      <div class="list">${rec.map(({c,m},i)=>`<div class="brow" style="--i:${i}">
-        ${baitDot(c)}<div class="bt"><b>${c.n}</b><small>Para ${m.map(s=>SP[s].toLowerCase()).join(", ")}</small></div>
-        <button class="fav ${mine.includes(c.k)?"on":""}" data-mine="${c.k}" aria-label="Lo uso en este embalse">${mine.includes(c.k)?"★":"☆"}</button></div>`).join("")}</div>
-      ${mine.length?`<p class="mymine">Tus cebos aquí: <b>${mine.map(k=>CEBOS.find(c=>c.k===k)?.n).filter(Boolean).join(", ")}</b></p>`:""}
-      <button class="chip" id="toLures" style="margin-top:10px">Ver señuelos para sus depredadores →</button>
-    </div>
-    <h2 style="font-size:1.3rem;margin-top:22px">Todos los cebos</h2>
-    <div class="list">${CEBOS.map((c,i)=>`<div class="spec" style="--i:${i}">
-      <div style="display:flex;align-items:center;gap:10px">${baitDot(c)}<h3>${c.n}</h3></div>
-      <p style="margin:0">${c.d}</p>
-      <dl><dt>Cómo se usa</dt><dd>${c.uso}</dd><dt>Consejo</dt><dd>${c.tip}</dd><dt>Para</dt><dd>${c.sp.map(s=>SP[s]).join(", ")}</dd></dl></div>`).join("")}</div>
-    <p class="mapnote">Tus cebos marcados se guardan en este móvil.</p>`;
-  $("#cemb").onchange=ev=>{S.cebo=ev.target.value;vCebos()};
-  document.querySelectorAll("[data-mine]").forEach(b=>b.onclick=()=>{const k=b.dataset.mine,arr=myBaits[e.id]||[];
-    myBaits[e.id]=arr.includes(k)?arr.filter(x=>x!==k):[...arr,k];ls.set("pt-mybaits",myBaits);
-    const y=scrollY;vCebos();scrollTo(0,y);const nb=document.querySelector(`[data-mine="${k}"]`);if(nb&&myBaits[e.id].includes(k))nb.classList.add("pop")});
-  $("#toLures").onclick=()=>{const pred=["bass","lucio","lucioperca","perca","siluro","trucha"].find(s=>e.sp.includes(s));S.lure=pred||"";go("senuelos")};
+    <div class="seg seg4" role="tablist">${TABS.map(([k,n])=>`<button type="button" data-ctab="${k}" aria-selected="${tab===k}">${n}</button>`).join("")}</div>
+    <div class="cbody">${body}</div>`;
+  document.querySelectorAll("[data-ctab]").forEach(b=>b.onclick=()=>{S.cebTab=b.dataset.ctab;vCebos()});
+  document.querySelectorAll("[data-csp]").forEach(b=>b.onclick=()=>{S.cebSp=b.dataset.csp;vCebos()});
 }
-
 /* ---------- Montajes de carpfishing ---------- */
 const DG={
  ln:(d,cls="ln")=>`<path d="${d}" class="${cls}"/>`,
@@ -1078,68 +1356,170 @@ const MONT=[
   svg:()=>`${DG.swivel(26,40)}${DG.ln("M35 40 C 90 40, 150 30, 196 30")}${DG.hook(200,34,1.4)}${DG.ln("M186 70 C 196 84, 214 88, 224 96","hair")}${DG.bait(234,98,13)}${DG.bait(234,76,9,"#f3efe2")}${DG.stop(234,114)}
    ${DG.t(110,26,"Bajo de línea")}${DG.t(272,76,"Pop-up","start")}${DG.t(272,104,"Boilie de fondo","start")}`}
 ];
+/* ---------- Montajes de black bass ---------- */
+const DB={ // piezas de dibujo para montajes de bass
+ bullet:(x,y)=>`<path d="M${x} ${y} l22 -8 h4 a8 8 0 0 1 0 16 h-4z" fill="#8d9490"/>`,
+ bead:(x,y,c="#ff6b1a")=>`<circle cx="${x}" cy="${y}" r="4.5" fill="${c}"/>`,
+ worm:(d,c="#6f9e3c",w=9)=>`<path d="${d}" stroke="${c}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`,
+ offset:(x,y,s=1)=>`<circle cx="${x}" cy="${y}" r="${2.6*s}" class="hk"/><path d="M${x+2.6*s} ${y} h${6*s} l${4*s} ${6*s} h${46*s} a${9*s} ${9*s} 0 0 0 0 ${-18*s} l${-6*s} ${4*s}" class="hk"/>`,
+ jighead:(x,y,r=8,c="#3d3b36")=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${x+r*.35}" cy="${y-r*.25}" r="${r*.25}" fill="#fff"/><circle cx="${x+r*.4}" cy="${y-r*.25}" r="${r*.12}" fill="#111"/>`,
+ lake:()=>`<rect x="0" y="0" width="320" height="130" fill="#0a2c33" rx="10"/><path d="M0 112 Q60 104 120 112 T240 110 T320 112 V130 H0z" fill="#3e3424"/>`
+};
+const BASSRIGS=[
+ {k:"texas",n:"Texas rig",lvl:"Básico",cuando:"El montaje antienganche por excelencia. Se mete entre ramas, piedras y vegetación sin engancharse.",
+  mat:["Plomo bala de 3,5 a 14 g","Bola de plástico o cristal (opcional)","Anzuelo offset del 2/0 al 4/0","Vinilo: gusano, cangrejo o criatura"],
+  pasos:["Mete el plomo bala por la línea con la punta mirando hacia la caña.","Si quieres, añade una bola: protege el nudo y hace ruido al chocar con el plomo.","Ata el anzuelo offset con un nudo palomar.","Clava la punta del anzuelo 1 cm en la cabeza del vinilo y sácala por un lado.","Gira el anzuelo y vuelve a clavar la punta en el cuerpo, dejándola justo debajo de la piel para que no se enganche.","En zonas con mucha vegetación, fija el plomo con un tope para que no se separe del vinilo."],
+  rec:"Lánzalo a la estructura, déjalo caer al fondo y arrástralo con pequeños saltos. Si notas un golpe o la línea se mueve, clava fuerte.",
+  svg:()=>`${DG.ln("M0 50 H120")}${DB.bullet(120,50)}${DB.bead(158,50)}${DG.ln("M163 50 H178")}${DB.worm("M182 50 C 210 42, 236 58, 262 52 S 296 40, 310 52","#6f9e3c",10)}${DB.offset(180,50,.95)}
+   ${DG.t(4,40,"Línea","start")}${DG.t(136,32,"Plomo bala")}${DG.t(158,74,"Bola")}${DG.t(250,80,"Vinilo con la punta escondida")}`},
+ {k:"carolina",n:"Carolina rig",lvl:"Medio",cuando:"Para recorrer fondos limpios y grandes, y para peces que están cerca del fondo pero algo desconfiados.",
+  mat:["Plomo bala o de oliva de 14 a 28 g","Bola","Destorcedor","Bajo de fluorocarbono de 60 a 120 cm","Anzuelo offset y vinilo ligero (lagarto, gusano)"],
+  pasos:["Mete en la línea madre el plomo y después la bola.","Ata un destorcedor al final de la línea madre.","En el otro lado del destorcedor ata el bajo de fluorocarbono.","Ata el anzuelo offset y monta el vinilo igual que en el texas."],
+  rec:"Arrastra el montaje muy despacio barriendo con la caña hacia un lado. El plomo va tocando el fondo y el vinilo nada detrás, un poco más arriba.",
+  svg:()=>`${DG.ln("M0 54 H70")}${DB.bullet(70,54)}${DB.bead(106,54)}${DG.swivel(122,54)}${DG.ln("M132 54 C 180 50, 220 46, 236 44","ln")}${DB.worm("M240 44 C 256 38, 274 48, 290 42 S 306 36, 314 42","#c9773a",9)}${DB.offset(238,44,.8)}
+   ${DG.t(4,44,"Línea madre","start")}${DG.t(86,36,"Plomo")}${DG.t(122,76,"Destorcedor")}${DG.t(186,36,"Bajo de 60–120 cm")}${DG.t(278,70,"Vinilo")}`},
+ {k:"dropshot",n:"Drop shot",lvl:"Medio",cuando:"Para peces desconfiados, agua muy clara o peces pegados a un cortado o debajo de la barca. El vinilo queda quieto a la altura que quieras.",
+  mat:["Anzuelo de drop shot del 1 al 2","Plomo de drop shot de 3,5 a 10 g","Vinilo fino de 5 a 10 cm"],
+  pasos:["Ata el anzuelo con un nudo palomar dejando una cola larga, de 30 a 50 cm.","Vuelve a pasar la cola por el ojo del anzuelo desde arriba, para que la punta quede mirando hacia arriba.","Engancha el plomo al final de la cola. Subiendo o bajando el plomo cambias la altura del vinilo.","Cose el vinilo solo por la punta de la cabeza (nose hook) para que se mueva mucho."],
+  rec:"Deja el plomo quieto en el fondo y mueve solo la puntera con pequeños temblores. El vinilo baila sin moverse del sitio.",
+  svg:()=>`${DB.lake()}${DG.ln("M30 8 C 80 30, 150 50, 200 58","ln")}${DG.ln("M200 58 L 214 108","ln")}<path d="M206 104 h16 v10 a8 8 0 0 1 -16 0z" fill="#8d9490"/>
+   ${DB.worm("M204 58 C 222 52, 240 62, 262 56","#e7b65a",7)}<path d="M200 58 v-7 a4 4 0 0 1 6 -2" class="hk"/>
+   ${DG.t(34,30,"Línea","start")}${DG.t(270,52,"Vinilo","start")}${DG.t(222,90,"Cola 30–50 cm","start")}${DG.t(214,126,"Plomo en el fondo")}`},
+ {k:"ned",n:"Ned rig",lvl:"Básico",cuando:"El montaje de los días difíciles: frentes fríos, mucha presión o peces que no quieren nada.",
+  mat:["Cabeza plomada tipo seta de 2 a 5 g","Vinilo corto y flotante, de unos 7 cm"],
+  pasos:["Clava el vinilo recto en la cabeza plomada, sacando la punta por el lomo.","Lanza y deja que caiga hasta el fondo.","Arrástralo muy despacio, con pausas largas."],
+  rec:"Como el vinilo flota, al parar se queda de pie en el fondo, como un bicho comiendo. Muchas picadas llegan en la pausa.",
+  svg:()=>`${DB.lake()}${DG.ln("M20 10 C 80 40, 130 80, 150 104","ln")}${DB.jighead(156,106,7)}${DB.worm("M160 104 C 170 92, 176 80, 184 70","#8a6a3a",9)}
+   ${DG.t(24,32,"Línea","start")}${DG.t(110,124,"Cabeza seta 2–5 g")}${DG.t(194,74,"Vinilo flotante de pie","start")}`},
+ {k:"wacky",n:"Wacky rig",lvl:"Básico",cuando:"En orillas, pontones y sombras poco profundas. El vinilo cae muy despacio vibrando por los dos lados.",
+  mat:["Vinilo tipo stick de 12 a 15 cm","Anzuelo wacky del 1 al 1/0","Anilla de goma (O-ring) para que el vinilo dure más"],
+  pasos:["Pon la anilla justo en el centro del vinilo.","Pasa el anzuelo por debajo de la anilla, no por el vinilo.","Lanza y deja caer con la línea floja."],
+  rec:"Déjalo caer sin hacer nada, recoge la línea sobrante y da un par de tironcitos. Vuelve a dejarlo caer.",
+  svg:()=>`${DB.lake()}${DG.ln("M20 10 C 90 20, 150 30, 170 50","ln")}${DB.worm("M130 76 C 150 58, 190 58, 210 76","#3b6a8a",9)}<circle cx="170" cy="62" r="5" fill="none" stroke="#ff6b1a" stroke-width="2"/><path d="M170 50 v10 a6 6 0 0 0 10 4" class="hk"/>
+   ${DG.t(24,32,"Línea","start")}${DG.t(220,62,"Anzuelo en la anilla","start")}${DG.t(170,96,"Vinilo stick cogido por el centro")}`},
+ {k:"neko",n:"Neko rig",lvl:"Medio",cuando:"Variante del wacky con peso en la cabeza: el vinilo cabecea en el fondo. Va muy bien con peces desconfiados.",
+  mat:["Vinilo tipo stick","Clavo de plomo (nail weight) de 1 a 3 g","Anilla de goma","Anzuelo wacky o neko"],
+  pasos:["Clava el plomo tipo clavo en la cabeza del vinilo.","Pon la anilla a un tercio del vinilo, contando desde la cabeza.","Pasa el anzuelo por la anilla."],
+  rec:"Arrástralo con pequeños tirones: la cabeza con peso toca el fondo y la cola se levanta y baja.",
+  svg:()=>`${DB.lake()}${DG.ln("M20 10 C 90 30, 140 50, 160 62","ln")}${DB.worm("M150 104 C 156 86, 166 70, 186 50","#6f9e3c",9)}<rect x="146" y="100" width="6" height="12" rx="2" fill="#8d9490" transform="rotate(20 149 106)"/><circle cx="160" cy="80" r="5" fill="none" stroke="#ff6b1a" stroke-width="2"/><path d="M160 64 v12 a5 5 0 0 0 9 3" class="hk"/>
+   ${DG.t(24,32,"Línea","start")}${DG.t(110,124,"Clavo de plomo en la cabeza")}${DG.t(196,52,"Cola arriba","start")}`},
+ {k:"jig",n:"Jig con trailer",lvl:"Medio",cuando:"Imita a un cangrejo. Es el señuelo de los black bass grandes, sobre todo en invierno y en zonas de piedra o ramas.",
+  mat:["Jig de 7 a 21 g (football para piedra, flipping para vegetación)","Trailer de vinilo con forma de cangrejo"],
+  pasos:["Elige el jig según el fondo: cabeza ancha (football) para piedra y cabeza en punta (flipping) para vegetación densa.","Pon el trailer en el anzuelo del jig, bien recto.","Recorta la falda si la quieres más corta y viva."],
+  rec:"Arrástralo y dale saltitos por el fondo. Cuando choque con algo, para un segundo: ahí suele picar.",
+  svg:()=>`${DG.ln("M0 56 H110")}${DB.jighead(122,56,12)}<path d="M132 50 c16 -6 36 -8 58 -4 M132 56 h60 M132 62 c16 6 36 8 58 4" stroke="#6b4a2a" stroke-width="4" fill="none"/><path d="M190 52 c14 -10 30 -14 46 -10 M190 60 c14 10 30 14 46 10" stroke="#b5462e" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M122 44 c0 -10 16 -12 18 0" stroke="#9aa09d" stroke-width="1.5" fill="none"/>
+   ${DG.t(4,46,"Línea","start")}${DG.t(122,86,"Cabeza del jig")}${DG.t(160,36,"Falda")}${DG.t(250,90,"Trailer de cangrejo")}`},
+ {k:"cabeza",n:"Cabeza plomada con vinilo de pala",lvl:"Básico",cuando:"Para bass activos y también para lucioperca y perca. Imita un pececillo nadando.",
+  mat:["Cabeza plomada de 5 a 20 g","Vinilo de pala (shad) de 7 a 12 cm"],
+  pasos:["Pon la cabeza junto al vinilo para ver por dónde tiene que salir la punta.","Clava el vinilo por el centro de la cabeza y sácalo por el lomo en ese punto.","Comprueba que queda recto: si queda torcido, nada mal."],
+  rec:"Recogida continua a la altura de los peces, o dejándolo caer al fondo y subiéndolo a saltos.",
+  svg:()=>`${DG.ln("M0 56 H96")}${DB.jighead(106,56,10)}<path d="M114 50 c30 -6 70 -6 104 0 l12 -10 v32 l-12 -10 c-34 6 -74 6 -104 0z" fill="#a7b8b0"/><path d="M118 50 h96" stroke="#567" stroke-width="1.5"/><path d="M160 48 v-6" class="hk"/>
+   ${DG.t(4,46,"Línea","start")}${DG.t(106,82,"Cabeza plomada")}${DG.t(200,90,"Vinilo de pala")}`},
+ {k:"sinplomo",n:"Sin plomo (fluke)",lvl:"Básico",cuando:"Cuando los bass persiguen alevines cerca de la superficie, en primavera y verano.",
+  mat:["Anzuelo offset del 3/0 al 5/0","Vinilo tipo fluke (soft jerkbait)"],
+  pasos:["Ata el anzuelo offset con un nudo palomar.","Monta el vinilo igual que en el texas, con la punta escondida, pero sin ningún plomo."],
+  rec:"Tirones cortos y pausas a media agua: el vinilo hace zigzag como un pez herido. Con la línea tensa, nota la picada en la pausa.",
+  svg:()=>`${DB.lake()}<path d="M0 14 Q40 8 80 14 T160 14 T240 14 T320 14" stroke="#9fd7cf" fill="none" stroke-width="1.5"/>${DG.ln("M0 40 C 60 44, 110 50, 136 52","ln")}<path d="M140 52 c20 -10 60 -12 90 -4 l14 -6 l-4 12 l4 12 l-14 -6 c-30 8 -70 6 -90 -8z" fill="#cfd6d4"/>${DB.offset(138,52,.9)}
+   ${DG.t(4,32,"Línea","start")}${DG.t(190,88,"Fluke a media agua, sin plomo")}`}
+];
+function rigCard(m,i){return `<button class="rig" data-rig="${m.k}" style="--i:${i}">
+  <svg viewBox="0 0 320 130" class="rigsvg" aria-hidden="true">${m.svg()}</svg>
+  <span class="rigname"><b>${m.n}</b><span class="lvl lvl-${m.lvl.toLowerCase()}">${m.lvl}</span></span>
+  <span class="mapnote" style="text-align:left">${m.cuando}</span></button>`}
 function vMontajes(){
-  $("#view").innerHTML=`<h2>Montajes de carpfishing</h2>
-    <p class="mapnote" style="margin:-4px 0 12px">Toca un montaje para ver los materiales y cómo se hace paso a paso.</p>
-    <div class="list">${MONT.map((m,i)=>`<button class="rig" data-rig="${m.k}" style="--i:${i}">
-      <svg viewBox="0 0 320 130" class="rigsvg" aria-hidden="true">${m.svg()}</svg>
-      <span class="rigname"><b>${m.n}</b><span class="lvl lvl-${m.lvl.toLowerCase()}">${m.lvl}</span></span>
-      <span class="mapnote" style="text-align:left">${m.cuando}</span></button>`).join("")}</div>`;
-  document.querySelectorAll("[data-rig]").forEach(b=>b.onclick=()=>openRig(b.dataset.rig));
+  $("#view").innerHTML=`<h2>Montajes de carpa</h2>
+    <p class="mapnote" style="margin:-4px 0 12px">Montajes de carpfishing. Toca uno para ver los materiales y cómo se hace paso a paso.</p>
+    <div class="list">${MONT.map(rigCard).join("")}</div>
+    <button class="chip" id="tobass" style="margin-top:14px">Ver montajes de black bass →</button>`;
+  document.querySelectorAll("[data-rig]").forEach(b=>b.onclick=()=>openRig(b.dataset.rig,MONT,"carpa"));
+  $("#tobass").onclick=()=>go("montbass");
 }
-function openRig(k){
-  const m=MONT.find(x=>x.k===k),sh=$("#sheet");
+function vMontBass(){
+  $("#view").innerHTML=`<h2>Montajes de black bass</h2>
+    <p class="mapnote" style="margin:-4px 0 12px">Las formas más usadas de montar vinilos y jigs. Toca uno para ver los materiales, el paso a paso y cómo moverlo.</p>
+    <div class="list">${BASSRIGS.map(rigCard).join("")}</div>
+    <button class="chip" id="tolures2" style="margin-top:14px">Ver señuelos para black bass →</button>`;
+  document.querySelectorAll("[data-rig]").forEach(b=>b.onclick=()=>openRig(b.dataset.rig,BASSRIGS,"bass"));
+  $("#tolures2").onclick=()=>{S.lure="bass";S.layer="";go("senuelos")};
+}
+function openRig(k,LIST,kind){
+  const m=LIST.find(x=>x.k===k),sh=$("#sheet");
   sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="${m.n}">
     <div class="grab"></div><button class="close" id="cl">Cerrar</button>
-    <div class="count" style="margin:0">Montaje · ${m.lvl}</div><h2>${m.n}</h2>
+    <div class="count" style="margin:0">Montaje de ${kind==="bass"?"black bass":"carpa"} · ${m.lvl}</div><h2>${m.n}</h2>
     <svg viewBox="0 0 320 130" class="rigsvg big" role="img" aria-label="Dibujo del ${m.n}">${m.svg()}</svg>
     <p>${m.cuando}</p>
     <h4>Qué necesitas</h4><ul class="mat">${m.mat.map(x=>`<li>${x}</li>`).join("")}</ul>
     <h4>Paso a paso</h4><ol class="steps">${m.pasos.map(x=>`<li>${x}</li>`).join("")}</ol>
-    <div class="warn">Cuida a la carpa: usa moqueta o colchoneta para dejarla en el suelo, mójala y devuélvela al agua rápido.</div></div>`;
+    ${m.rec?`<h4>Cómo moverlo</h4><p>${m.rec}</p>`:""}
+    <div class="warn">${kind==="bass"?"Si vas a soltar el pez, sujétalo por la mandíbula con la mano mojada y devuélvelo rápido al agua.":"Cuida a la carpa: usa moqueta o colchoneta para dejarla en el suelo, mójala y devuélvela al agua rápido."}</div></div>`;
   sh.classList.remove("closing");sh.hidden=false;
   const close=()=>{sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
-  $("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};$("#cl").focus();
+  sh._close=close;$("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};$("#cl").focus();
 }
 
 /* ---------- Señuelos para depredadores ---------- */
-const LI={ // dibujos de los señuelos
- vinilo:`<path d="M10 24c8-6 18-6 26 0s18 6 26 0c6-4 12-4 18 2" stroke="#7fae4a" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="12" cy="24" r="4" fill="#9aa09d"/>`,
- crank:`<path d="M22 24c4-11 26-13 40-6c8 4 8 10 0 14c-14 7-36 5-40-8z" fill="#c9773a"/><path d="M22 24l-12 6 4-10z" fill="#cfe7ee" opacity=".8"/><circle cx="30" cy="21" r="2.5" fill="#111"/><path d="M44 34v6M58 32v6" stroke="#9aa09d" stroke-width="1.5"/>`,
- jerk:`<path d="M8 24c6-6 50-8 66-2c4 2 4 4 0 6c-16 6-60 4-66-4z" fill="#b9c6c8"/><path d="M8 22l-4 6 6-2z" fill="#cfe7ee"/><path d="M12 22h56" stroke="#3a5a60" stroke-width="2"/><circle cx="16" cy="23" r="2" fill="#111"/><path d="M34 30v6M56 30v6" stroke="#9aa09d" stroke-width="1.5"/>`,
+const HK=(x,y)=>`<path d="M${x} ${y}v5M${x} ${y+5}l-2.5 2.5M${x} ${y+5}l2.5 2.5" stroke="#9aa09d" stroke-width="1.4" fill="none"/>`;
+const LI={
+ vinilo:`<path d="M8 24c8-8 18-8 26 0s18 8 26 0c6-5 12-5 16 1" stroke="#7fae4a" stroke-width="7" fill="none" stroke-linecap="round"/>`,
+ craw:`<path d="M10 24c8-6 22-7 32-4" stroke="#b5462e" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M42 20c8-8 20-10 30-6M42 26c8 6 20 8 30 4" stroke="#b5462e" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M14 20l-6-6M14 28l-6 6" stroke="#b5462e" stroke-width="1.5"/>`,
+ shad:`<path d="M10 24c10-9 34-10 50-5l10-8v26l-10-8c-16 5-40 4-50-5z" fill="#a7c3bd"/><path d="M12 24h46" stroke="#4d6e68" stroke-width="1.5"/><circle cx="16" cy="22" r="2" fill="#111"/>`,
+ fluke:`<path d="M8 24c12-8 40-9 56-3l8-5-2 8 2 8-8-5c-16 6-44 5-56-3z" fill="#e3e6e1"/><path d="M12 24h50" stroke="#9aa59f" stroke-width="1"/>`,
+ crank:`<path d="M22 24c4-11 26-13 40-6c8 4 8 10 0 14c-14 7-36 5-40-8z" fill="#c9773a"/><path d="M22 24l-12 6 4-10z" fill="#cfe7ee" opacity=".8"/><circle cx="30" cy="21" r="2.5" fill="#111"/>${HK(44,34)}${HK(58,32)}`,
+ lipless:`<path d="M14 22c6-12 34-14 50-4c6 4 6 10 0 14c-16 8-44 6-50-10z" fill="#d9c25a"/><path d="M22 18c10-4 26-4 36 2" stroke="#7a6a2a" stroke-width="1.5" fill="none"/><circle cx="22" cy="22" r="2.5" fill="#111"/>${HK(36,34)}${HK(56,33)}`,
+ jerk:`<path d="M8 24c6-6 50-8 66-2c4 2 4 4 0 6c-16 6-60 4-66-4z" fill="#b9c6c8"/><path d="M8 22l-4 6 6-2z" fill="#cfe7ee"/><path d="M12 22h56" stroke="#3a5a60" stroke-width="2"/><circle cx="16" cy="23" r="2" fill="#111"/>${HK(34,29)}${HK(56,29)}`,
  spinner:`<path d="M10 30L44 14M10 30l40 6" stroke="#9aa09d" stroke-width="2" fill="none"/><ellipse cx="50" cy="12" rx="10" ry="5" fill="#d9d9d9" transform="rotate(-20 50 12)"/><circle cx="10" cy="30" r="4" fill="#ff6b1a"/><path d="M12 30c10 2 20 8 24 14M12 32c8 4 14 10 16 14" stroke="#f2f2f2" stroke-width="2"/>`,
- cuchara:`<path d="M6 24h66" stroke="#9aa09d" stroke-width="2"/><ellipse cx="30" cy="24" rx="12" ry="7" fill="#e6c85a"/><circle cx="48" cy="24" r="3" fill="#ff6b1a"/><path d="M72 24l4-4M72 24l4 4" stroke="#9aa09d" stroke-width="1.5"/>`,
- ondulante:`<path d="M10 26c10-12 44-14 58-4c-12 10-46 12-58 4z" fill="#cfd6d4"/><path d="M14 26c14-6 36-8 50-4" stroke="#b5462e" stroke-width="3" fill="none"/><path d="M68 22l6 6" stroke="#9aa09d" stroke-width="1.5"/>`,
- superficie:`<path d="M18 24c0-8 6-12 18-12h24c10 0 14 6 14 12s-4 12-14 12H36c-12 0-18-4-18-12z" fill="#f2c230"/><ellipse cx="18" cy="24" rx="4" ry="9" fill="#3a3a3a"/><circle cx="28" cy="20" r="2.5" fill="#111"/><path d="M44 36v6M62 34v6" stroke="#9aa09d" stroke-width="1.5"/>`,
- swim:`<path d="M8 24c8-10 30-12 40-4l8 0c6 0 10 2 14-4l4 8-4 8c-4-6-8-4-14-4l-8 0c-10 8-32 6-40-4z" fill="#a7b8b0"/><path d="M48 16v16" stroke="#566" stroke-width="1"/><circle cx="16" cy="22" r="2.5" fill="#111"/>`,
+ chatter:`<path d="M6 24l10-6v12z" fill="#cfd6d4"/><circle cx="20" cy="24" r="6" fill="#3d3b36"/><path d="M26 20c14-2 30 0 46 2M26 24h46M26 28c14 2 30 0 46-2" stroke="#2f5a3a" stroke-width="3" fill="none"/>`,
+ cuchara:`<path d="M6 24h66" stroke="#9aa09d" stroke-width="2"/><ellipse cx="30" cy="24" rx="12" ry="7" fill="#e6c85a"/><circle cx="48" cy="24" r="3" fill="#ff6b1a"/>${HK(72,21)}`,
+ ondulante:`<path d="M10 26c10-12 44-14 58-4c-12 10-46 12-58 4z" fill="#cfd6d4"/><path d="M14 26c14-6 36-8 50-4" stroke="#b5462e" stroke-width="3" fill="none"/>${HK(70,22)}`,
+ popper:`<path d="M18 24c0-8 6-12 18-12h24c10 0 14 6 14 12s-4 12-14 12H36c-12 0-18-4-18-12z" fill="#f2c230"/><ellipse cx="18" cy="24" rx="4" ry="9" fill="#3a3a3a"/><circle cx="28" cy="20" r="2.5" fill="#111"/>${HK(44,36)}${HK(62,34)}`,
+ stick:`<path d="M8 24c4-6 14-8 30-8h22c8 0 14 4 14 8s-6 8-14 8H38c-16 0-26-2-30-8z" fill="#e9e4d4"/><path d="M14 20h50" stroke="#4d6e68" stroke-width="3"/><circle cx="16" cy="22" r="2" fill="#111"/>${HK(36,32)}${HK(60,32)}`,
+ rana:`<ellipse cx="34" cy="24" rx="18" ry="11" fill="#5a8a3a"/><circle cx="24" cy="16" r="4" fill="#5a8a3a"/><circle cx="36" cy="16" r="4" fill="#5a8a3a"/><circle cx="24" cy="15" r="1.6" fill="#111"/><circle cx="36" cy="15" r="1.6" fill="#111"/><path d="M50 22c8-2 14 0 20 4M50 28c8 2 14 2 20-2" stroke="#e9e4d4" stroke-width="2.5" fill="none"/>`,
+ swim:`<path d="M8 24c8-10 30-12 40-4h8c6 0 10 2 14-4l4 8-4 8c-4-6-8-4-14-4h-8c-10 8-32 6-40-4z" fill="#a7b8b0"/><path d="M48 16v16" stroke="#566" stroke-width="1"/><circle cx="16" cy="22" r="2.5" fill="#111"/>${HK(30,32)}`,
  jig:`<circle cx="18" cy="24" r="8" fill="#3d3b36"/><path d="M24 18c10 0 30-6 44-2M24 24h46M24 30c10 0 30 6 44 2" stroke="#6b4a2a" stroke-width="3" fill="none"/><path d="M18 16c0-6 10-8 12 0" stroke="#9aa09d" stroke-width="1.5" fill="none"/>`,
  clonk:`<path d="M10 40L56 10" stroke="#a07a4a" stroke-width="4" stroke-linecap="round"/><ellipse cx="58" cy="9" rx="8" ry="4" fill="#5b4a33" transform="rotate(-33 58 9)"/><path d="M18 34c6 0 8 4 4 6" stroke="#3a3a3a" stroke-width="2" fill="none"/>`
 };
+const CAPA={sup:"Superficie",media:"Media agua",fondo:"Fondo"};
 const SENU=[
- {k:"vinilo",n:"Vinilos",sp:["bass","lucioperca","perca","lucio","siluro"],d:"Señuelos blandos de goma con forma de gusano, pez o cangrejo. Son los más versátiles porque se pueden montar de muchas formas.",rec:"Según el montaje: arrastrando por el fondo, a saltitos o en recogida continua.",cuando:"Todo el año. Con el agua fría, lento y pegado al fondo.",color:"Naturales (verde, marrón) en agua clara; oscuros o llamativos en agua turbia.",
-  extra:["Texas: plomo bala deslizante y anzuelo antienganche, para meterlo entre ramas y piedras.","Cabeza plomada (jig head): el más sencillo, ideal para lucioperca y perca.","Drop shot: plomo abajo y vinilo pequeño unos 30 cm más arriba, para peces desconfiados.","Ned rig: vinilo corto en una cabeza ligera, que se arrastra muy despacio."]},
- {k:"crank",n:"Crankbait",sp:["bass","perca","lucio"],d:"Pez duro con un babero que lo hace bajar y vibrar. Cuanto más grande es el babero, más profundo nada.",rec:"Recogida continua. Deja que choque con piedras y ramas: ahí llegan muchas picadas.",cuando:"Primavera y otoño, con el agua algo movida.",color:"Imitaciones de cangrejo y de pez (alburno, perca)."},
- {k:"jerk",n:"Jerkbait (minnow)",sp:["bass","lucio","trucha","perca"],d:"Pececillo alargado que imita a un pez herido. Algunos se quedan quietos a media agua (suspending).",rec:"Tirones cortos con la puntera y pausas. La picada suele llegar durante la pausa.",cuando:"Con agua fría y clara, de finales de invierno a primavera.",color:"Plateados y naturales; con sol, los que tienen brillos."},
- {k:"spinner",n:"Spinnerbait",sp:["bass","lucio"],d:"Alambre en forma de V con una o dos palas que giran y una falda. Casi nunca se engancha.",rec:"Recogida constante a media agua, o rozando la vegetación.",cuando:"Días con viento o nubes, y agua turbia.",color:"Blanco, chartreuse (amarillo verdoso) o combinaciones oscuras."},
- {k:"cuchara",n:"Cucharilla",sp:["trucha","perca","lucio","bass"],d:"Pala metálica que gira alrededor de un eje. Clásica y muy fácil de usar.",rec:"Recogida continua, lo bastante rápida para que la pala gire.",cuando:"Todo el año. Tamaños 0 a 2 para trucha y perca, y 3 a 5 para lucio.",color:"Plata con sol; oro y cobre con agua turbia o poca luz."},
- {k:"ondulante",n:"Cuchara ondulante",sp:["lucio","lucioperca","trucha"],d:"Chapa metálica curvada que se mueve de lado a lado. Pesa mucho y llega muy lejos.",rec:"Recogida lenta con algún tirón y dejándola caer.",cuando:"Cuando quieres recorrer mucha agua desde la orilla.",color:"Plata, cobre y combinaciones con rojo."},
- {k:"superficie",n:"Señuelos de superficie",sp:["bass","lucio"],d:"Poppers, stickbaits y ranas que se mueven por encima del agua. Las picadas son espectaculares.",rec:"Popper: tirones que hacen «blop». Stickbait: zigzag a un lado y a otro. Rana: por encima de la vegetación.",cuando:"En verano, al amanecer y al atardecer, con el agua tranquila.",color:"Importa poco: desde abajo el pez ve sobre todo la silueta."},
- {k:"swim",n:"Swimbait",sp:["lucio","bass","lucioperca","siluro"],d:"Imitación muy realista de un pez, blanda o articulada. Sirve para buscar los ejemplares grandes.",rec:"Recogida lenta y constante, que nade como un pez de verdad.",cuando:"En otoño, cuando los depredadores comen fuerte antes del invierno.",color:"Imitaciones de alburno, carpín o perca."},
- {k:"jig",n:"Jig",sp:["bass","lucioperca"],d:"Cabeza de plomo con falda de silicona y un vinilo detrás (trailer). Imita a un cangrejo.",rec:"Arrastrarlo y darle saltitos por el fondo, entre piedras y ramas.",cuando:"Todo el año. En invierno es el señuelo de los bass grandes.",color:"Marrón, verde calabaza y negro con azul."},
- {k:"clonk",n:"Clonk y vinilos grandes",sp:["siluro"],d:"El clonk es un palo que hace «glup» al golpear el agua y atrae a los siluros. Se usa junto a vinilos grandes o cebos.",rec:"Desde barca: deja el señuelo a la altura del siluro (lo ves en la sonda) y golpea el agua con el clonk.",cuando:"De primavera a otoño, con el agua templada.",color:"Colores llamativos y vinilos de 15 a 30 cm."}
+ {k:"vinilo",n:"Vinilo tipo gusano o stick",capa:"fondo",sp:["bass","perca"],d:"Vinilo alargado que imita a un gusano o a un pececillo. Es el señuelo más vendido para black bass.",rec:"Montado en texas, wacky o neko: déjalo caer y muévelo poco, con saltitos y pausas.",cuando:"Todo el año. Con frío, más lento todavía.",tam:"De 10 a 18 cm",color:"Verde calabaza, marrón y morado; negro y azul en agua turbia.",mod:["Gary Yamamoto Senko","Zoom Trick Worm"],rig:"texas"},
+ {k:"craw",n:"Vinilo de cangrejo o criatura",capa:"fondo",sp:["bass","lucioperca","perca"],d:"Imita al cangrejo americano, la comida favorita del black bass en muchos embalses.",rec:"En texas o como trailer de jig, arrastrado y saltando por el fondo, entre piedras y ramas.",cuando:"Primavera y verano, cuando los cangrejos están más activos.",tam:"De 7 a 12 cm",color:"Marrones, verdes y rojizos, como los cangrejos de tu embalse.",mod:["Strike King Rage Craw","Zoom Brush Hog"],rig:"jig"},
+ {k:"shad",n:"Vinilo de pala (shad)",capa:"media",sp:["bass","lucioperca","perca","lucio"],d:"Pececillo de goma con una cola en forma de pala que vibra al recoger.",rec:"En cabeza plomada: recogida continua o subiéndolo a saltos desde el fondo.",cuando:"Todo el año. Muy bueno para lucioperca en invierno.",tam:"De 7 a 12 cm (más grande para lucio)",color:"Naturales tipo alburno en agua clara; blanco o chartreuse en agua turbia.",mod:["Keitech Swing Impact FAT","Keitech Easy Shiner","Fox Rage Slick Shad"],rig:"cabeza"},
+ {k:"fluke",n:"Fluke (soft jerkbait)",capa:"media",sp:["bass"],d:"Vinilo con forma de pez sin pala. Sin plomo hace zigzag como un pez herido.",rec:"Montado sin plomo: tirones cortos y pausas justo debajo de la superficie.",cuando:"Primavera y verano, cuando el bass persigue alevines.",tam:"De 10 a 13 cm",color:"Blanco, perla y colores de alburno.",mod:["Zoom Super Fluke"],rig:"sinplomo"},
+ {k:"crank",n:"Crankbait",capa:"media",sp:["bass","perca","lucio"],d:"Pez duro con un babero que lo hace bajar y vibrar. Cuanto más grande es el babero, más profundo nada.",rec:"Recogida continua. Deja que choque con piedras y ramas: ahí llegan muchas picadas.",cuando:"Primavera y otoño, con el agua algo movida.",tam:"De 5 a 8 cm",color:"Imitaciones de cangrejo y de pez.",mod:["Strike King KVD 1.5","Rapala Shad Rap"]},
+ {k:"lipless",n:"Lipless (vibración)",capa:"media",sp:["bass","lucio","lucioperca"],d:"Pez duro sin babero, con bolitas dentro que hacen ruido. Vibra muchísimo y se hunde.",rec:"Recogida rápida a media agua, o subiéndolo y dejándolo caer (yo-yo) cerca del fondo.",cuando:"Finales de invierno y otoño, para encontrar peces activos rápido.",tam:"De 6 a 8 cm",color:"Rojos y naranjas en invierno; plateados y dorados el resto del año.",mod:["Lucky Craft LV-500"]},
+ {k:"jerk",n:"Jerkbait (minnow)",capa:"media",sp:["bass","lucio","trucha","perca"],d:"Pececillo alargado que imita a un pez herido. Algunos se quedan quietos a media agua (suspending).",rec:"Tirones cortos con la puntera y pausas. La picada suele llegar durante la pausa.",cuando:"Con agua fría y clara, de finales de invierno a primavera.",tam:"De 9 a 12 cm",color:"Plateados y naturales; con sol, los que tienen brillos.",mod:["Megabass Vision 110","Rapala X-Rap","Duo Realis Jerkbait"]},
+ {k:"spinner",n:"Spinnerbait",capa:"media",sp:["bass","lucio"],d:"Alambre en forma de V con una o dos palas que giran y una falda. Casi nunca se engancha.",rec:"Recogida constante a media agua, o rozando la vegetación y las ramas.",cuando:"Días con viento o nubes, y agua turbia.",tam:"De 7 a 21 g",color:"Blanco, chartreuse o combinaciones oscuras."},
+ {k:"chatter",n:"Chatterbait",capa:"media",sp:["bass","lucio"],d:"Cabeza de jig con una chapa delante que hace vibrar todo el señuelo y una falda.",rec:"Recogida continua, a veces con pequeños tirones. Muy bueno cerca de la vegetación.",cuando:"Primavera y verano, con el agua algo turbia.",tam:"De 10 a 14 g",color:"Verde y blanco, o negro y azul.",mod:["Z-Man ChatterBait"]},
+ {k:"cuchara",n:"Cucharilla",capa:"media",sp:["trucha","perca","lucio","bass"],d:"Pala metálica que gira alrededor de un eje. Clásica y muy fácil de usar.",rec:"Recogida continua, lo bastante rápida para que la pala gire.",cuando:"Todo el año.",tam:"Del 0 al 2 para trucha y perca, del 3 al 5 para lucio",color:"Plata con sol; oro y cobre con agua turbia o poca luz.",mod:["Mepps Aglia","Mepps Black Fury"]},
+ {k:"ondulante",n:"Cuchara ondulante",capa:"media",sp:["lucio","lucioperca","trucha"],d:"Chapa metálica curvada que se mueve de lado a lado. Pesa mucho y llega muy lejos.",rec:"Recogida lenta con algún tirón y dejándola caer.",cuando:"Cuando quieres recorrer mucha agua desde la orilla.",tam:"De 10 a 30 g",color:"Plata, cobre y combinaciones con rojo."},
+ {k:"popper",n:"Popper",capa:"sup",sp:["bass","lucio"],d:"Señuelo de superficie con la boca hueca. Al tirar hace «blop» y salpica.",rec:"Tirones secos y pausas. Deja que las ondas se calmen antes del siguiente tirón.",cuando:"Verano, al amanecer y al atardecer, con el agua tranquila.",tam:"De 6 a 9 cm",color:"Importa poco: desde abajo el pez ve sobre todo la silueta.",mod:["Megabass Pop-X"]},
+ {k:"stick",n:"Stickbait (walking)",capa:"sup",sp:["bass","lucio"],d:"Señuelo con forma de puro que zigzaguea por la superficie, como un pez asustado.",rec:"Pequeños tirones seguidos con la puntera hacia abajo: va de un lado a otro (walking the dog).",cuando:"Verano y principios de otoño, con poca luz.",tam:"De 9 a 12 cm",color:"Blanco, hueso o imitación de alburno.",mod:["Lucky Craft Sammy","Megabass Dog-X"]},
+ {k:"rana",n:"Rana de goma",capa:"sup",sp:["bass","lucio"],d:"Rana hueca con los anzuelos pegados al cuerpo. Pasa por encima de las plantas sin engancharse.",rec:"Por encima de la vegetación y los nenúfares, con tirones y pausas en los huecos.",cuando:"Verano, en zonas con mucha vegetación.",tam:"De 5 a 7 cm",color:"Verde, negro o blanco."},
+ {k:"swim",n:"Swimbait duro o articulado",capa:"media",sp:["lucio","bass","lucioperca","siluro"],d:"Imitación muy realista de un pez. Sirve para buscar los ejemplares más grandes.",rec:"Recogida lenta y constante, para que nade como un pez de verdad.",cuando:"En otoño, cuando los depredadores comen fuerte antes del invierno.",tam:"De 12 a 25 cm",color:"Imitaciones de alburno, carpín, perca o trucha.",mod:["Savage Gear 3D Line Thru Trout"]},
+ {k:"jig",n:"Jig",capa:"fondo",sp:["bass","lucioperca"],d:"Cabeza de plomo con falda de silicona y un vinilo detrás (trailer). Imita a un cangrejo.",rec:"Arrastrarlo y darle saltitos por el fondo, entre piedras y ramas.",cuando:"Todo el año. En invierno es el señuelo de los bass grandes.",tam:"De 7 a 21 g",color:"Marrón, verde calabaza y negro con azul.",rig:"jig"},
+ {k:"clonk",n:"Clonk y vinilos grandes",capa:"fondo",sp:["siluro"],d:"El clonk es un palo que hace «glup» al golpear el agua y atrae a los siluros. Se usa junto a vinilos grandes o cebos.",rec:"Desde barca: deja el señuelo a la altura del siluro (lo ves en la sonda) y golpea el agua con el clonk.",cuando:"De primavera a otoño, con el agua templada.",tam:"Vinilos de 15 a 30 cm",color:"Colores llamativos."}
 ];
 function vSenuelos(){
-  const PRED=["bass","lucio","lucioperca","perca","siluro","trucha"],f=S.lure||"",list=SENU.filter(x=>!f||x.sp.includes(f));
+  const PRED=["bass","lucio","lucioperca","perca","siluro","trucha"],f=S.lure||"",cap=S.layer||"",
+    list=SENU.filter(x=>(!f||x.sp.includes(f))&&(!cap||x.capa===cap));
   $("#view").innerHTML=`<h2>Señuelos para depredadores</h2>
-    <div class="chips"><button class="chip" data-lure="" aria-pressed="${!f}">Todos</button>${PRED.map(k=>`<button class="chip" data-lure="${k}" aria-pressed="${f===k}">${SP[k]}</button>`).join("")}</div>
-    <div class="count">${list.length} señuelo${list.length===1?"":"s"}${f?" para "+SP[f].toLowerCase():""}</div>
+    <div class="chips"><button class="chip" data-lure="" aria-pressed="${!f}">Todos los peces</button>${PRED.map(k=>`<button class="chip" data-lure="${k}" aria-pressed="${f===k}">${SP[k]}</button>`).join("")}</div>
+    <div class="layers" role="group" aria-label="Capa de agua">
+      ${[["","Todas"],["sup","Superficie"],["media","Media agua"],["fondo","Fondo"]].map(([k,n])=>`<button class="layer l-${k||"all"}" data-layer="${k}" aria-pressed="${cap===k}"><i></i>${n}</button>`).join("")}
+    </div>
+    <div class="count">${list.length} señuelo${list.length===1?"":"s"}${f?" para "+SP[f].toLowerCase():""}${cap?" · "+CAPA[cap].toLowerCase():""}</div>
     <div class="list">${list.map((x,i)=>`<div class="spec lure" style="--i:${i}">
-      <div class="lurehead"><svg viewBox="0 0 80 48" class="lureico" aria-hidden="true">${LI[x.k]}</svg><div><h3>${x.n}</h3><div class="sp">${x.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div></div></div>
+      <div class="lurehead"><svg viewBox="0 0 80 48" class="lureico" aria-hidden="true">${LI[x.k]}</svg>
+        <div style="min-width:0"><h3>${x.n}</h3><span class="capa c-${x.capa}">${CAPA[x.capa]}</span></div></div>
+      <div class="sp">${x.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div>
       <p style="margin:0">${x.d}</p>
-      <dl><dt>Cómo recogerlo</dt><dd>${x.rec}</dd><dt>Cuándo</dt><dd>${x.cuando}</dd><dt>Colores</dt><dd>${x.color}</dd></dl>
-      ${x.extra?`<h4 style="margin:6px 0 0;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)">Formas de montarlo</h4><ul class="mat">${x.extra.map(e=>`<li>${e}</li>`).join("")}</ul>`:""}</div>`).join("")}</div>
-    <p class="mapnote">Consejo: lleva siempre unos alicates para quitar el anzuelo rápido y devolver el pez en buen estado.</p>`;
+      <dl><dt>Cómo moverlo</dt><dd>${x.rec}</dd><dt>Cuándo</dt><dd>${x.cuando}</dd><dt>Tamaño</dt><dd>${x.tam}</dd><dt>Colores</dt><dd>${x.color}</dd></dl>
+      ${x.mod?`<div class="mods"><span>Modelos conocidos</span>${x.mod.map(m=>`<b>${m}</b>`).join("")}</div>`:""}
+      ${x.rig?`<button class="chip" data-rigto="${x.rig}" style="justify-self:start">Ver cómo se monta →</button>`:""}</div>`).join("")||`<p class="mapnote">No hay señuelos con esos filtros. Prueba a quitar alguno.</p>`}</div>
+    <p class="mapnote">Lleva siempre unos alicates para quitar el anzuelo rápido y devolver el pez en buen estado. Los modelos son ejemplos conocidos, no publicidad.</p>`;
   document.querySelectorAll("[data-lure]").forEach(b=>b.onclick=()=>{S.lure=b.dataset.lure;vSenuelos()});
+  document.querySelectorAll("[data-layer]").forEach(b=>b.onclick=()=>{S.layer=b.dataset.layer;vSenuelos()});
+  document.querySelectorAll("[data-rigto]").forEach(b=>b.onclick=()=>{go("montbass");setTimeout(()=>openRig(b.dataset.rigto,BASSRIGS,"bass"),250)});
 }
 
 function openPrivacy(){
@@ -1155,14 +1535,14 @@ function openPrivacy(){
   </div>`;
   sh.classList.remove("closing");sh.hidden=false;
   const close=()=>{sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
-  $("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};$("#cl").focus();
+  sh._close=close;$("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};$("#cl").focus();
 }
 function openSheet(id){
   const e=byId(id),sh=$("#sheet");
   sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="${esc(e.n)}">
     <div class="grab"></div>
     <button class="close" id="cl">Cerrar</button>
-    <div class="count" style="margin:0">${esc(e.ccaa)}</div>
+    <div class="count" style="margin:0">${esc(e.ccaa==="Andalucía"?"Andalucía · "+e.prov:e.ccaa)}</div>
     <h2>${esc(e.n)}</h2>
     <div class="where" style="color:var(--muted)">${e.apodo?esc(e.apodo)+" · ":""}${esc(e.prov)}</div>
     <div class="facts">
@@ -1178,14 +1558,12 @@ function openSheet(id){
     <div class="legend"><span><i style="background:var(--lure)"></i>Muy buena</span><span><i style="background:var(--lake-soft)"></i>Buena</span><span><i style="background:var(--land)"></i>Floja</span></div>
     <h4>Cómo pescarlo</h4><p>${esc(e.t||e.sp.map(s=>SP[s]+": "+SPECIES.find(x=>x.k===s).tec.toLowerCase()).join(". ")+".")}</p>
     <h4>A tener en cuenta</h4><p>${esc(e.acc)}</p>
-    <button class="chip" id="tocebos" style="margin:4px 0 12px">Ver cebos para este embalse →</button>
     <p><a href="https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lon}" target="_blank" rel="noopener" style="color:var(--lake);font-weight:700">Abrir en Google Maps ↗</a></p>
-    <div class="warn">Necesitas licencia de pesca de la comunidad autónoma. Las normas (cupos, tallas, pesca sin muerte o sacrificio de especies invasoras) cambian según la comunidad y el año: consúltalas siempre antes de ir.</div>
+    <div class="warn">Necesitas licencia de pesca de la comunidad autónoma (en Andalucía, de la Junta de Andalucía). Las normas (cupos, tallas, pesca sin muerte o sacrificio de especies invasoras) cambian según la comunidad y el año: consúltalas siempre antes de ir.</div>
   </div>`;
-  sh.classList.remove("closing");sh.hidden=false;
+  sh.classList.remove("closing");sh.hidden=false;countUp(sh);
   const close=()=>{if(sh.classList.contains("closing"))return;sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
-  $("#tocebos").onclick=()=>{S.cebo=e.id;close();go("cebos")};
-  $("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
+  sh._close=close;$("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
   document.onkeydown=ev=>{if(ev.key==="Escape"&&!sh.hidden)close()};
   $("#cl").focus();
 }
