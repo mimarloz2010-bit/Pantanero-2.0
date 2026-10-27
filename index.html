@@ -151,6 +151,7 @@ form.log input,form.log select{font:inherit;font-size:.95rem;text-transform:none
 .photopick .prev button{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(0,0,0,.7);color:#fff;cursor:pointer;font-size:.8rem;line-height:1}
 .photopick small{color:var(--muted);font-size:.78rem;text-transform:none;letter-spacing:0}
 .bigphoto{width:100%;border-radius:12px;display:block;margin-top:12px;background:var(--surface-2);min-height:120px}
+.ex.tipo{color:var(--lake)}
 .ex{font-size:.7rem;color:var(--lure);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
 .authcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
 .authcard h3{margin:0;font-family:var(--display);text-transform:uppercase;font-size:1.3rem}
@@ -319,6 +320,16 @@ header.top{view-transition-name:cabecera}
 .btn.ok{background:var(--lake);color:var(--bg)}
 .lgbox.aviso{margin:0 0 14px;border-color:rgba(63,193,168,.35)}
 .lgcode .topic{font-size:1.05rem;letter-spacing:.04em;word-break:break-all;font-family:var(--body)}
+.wx{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:10px;animation:rise .4s var(--ease) both}
+.wxnow{display:flex;align-items:center;gap:12px}
+.wxi{font-size:2.2rem;line-height:1;animation:pop .6s var(--ease)}
+.wxt{font-family:var(--display);font-size:2rem;font-weight:800}
+.wxwater{display:flex;align-items:center;gap:10px;background:var(--lake-soft);border-radius:10px;padding:8px 10px}
+.wxwater span{font-size:1.3rem}.wxwater b{display:block;color:var(--lake)}.wxwater small{color:var(--muted);font-size:.75rem}
+.wxtip{margin:0;font-size:.9rem;border-left:3px solid var(--lure);padding-left:10px}
+.wxdays{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.wxd{display:grid;justify-items:center;gap:1px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px 2px}
+.wxd small{color:var(--muted);font-size:.72rem;text-transform:capitalize}.wxd span{font-size:1.3rem}.wxd b{font-size:1rem}.wxd em{font-style:normal;font-size:.7rem;color:#7fc6ff}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
 .sheet{animation:fade .25s ease both}
 .sheet .pane{animation:up .4s var(--ease) both;border-top:1px solid var(--line)}
@@ -419,6 +430,18 @@ const E=[
   d:"Embalse grande del río Guadalimar, entre Vilches e Ibros, con campiña de olivar alrededor y muchas colas.",
   t:"Black bass con crankbait y spinnerbait en las colas y puntas. Carpa con boilies en las ensenadas grandes. Barbo en las colas cuando sube el agua.",
   acc:"Hay poca sombra: en verano pesca a primera y última hora."},
+ {id:"genilcabra",tipo:"canal",n:"Canal Genil-Cabra",apodo:"Campiña cordobesa",ccaa:"Andalucía",prov:"Córdoba",lat:37.55,lon:-4.75,km2:2,sp:["carpa","bass","barbo","carpin"],m:[2,2,2,2,1,1,1,1,2,2,2,2],
+  d:"Canal de riego que lleva agua del Genil por la campiña del sur de Córdoba, entre Puente Genil, Santaella y La Carlota. Agua tranquila, orillas de hormigón y tramos largos y rectos: muy buen sitio para la carpa y para pescar con feeder.",
+  t:"Carpa con method feeder, maíz y boilies pequeños, cebando poco y a menudo. Black bass con vinilos y crankbait pegados a las paredes del canal, sobre todo en compuertas y puentes, donde se refugian los peces.",
+  acc:"Las orillas son de hormigón y pueden resbalar: ten mucho cuidado y no pesques solo. En muchos tramos el acceso está limitado o prohibido y el nivel cambia cuando abren o cierran el riego. Infórmate de los tramos permitidos antes de ir."},
+ {id:"genil",tipo:"rio",len:358,n:"Río Genil",apodo:"De Sierra Nevada al Guadalquivir",ccaa:"Andalucía",prov:"Granada / Córdoba / Sevilla",lat:37.39,lon:-4.77,km2:3,sp:["carpa","barbo","bass","boga","carpin","trucha"],m:[2,2,2,2,1,1,1,1,2,2,2,2],
+  d:"El afluente más largo del Guadalquivir. Nace en Sierra Nevada, pasa por Granada, Loja, el embalse de Iznájar, Puente Genil y Écija, y desemboca en el Guadalquivir cerca de Palma del Río. Arriba es río de montaña y abajo un río ancho de campiña.",
+  t:"En la parte baja, carpa y barbo a fondo con masilla, maíz o lombriz en las zonas tranquilas y en los remansos. Black bass con vinilos y cucharillas junto a la vegetación de la orilla. En la parte alta, cerca de Sierra Nevada, trucha según la normativa.",
+  acc:"Cada tramo tiene normas distintas (cotos, tramos de pesca sin muerte y zonas vedadas). Consulta la normativa de la Junta para el tramo al que vayas. Cuidado con las crecidas después de lluvias."},
+ {id:"guadalquivir",tipo:"rio",len:657,n:"Río Guadalquivir",apodo:"El gran río de Andalucía",ccaa:"Andalucía",prov:"Jaén / Córdoba / Sevilla",lat:37.87,lon:-4.78,km2:4,sp:["carpa","barbo","bass","carpin","alburno","boga"],m:[2,2,2,2,1,1,1,1,2,2,2,2],
+  d:"El río más importante de Andalucía. Nace en la Sierra de Cazorla, atraviesa Jaén, Córdoba y Sevilla y llega al Atlántico en Sanlúcar de Barrameda. A su paso por Córdoba y Sevilla es un río ancho y lento, famoso por sus carpas grandes.",
+  t:"Carpa con boilies, maíz y chufa a fondo, cebando bien la zona: en los tramos de Córdoba y Sevilla salen ejemplares muy grandes. Barbo con masilla y lombriz en zonas con algo de corriente. Black bass con vinilos junto a la vegetación y las piedras de la orilla.",
+  acc:"Es un río muy grande y con corriente: no te metas en el agua y ten cuidado con las orillas de barro. Cerca de la desembocadura el agua es salada y las normas cambian. Consulta la normativa de cada tramo."},
  {id:"guadalcacin",n:"Guadalcacín",apodo:"Majaceite",ccaa:"Andalucía",prov:"Cádiz",lat:36.67,lon:-5.67,km2:34,sp:["bass","carpa","barbo"],m:[2,2,2,2,1,1,0,0,1,2,2,2],
   d:"Uno de los embalses más grandes de Cádiz, en el río Majaceite, cerca de San José del Valle y Algar. Mucha orilla y zonas de vegetación.",
   t:"Black bass con señuelos de superficie y ranas en las zonas de vegetación en verano, y vinilos texas el resto del año. Carpa con boilies.",
@@ -742,6 +765,10 @@ MORE.forEach(([n,ccaa,prov,lat,lon,km2,sps])=>{
     if(e.basic)e.d=`Embalse de ${e.prov} con pesca de ${e.sp.map(s=>SP[s].toLowerCase()).join(", ").replace(/, ([^,]*)$/," y $1")}.`;
   });
 })();
+const HM3={"laserena":3219,"alcantara":3160,"almendra":2649,"buendia":1639,"mequinenza":1534,"cijara":1505,"valdecanas":1446,"ricobayo":1179,"alarcon":1112,"iznajar":981,"gabrielygalan":911,"alange":852,"contreras":852,"entrepenas":835,"labrenaii":823,"orellana":808,"guadalcacin":800,"canelles":679,"belesar":655,"riano":651,"andevalo":634,"negratin":567,"garciadesola":554,"ebro":540,"eltrancodebeas":498,"santateresa":496,"giribaile":475,"cenajo":437,"elcenajo":437,"mediano":436,"elatazar":425,"itoiz":418,"rialb":404,"elgrado":400,"tous":379,"guadalmena":347,"bembezar":342,"elchanza":341,"eljandula":322,"porma":317,"barriosdeluna":308,"zujar":302,"portodemouros":297,"puentenuevo":282,"salime":266,"cedillo":260,"cernadilla":255,"cuerdadelpozo":249,"aguilardecampoo":247,"lapedrera":246,"lafernandina":245,"santaana":237,"susqueda":233,"sierrabrava":232,"yeguas":229,"barbate":228,"zaharaelgastor":223,"benageber":221,"elpintado":213,"ribaroja":210,"lafuensanta":210,"santantonitalarn":205,"bornos":200,"elburguillo":198,"lasotonera":189,"torrejontietar":188,"melonares":185,"torredeabraham":183,"ospeares":182,"zufre":175,"guadalen":168,"cuevasdelalmanzora":168,"arenoso":167,"lavinuela":165,"sau":165,"vadomojon":163,"camarasa":163,"sanrafaeldenavallana":157,"guadalmellato":147,"ullibarrigamboa":147,"sanjuan":138,"arenos":137,"huesna":135,"loshurones":135,"finisterre":133,"villardelrey":130,"aracena":127,"rumblar":126,"valmayor":124,"sanclemente":118,"rules":117,"aldeadavila":115,"josetoran":113,"azutan":113,"labaells":109,"losbermejales":103,"oliana":101,"compuerto":95,"santillana":91,"borbollon":88,"guadarranque":87,"barasona":85,"caspe":82,"rosarito":82,"asconchas":80,"lallosadelcavall":80,"uzquiza":75,"charcoredondo":72,"urrunaga":72,"canales":70,"camporredondo":70,"bellus":69,"latajera":68,"mansilla":68,"villalcampo":66,"alloz":65,"larequejada":65,"bubal":64,"boadella":62,"retortillo":61,"castrelodemino":60,"lascogotas":59,"portaje":59,"linaresdelarroyo":58,"franciscoabellan":58,"calanda":54,"valdeobispo":54,"belena":53,"puentesviejas":53,"beznar":53,"labolera":53,"penarroya":50,"riosequillo":50,"sichar":49,"santolea":48,"frieira":44,"anarbe":44,"gasset":39,"sierraboyera":40,"colomera":40,"pedrezuela":41,"lapinilla":38,"talave":35,"elatance":35,"navalcan":34,"elportillo":33,"tanes":33,"gonzalezlacasa":33,"elvicario":32,"bolarque":31,"palmaces":31,"quiebrajano":31,"beniarres":27,"puentes":26,"santomera":26,"lapena":25,"santponc":24,"terradets":23,"alfonsoxiii":22,"elvillar":22,"arlanzon":22,"martingonzalo":21,"eugui":21,"cecebre":21,"maidevera":20,"villameca":20,"sobron":20,"cubillas":19,"pena":18,"amadorio":16,"encinarejo":15,"picadas":15,"burgomillodo":15,"vadiello":15,"arcos":14,"quentar":13,"guadalest":13,"siurana":12,"flix":11,"montijo":11,"ulldecona":11,"latoba":10,"taibilla":9};
+// ids de las fichas completas con nombre distinto
+Object.assign(HM3,{iznajar:981,labrenaii:823,guadalcacin:800,tranco:498,negratin:567,giribaile:475,bembezar:342,puentenuevo:282,yeguas:229,bornos:200,guadalmellato:147,sierraboyera:40,encinarejo:15,chorro:344,mequinenza:1534,ribarroja:210,orellana:808,laserena:3219,alcantara:3160,valdecanas:1446,buendia:1639,entrepenas:835,sanjuan:138,ricobayo:1179,almendra:2649,sobron:20,ullibarri:147,sau:165,benageber:221,cenajo:437,belesar:655,yesa:446});
+E.forEach(e=>{if(!e.tipo&&HM3[e.id])e.hm3=HM3[e.id]});
 E.sort((a,b)=>(b.top?1:0)-(a.top?1:0)||a.n.localeCompare(b.n,"es"));
 const SPECIES=[
  {k:"bass",lat:"Micropterus salmoides",d:"Depredador americano. Es la especie estrella de los concursos con señuelo en España.",tec:"Vinilos, jerkbait, crankbait, señuelos de superficie",ep:"Primavera y otoño. En verano, al amanecer y al atardecer",tip:"Busca estructura: piedras, árboles hundidos, puntas y cambios de fondo."},
@@ -782,7 +809,7 @@ const ICO={
  acuario:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M6 15c1.5-2 4-2.3 6-1l2-1.5v4l-2-1.5c-2 1.3-4.5 1-6-1z"/><circle cx="17" cy="9" r="1"/><circle cx="15" cy="7" r=".6"/>'
 };
 const PAGES=[
- {g:"Guía",items:[["embalses","Embalses de España",()=>E.length+" embalses"],["andalucia","Andalucía",()=>E.filter(e=>e.ccaa==="Andalucía").length+" embalses andaluces y su mapa"],["mapa","Mapa de España",()=>"Dónde está cada embalse"],["especies","Especies",()=>"Peces de agua dulce"]]},
+ {g:"Guía",items:[["embalses","Embalses de España",()=>E.length+" embalses"],["andalucia","Andalucía",()=>"Embalses, ríos y canales andaluces"],["mapa","Mapa de España",()=>"Dónde está cada embalse"],["especies","Especies",()=>"Peces de agua dulce"]]},
  {g:"Técnica",items:[["cebos","Cebos",()=>"Naturales, artificiales y marcas"],["montajes","Montajes de carpa",()=>"Carpfishing paso a paso"],["montbass","Montajes de black bass",()=>"Texas, drop shot, ned…"],["senuelos","Señuelos",()=>SENU.length+" tipos para depredadores"]]},
  {g:"Mi pesca",items:[["cuaderno","Cuaderno",()=>"Tus capturas"],["liga","Liga",()=>"Compite con tus amigos"],["acuario","Acuario",()=>"Tus capturas nadando"]]}];
 const pageName=k=>{for(const g of PAGES)for(const it of g.items)if(it[0]===k)return it[1];return ""};
@@ -839,7 +866,7 @@ function card(e,i){
   return `<div class="card" role="button" tabindex="0" data-open="${e.id}" style="--i:${Math.min(i||0,14)}">
     <h3>${esc(e.n)}</h3>
     <button class="fav ${favs.has(e.id)?"on":""} ${popId===e.id?"pop":""}" data-fav="${e.id}" aria-label="Guardar en favoritos">${favs.has(e.id)?"★":"☆"}</button>
-    <div class="where">${e.top?'<span class="ex">Icónico</span> · ':""}${e.apodo?esc(e.apodo)+" · ":""}${esc(e.prov)}</div>
+    <div class="where">${e.tipo?`<span class="ex tipo">${e.tipo==="rio"?"Río":"Canal"}</span> · `:e.top?'<span class="ex">Icónico</span> · ':""}${e.apodo?esc(e.apodo)+" · ":""}${esc(e.prov)}</div>
     <div class="sp">${e.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div>
   </div>`;
 }
@@ -850,7 +877,7 @@ function vList(an){
   const sel=an?S.prov:S.cc;
   $("#view").innerHTML=`
     <h2>${an?"Embalses de Andalucía":"Embalses de España"}</h2>
-    ${an?`<p class="mapnote" style="margin:-4px 0 10px">${scope.length} embalses andaluces. Elige una provincia para acercar el mapa.</p>`:""}
+    ${an?`<p class="mapnote" style="margin:-4px 0 10px">${scope.filter(e=>!e.tipo).length} embalses, ${scope.filter(e=>e.tipo==="rio").length} ríos y ${scope.filter(e=>e.tipo==="canal").length} canal. Elige una provincia para acercar el mapa.</p>`:""}
     <input id="q" class="search" type="search" placeholder="${an?"Busca un embalse o una provincia":"Busca un embalse, provincia o comunidad"}" value="${esc((an?S.qa:S.q)||"")}">
     <div class="chips">
       <button class="chip" data-sp="" aria-pressed="${!cur}">Todas</button>
@@ -878,6 +905,7 @@ function bindCards(){
 // Mapa: contorno simplificado de Andalucía
 const OUT_AN=[[-7.40,37.18],[-7.52,37.55],[-7.25,37.80],[-7.12,37.97],[-6.93,38.21],[-6.40,38.02],[-5.90,38.12],[-5.55,38.40],[-5.30,38.60],[-5.05,38.73],[-4.65,38.62],[-4.27,38.40],[-3.60,38.45],[-3.05,38.48],[-2.55,38.30],[-2.45,38.08],[-2.10,37.90],[-1.85,37.55],[-1.63,37.38],[-1.80,37.20],[-1.90,36.95],[-2.15,36.72],[-2.45,36.83],[-2.90,36.74],[-3.50,36.72],[-4.42,36.72],[-4.85,36.50],[-5.35,36.15],[-5.61,36.01],[-6.03,36.18],[-6.30,36.53],[-6.43,36.80],[-6.95,37.15]];
 const OUT_ES=[[-9.3,43.0],[-8.9,43.4],[-8.2,43.7],[-7.7,43.78],[-7.0,43.55],[-5.8,43.6],[-4.5,43.42],[-3.5,43.48],[-2.9,43.42],[-1.78,43.36],[-1.3,43.05],[-0.7,42.85],[0.7,42.8],[1.5,42.45],[2.4,42.4],[3.2,42.42],[3.2,41.9],[2.2,41.4],[1.0,41.05],[0.7,40.7],[0.0,40.0],[-0.3,39.5],[0.2,38.8],[-0.5,38.3],[-0.8,37.6],[-1.6,37.3],[-2.1,36.73],[-3.0,36.75],[-4.4,36.7],[-5.0,36.45],[-5.6,36.02],[-6.2,36.4],[-6.4,36.8],[-7.4,37.2],[-7.5,37.5],[-7.3,38.2],[-7.1,38.8],[-7.3,39.4],[-6.9,40.0],[-6.8,40.3],[-6.9,41.0],[-6.4,41.6],[-6.6,41.95],[-7.4,41.85],[-8.1,41.85],[-8.9,41.9],[-8.9,42.4]];
+const GENIL=[[-3.40,37.12],[-3.60,37.18],[-3.90,37.15],[-4.15,37.17],[-4.31,37.26],[-4.52,37.33],[-4.77,37.39],[-4.95,37.47],[-5.08,37.54],[-5.20,37.63],[-5.28,37.70]];
 const RIO=[[-2.85,37.95],[-3.40,38.00],[-3.80,37.97],[-4.05,38.03],[-4.45,37.98],[-4.78,37.88],[-5.25,37.75],[-5.65,37.55],[-5.98,37.39],[-6.15,37.05],[-6.36,36.79]];
 const CAPS=[["Córdoba",37.88,-4.78],["Sevilla",37.39,-5.98],["Jaén",37.77,-3.79],["Granada",37.18,-3.60],["Málaga",36.72,-4.42],["Cádiz",36.53,-6.29],["Huelva",37.26,-6.95],["Almería",36.84,-2.46]];
 function anMap(r){ // mapa de Andalucía (se acerca a la provincia elegida)
@@ -890,6 +918,7 @@ function anMap(r){ // mapa de Andalucía (se acerca a la provincia elegida)
   return `<div class="mapbox" style="margin-bottom:12px"><svg viewBox="${vb.map(v=>v.toFixed(1)).join(" ")}" role="img" aria-label="Mapa de Andalucía con los embalses">
       <path class="mapland" d="M${OUT_AN.map(p=>P(p).join(",")).join("L")}Z" fill="var(--land)" stroke="var(--line)" stroke-width="${2*z}"/>
       <path class="maprio" d="M${RIO.map(p=>P(p).join(",")).join("L")}" fill="none" stroke="#2f8f9a" stroke-width="${3*z}" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="maprio" d="M${GENIL.map(p=>P(p).join(",")).join("L")}" fill="none" stroke="#2f8f9a" stroke-width="${2*z}" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
       ${CAPS.map(([n,la,lo])=>{const[a,b]=P([lo,la]);return `<g class="capg"><rect x="${a-3*z}" y="${b-3*z}" width="${6*z}" height="${6*z}" fill="var(--muted)"/><text x="${a}" y="${b+17*z}" text-anchor="middle" font-size="${12*z}" fill="var(--muted)" font-family="Karla,sans-serif" letter-spacing="${z}">${n.toUpperCase()}</text></g>`}).join("")}
       ${r.map((e,i)=>pinSvg(e,i,P,z,lab||(!S.prov&&e.top),S.prov?15:14)).join("")}
     </svg></div>`;
@@ -1820,6 +1849,32 @@ async function purgeLigas(){ // al borrar la cuenta, salir de todas las ligas
   }catch(e){} await d.ref.delete().catch(()=>{})}
 }
 
+/* ---------- Tiempo (Open-Meteo, gratis y sin clave) ---------- */
+const WXC=c=>c===0?["☀️","Despejado"]:c<=2?["🌤️","Poco nuboso"]:c===3?["☁️","Nublado"]:c<=48?["🌫️","Niebla"]:c<=57?["🌦️","Llovizna"]:c<=67?["🌧️","Lluvia"]:c<=77?["❄️","Nieve"]:c<=82?["🌦️","Chubascos"]:["⛈️","Tormenta"];
+const DIRS=["N","NE","E","SE","S","SO","O","NO"];
+function waterTip(t){return t<10?"Agua fría: los peces comen poco. Pesca lento, profundo y en las horas centrales del día."
+ :t<16?"Agua templada: buen momento para carpa y black bass, sobre todo en las horas de más sol."
+ :t<24?"Temperatura ideal: los peces están muy activos. Prueba también señuelos más rápidos."
+ :"Agua caliente: pesca al amanecer, al atardecer y en las zonas más profundas o con sombra."}
+async function loadWx(e){
+  const box=$("#wx");if(!box)return;const key="pt-wx-"+e.id;let d=null;
+  try{const c=ls.get(key,null);if(c&&Date.now()-c.t<3600e3)d=c.d}catch(x){}
+  if(!d){try{
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${e.lat}&longitude=${e.lon}&current=temperature_2m,wind_speed_10m,wind_direction_10m,surface_pressure,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&past_days=10&forecast_days=4&timezone=Europe%2FMadrid`;
+    const r=await fetch(url);if(!r.ok)throw 0;d=await r.json();ls.set(key,{t:Date.now(),d});
+  }catch(x){if($("#wx"))$("#wx").innerHTML=`<p class="mapnote" style="margin:0">No se ha podido cargar el tiempo. Comprueba tu conexión a internet.</p>`;return}}
+  if(!$("#wx"))return;
+  const cur=d.current,D=d.daily,past=D.time.map((t,i)=>i).filter(i=>i<10),mean=past.reduce((a,i)=>a+(D.temperature_2m_max[i]+D.temperature_2m_min[i])/2,0)/past.length;
+  const water=Math.round(mean),[ico,txt]=WXC(cur.weather_code),dir=DIRS[Math.round(cur.wind_direction_10m/45)%8];
+  const days=[10,11,12,13].filter(i=>D.time[i]).map(i=>{const[di]=WXC(D.weather_code[i]);const dt=new Date(D.time[i]+"T12:00");
+    return `<div class="wxd"><small>${i===10?"Hoy":dt.toLocaleDateString("es-ES",{weekday:"short"})}</small><span>${di}</span><b>${Math.round(D.temperature_2m_max[i])}°</b><small>${Math.round(D.temperature_2m_min[i])}°</small>${D.precipitation_probability_max[i]>=30?`<em>💧${D.precipitation_probability_max[i]}%</em>`:""}</div>`}).join("");
+  $("#wx").innerHTML=`<div class="wxnow"><span class="wxi">${ico}</span><div><b class="wxt">${Math.round(cur.temperature_2m)}°C</b><div class="mapnote" style="margin:0">${txt} · Viento ${Math.round(cur.wind_speed_10m)} km/h ${dir} · ${Math.round(cur.surface_pressure)} hPa</div></div></div>
+    <div class="wxwater"><span>🌡️</span><div><b>Agua: unos ${water}°C</b><small>Estimada con la temperatura del aire de los últimos 10 días</small></div></div>
+    <p class="wxtip">${waterTip(water)}</p>
+    <div class="wxdays">${days}</div>
+    <p class="mapnote" style="margin:4px 0 0">Datos de Open-Meteo. Se actualizan cada hora.</p>`;
+}
+
 function openPrivacy(){
   const sh=$("#sheet");
   sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="Política de privacidad">
@@ -1845,13 +1900,16 @@ function openSheet(id){
     <h2>${esc(e.n)}</h2>
     <div class="where" style="color:var(--muted)">${e.apodo?esc(e.apodo)+" · ":""}${esc(e.prov)}</div>
     <div class="facts">
-      <div class="fact"><b>~${e.km2}</b><small>km² de lámina</small></div>
+      ${e.tipo==="rio"?`<div class="fact"><b>${e.len}</b><small>km de largo</small></div>`:e.tipo==="canal"?`<div class="fact"><b>Canal</b><small>De riego</small></div>`:`<div class="fact"><b>~${e.km2}</b><small>km² de lámina</small></div>`}
       <div class="fact"><b>${e.sp.length}</b><small>Especies</small></div>
-      <div class="fact"><b>${e.lat.toFixed(2)}°</b><small>Latitud N</small></div>
+      ${e.hm3?`<div class="fact"><b>${e.hm3.toLocaleString("es-ES")}</b><small>hm³ de capacidad</small></div>`:`<div class="fact"><b>${e.lat.toFixed(2)}°</b><small>Latitud N</small></div>`}
     </div>
     <p>${esc(e.d)}</p>
     <h4>Especies</h4>
     <div class="sp" style="display:flex;flex-wrap:wrap;gap:4px">${e.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div>
+    <h4>El tiempo ahora</h4>
+    <div class="wx" id="wx"><p class="mapnote" style="margin:0">Cargando el tiempo…</p></div>
+    ${e.tipo?"":`<a class="bweb" style="display:inline-block;margin:8px 0 4px" href="https://www.google.com/search?q=${encodeURIComponent("embalse de "+e.n+" nivel actual")}" target="_blank" rel="noopener">Ver cuántos hm³ tiene ahora ↗</a>${e.hm3?`<span class="mapnote" style="display:block">La capacidad es aproximada. El agua que tiene ahora cambia cada semana.</span>`:""}`}
     <h4>Mejores meses</h4>
     <div class="months">${e.m.map((v,i)=>`<div style="--i:${i}" class="${v===2?"hot":v===1?"ok":""}" title="${v===2?"Muy buena":v===1?"Buena":"Floja"}">${MES[i]}</div>`).join("")}</div>
     <div class="legend"><span><i style="background:var(--lure)"></i>Muy buena</span><span><i style="background:var(--lake-soft)"></i>Buena</span><span><i style="background:var(--land)"></i>Floja</span></div>
@@ -1860,7 +1918,7 @@ function openSheet(id){
     <p><a href="https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lon}" target="_blank" rel="noopener" style="color:var(--lake);font-weight:700">Abrir en Google Maps ↗</a></p>
     <div class="warn">Necesitas licencia de pesca de la comunidad autónoma (en Andalucía, de la Junta de Andalucía). Las normas (cupos, tallas, pesca sin muerte o sacrificio de especies invasoras) cambian según la comunidad y el año: consúltalas siempre antes de ir.</div>
   </div>`;
-  sh.classList.remove("closing");sh.hidden=false;countUp(sh);
+  sh.classList.remove("closing");sh.hidden=false;countUp(sh);loadWx(e);
   const close=()=>{if(sh.classList.contains("closing"))return;sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
   sh._close=close;$("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
   document.onkeydown=ev=>{if(ev.key==="Escape"&&!sh.hidden)close()};
