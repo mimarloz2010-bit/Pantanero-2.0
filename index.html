@@ -11,6 +11,7 @@
   --display:"Big Shoulders Display","Arial Narrow",sans-serif;
   --body:"Karla",system-ui,sans-serif;
   --ease:cubic-bezier(.2,.8,.2,1);
+  --bad:#ff6b5a;
   color-scheme:dark;
 }
 html,body{height:100%;background:var(--bg)}
@@ -330,6 +331,33 @@ header.top{view-transition-name:cabecera}
 .wxdays{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .wxd{display:grid;justify-items:center;gap:1px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px 2px}
 .wxd small{color:var(--muted);font-size:.72rem;text-transform:capitalize}.wxd span{font-size:1.3rem}.wxd b{font-size:1rem}.wxd em{font-style:normal;font-size:.7rem;color:#7fc6ff}
+.card.big{box-sizing:border-box;min-width:0;display:grid;grid-template-columns:1fr;gap:12px;padding:16px;border-radius:18px;background:linear-gradient(160deg,var(--surface-2),var(--surface) 60%);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 8px 24px rgba(0,0,0,.35);transform-style:preserve-3d;will-change:transform}
+.card.big .ctop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.card.big h3{font-size:1.55rem}
+.card.big .fav{grid-row:auto;grid-column:auto}
+.card.big .sp{margin-top:0}
+@media (hover:hover){.card.big:hover{transform:translateY(-3px);border-color:var(--lake);box-shadow:0 14px 30px rgba(0,0,0,.45)}}
+#view.anim .card.big{animation:cardin .6s var(--ease) both;animation-delay:calc(var(--i,0)*45ms)}
+@keyframes cardin{from{opacity:0;transform:translateY(24px) scale(.97) rotateX(8deg)}}
+.lvlbar{display:grid;gap:6px}
+.lvlbar .track{position:relative;height:14px;border-radius:999px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+.lvlbar.big .track{height:26px}
+.lvlbar .track i{position:absolute;inset:0 auto 0 0;width:calc(var(--p)*1%);border-radius:999px;background:linear-gradient(90deg,color-mix(in srgb,var(--c,var(--lake)) 55%,#000),var(--c,var(--lake)));animation:fill 1.4s var(--ease) both .15s;overflow:hidden}
+.lvlbar .track i::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,0) 0 10px,rgba(255,255,255,.18) 10px 14px);animation:flow 1.6s linear infinite}
+.lvlbar.big .track i::before{content:"";position:absolute;right:-6px;top:-4px;bottom:-4px;width:14px;border-radius:50%;background:rgba(255,255,255,.35);filter:blur(3px);animation:wave 1.8s ease-in-out infinite}
+@keyframes fill{from{width:0}}
+@keyframes flow{to{background-position:28px 0}}
+@keyframes wave{50%{transform:translateY(3px) scaleY(.8)}}
+.lvlbar .ticks b{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.12)}
+.lvlrow{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.lvlpct{font-family:var(--display);color:var(--c,var(--lake));font-weight:800}
+.lvlpct b{font-size:1.6rem}.lvlbar.big .lvlpct b{font-size:2.4rem}
+.lvlcap{color:var(--muted);font-size:.85rem}.lvlcap b{color:var(--ink)}
+.lvldate{margin-left:auto;color:var(--muted);font-size:.75rem}
+.lvlbar.none .track i{display:none}.lvltxt{color:var(--muted);font-size:.82rem}
+.lvlupd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+.lvlform{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:8px}
+.lvlform input{font:inherit;font-size:1rem;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box;text-transform:none;letter-spacing:0}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
 .sheet{animation:fade .25s ease both}
 .sheet .pane{animation:up .4s var(--ease) both;border-top:1px solid var(--line)}
@@ -862,14 +890,29 @@ function filtered(an){
     return (!q||hay.includes(q))&&(!sp||e.sp.includes(sp))&&(an?(!S.prov||e.prov.includes(S.prov)):(!S.cc||e.ccaa.includes(S.cc)))&&(!S.fav||favs.has(e.id));
   });
 }
+let NIV=ls.get("pt-niv",{});
+function nivOf(e){const n=NIV[e.id];if(!n)return null;const cap=e.hm3||0,pct=Math.max(0,Math.min(100,n.pct)),hm=n.hm3!=null?n.hm3:(cap?Math.round(cap*pct/100):null);return {pct,hm,cap,fecha:n.fecha,por:n.por}}
+const nivColor=p=>p<25?"var(--bad)":p<50?"#f2c230":p<75?"var(--lake)":"#4fb3ff";
+function levelBar(e,big){
+  if(e.tipo)return `<div class="lvlbar none"><span class="lvltxt">${e.tipo==="rio"?"Río":"Canal"}: sin nivel de embalse</span></div>`;
+  const n=nivOf(e);
+  if(!n)return `<div class="lvlbar none ${big?"big":""}"><div class="track"><i style="--p:0"></i></div><div class="lvlrow"><span class="lvltxt">Sin datos de nivel</span><span class="lvlcap">${e.hm3?e.hm3.toLocaleString("es-ES")+" hm³ de capacidad":""}</span></div></div>`;
+  const d=new Date(n.fecha+"T12:00").toLocaleDateString("es-ES",{day:"numeric",month:"short"});
+  return `<div class="lvlbar ${big?"big":""}" style="--c:${nivColor(n.pct)}">
+    <div class="track"><i style="--p:${n.pct}"></i><span class="ticks"><b style="left:25%"></b><b style="left:50%"></b><b style="left:75%"></b></span></div>
+    <div class="lvlrow"><span class="lvlpct"><b>${Math.round(n.pct)}</b>%</span><span class="lvlcap">${n.hm!=null?`<b>${n.hm.toLocaleString("es-ES")}</b> de ${n.cap?n.cap.toLocaleString("es-ES"):"?"} hm³`:""}</span><span class="lvldate">${d}</span></div></div>`;
+}
 function card(e,i){
-  return `<div class="card" role="button" tabindex="0" data-open="${e.id}" style="--i:${Math.min(i||0,14)}">
-    <h3>${esc(e.n)}</h3>
-    <button class="fav ${favs.has(e.id)?"on":""} ${popId===e.id?"pop":""}" data-fav="${e.id}" aria-label="Guardar en favoritos">${favs.has(e.id)?"★":"☆"}</button>
-    <div class="where">${e.tipo?`<span class="ex tipo">${e.tipo==="rio"?"Río":"Canal"}</span> · `:e.top?'<span class="ex">Icónico</span> · ':""}${e.apodo?esc(e.apodo)+" · ":""}${esc(e.prov)}</div>
+  return `<div class="card big" role="button" tabindex="0" data-open="${e.id}" style="--i:${Math.min(i||0,14)}">
+    <div class="ctop"><div style="min-width:0"><h3>${esc(e.n)}</h3>
+      <div class="where">${e.tipo?`<span class="ex tipo">${e.tipo==="rio"?"Río":"Canal"}</span> · `:e.top?'<span class="ex">Icónico</span> · ':""}${e.apodo?esc(e.apodo)+" · ":""}${esc(e.prov)}</div></div>
+      <button class="fav ${favs.has(e.id)?"on":""} ${popId===e.id?"pop":""}" data-fav="${e.id}" aria-label="Guardar en favoritos">${favs.has(e.id)?"★":"☆"}</button></div>
+    ${levelBar(e)}
     <div class="sp">${e.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div>
   </div>`;
 }
+function loadNiveles(){if(!fb)return;try{fb.db.collection("niveles").get().then(sn=>{const o={};sn.docs.forEach(d=>o[d.id]=d.data());NIV=o;ls.set("pt-niv",NIV);
+  if(["embalses","andalucia"].includes(S.tab)){const y=scrollY;render(false);scrollTo(0,y)}}).catch(()=>{})}catch(e){}}
 function vList(an){
   const scope=an?E.filter(e=>e.ccaa==="Andalucía"):E,r=filtered(an),spk=an?"spa":"sp",cur=an?S.spa:S.sp;
   const opts=an?[...new Set(scope.flatMap(e=>e.prov.split(" / ")))].sort((a,b)=>a.localeCompare(b,"es"))
@@ -1875,6 +1918,24 @@ async function loadWx(e){
     <p class="mapnote" style="margin:4px 0 0">Datos de Open-Meteo. Se actualizan cada hora.</p>`;
 }
 
+function bindLevel(e){
+  const op=$("#lvlopen"),f=$("#lvlform");if(!op)return;
+  op.onclick=()=>{if(!fb||!user){op.textContent="Entra en tu cuenta (Cuaderno) para actualizarlo";return}f.hidden=false;op.hidden=true;$("#lvlp").focus()};
+  const P=$("#lvlp"),H=$("#lvlh");
+  P.oninput=()=>{const v=parseFloat(P.value.replace(",","."));if(e.hm3&&v>=0)H.value=Math.round(e.hm3*v/100)};
+  H.oninput=()=>{const v=parseFloat(H.value.replace(",","."));if(e.hm3&&v>=0)P.value=Math.min(100,Math.round(v/e.hm3*1000)/10)};
+  f.onsubmit=async ev=>{ev.preventDefault();const m=$("#lvlmsg"),say=t=>{m.textContent=t;m.hidden=!t};
+    let p=parseFloat(P.value.replace(",",".")),h=parseFloat(H.value.replace(",","."));
+    if(!(p>=0)&&h>=0&&e.hm3)p=h/e.hm3*100;
+    if(!(p>=0&&p<=100)){say("Escribe un porcentaje entre 0 y 100, o los hm³ que tiene.");return}
+    const data={pct:Math.round(p*10)/10,fecha:new Date().toISOString().slice(0,10),por:lastAlias()||(user.email||"").split("@")[0].slice(0,20),t:firebase.firestore.FieldValue.serverTimestamp()};
+    if(h>=0)data.hm3=Math.round(h);
+    const btn=f.querySelector("button");btn.disabled=true;btn.textContent="Guardando…";
+    try{await fb.db.collection("niveles").doc(e.id).set(data);NIV[e.id]={...data,t:null};ls.set("pt-niv",NIV);
+      $("#lvlsheet").innerHTML=levelBar(e,true);f.hidden=true;op.hidden=false;op.textContent="Actualizar el nivel";toast("Nivel guardado ✓")}
+    catch(x){btn.disabled=false;btn.textContent="Guardar nivel";say(errTxt(x))}};
+}
+
 function openPrivacy(){
   const sh=$("#sheet");
   sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="Política de privacidad">
@@ -1907,6 +1968,13 @@ function openSheet(id){
     <p>${esc(e.d)}</p>
     <h4>Especies</h4>
     <div class="sp" style="display:flex;flex-wrap:wrap;gap:4px">${e.sp.map(s=>`<span class="pill">${SP[s]}</span>`).join("")}</div>
+    ${e.tipo?"":`<h4>Nivel del embalse</h4><div id="lvlsheet">${levelBar(e,true)}</div>
+    <div class="lvlupd"><button class="chip" id="lvlopen">Actualizar el nivel</button>${NIV[e.id]?.por?`<span class="mapnote">Último dato puesto por ${esc(NIV[e.id].por)}</span>`:""}</div>
+    <form id="lvlform" class="authform lvlform" hidden>
+      <p class="mapnote" style="margin:0">Mira el dato oficial de esta semana (botón de abajo) y escríbelo aquí. Lo verán todos los usuarios de Pantanero.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label>Porcentaje (%)<input id="lvlp" inputmode="decimal" placeholder="63"></label><label>O hm³ que tiene<input id="lvlh" inputmode="decimal" placeholder="${e.hm3?Math.round(e.hm3*.6):"520"}"></label></div>
+      <div id="lvlmsg" class="autherr" hidden></div>
+      <button class="btn" type="submit">Guardar nivel</button></form>`}
     <h4>El tiempo ahora</h4>
     <div class="wx" id="wx"><p class="mapnote" style="margin:0">Cargando el tiempo…</p></div>
     ${e.tipo?"":`<a class="bweb" style="display:inline-block;margin:8px 0 4px" href="https://www.google.com/search?q=${encodeURIComponent("embalse de "+e.n+" nivel actual")}" target="_blank" rel="noopener">Ver cuántos hm³ tiene ahora ↗</a>${e.hm3?`<span class="mapnote" style="display:block">La capacidad es aproximada. El agua que tiene ahora cambia cada semana.</span>`:""}`}
@@ -1918,7 +1986,7 @@ function openSheet(id){
     <p><a href="https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lon}" target="_blank" rel="noopener" style="color:var(--lake);font-weight:700">Abrir en Google Maps ↗</a></p>
     <div class="warn">Necesitas licencia de pesca de la comunidad autónoma (en Andalucía, de la Junta de Andalucía). Las normas (cupos, tallas, pesca sin muerte o sacrificio de especies invasoras) cambian según la comunidad y el año: consúltalas siempre antes de ir.</div>
   </div>`;
-  sh.classList.remove("closing");sh.hidden=false;countUp(sh);loadWx(e);
+  sh.classList.remove("closing");sh.hidden=false;countUp(sh);loadWx(e);bindLevel(e);
   const close=()=>{if(sh.classList.contains("closing"))return;sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
   sh._close=close;$("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
   document.onkeydown=ev=>{if(ev.key==="Escape"&&!sh.hidden)close()};
@@ -1927,6 +1995,7 @@ function openSheet(id){
 $("#menubtn").onclick=()=>$("#drawer").hidden?openMenu():closeMenu();
 document.addEventListener("keydown",ev=>{if(ev.key==="Escape")closeMenu()});
 initFB();
+loadNiveles();
 render(true);
 setTimeout(()=>{const s=$("#splash");if(s)s.remove()},2100);
 </script>
