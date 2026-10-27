@@ -306,6 +306,19 @@ header.top{view-transition-name:cabecera}
 .lgcap .x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem}
 .toast{white-space:nowrap;position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--lake);color:var(--bg);font-weight:700;padding:10px 18px;border-radius:999px;z-index:60;animation:rise .35s var(--ease);transition:opacity .4s,transform .4s;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .toast.out{opacity:0;transform:translateX(-50%) translateY(10px)}
+.badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--lure);color:#fff;font-size:.7rem;margin-left:3px;animation:pop .5s var(--ease)}
+.estado{display:inline-block;margin-top:4px;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px}
+.estado.pend{color:#f2c230;background:rgba(242,194,48,.12);border:1px solid rgba(242,194,48,.35)}
+.estado.rech{color:#ff8a7a;background:rgba(255,90,70,.1);border:1px solid rgba(255,90,70,.3)}
+.rev{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;gap:10px;animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0)*50ms)}
+.rev .s{color:var(--muted);font-size:.85rem}.rev .kg{color:var(--lake)}
+.revimg{position:relative;padding:0;border:none;border-radius:12px;overflow:hidden;cursor:zoom-in;background:var(--bg)}
+.revimg img{width:100%;max-height:260px;object-fit:cover;display:block}
+.revimg span{position:absolute;right:8px;bottom:8px;font-size:.72rem;background:rgba(0,0,0,.65);color:#fff;padding:3px 8px;border-radius:999px}
+.revbtns{display:grid;grid-template-columns:1fr auto;gap:8px}
+.btn.ok{background:var(--lake);color:var(--bg)}
+.lgbox.aviso{margin:0 0 14px;border-color:rgba(63,193,168,.35)}
+.lgcode .topic{font-size:1.05rem;letter-spacing:.04em;word-break:break-all;font-family:var(--body)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
 .sheet{animation:fade .25s ease both}
 .sheet .pane{animation:up .4s var(--ease) both;border-top:1px solid var(--line)}
@@ -1609,7 +1622,9 @@ function vLiga(){
     box.innerHTML=myLigas.length?`<h3 class="subh" style="margin-top:0">Mis ligas</h3>`+myLigas.map((l,i)=>`<button class="rig lgcard" data-lg="${l.id}" style="--i:${i}">
       <span class="rigname"><b>${esc(l.nombre||"Liga")}</b><span class="lvl lvl-básico">${l.id}</span></span><span class="mapnote" style="text-align:left">Toca para ver la clasificación</span></button>`).join("")
       :`<p class="mapnote">Todavía no estás en ninguna liga. Únete con el código de un amigo o crea la tuya.</p>`;
-    box.querySelectorAll("[data-lg]").forEach(b=>b.onclick=()=>{S.liga=b.dataset.lg;vLiga();scrollTo(0,0)});
+    box.querySelectorAll("[data-lg]").forEach(b=>b.onclick=()=>{S.liga=b.dataset.lg;S.ltab="rank";vLiga();scrollTo(0,0)});
+    myLigas.filter(l=>l.owner).forEach(l=>lcol(l.id,"capturas").where("estado","==","pendiente").get().then(q=>{const el=box.querySelector(`[data-lg="${l.id}"] .mapnote`);
+      if(el&&q.docs.length)el.innerHTML=`<span class="estado pend">${q.docs.length} por revisar</span>`}).catch(()=>{}));
   }).catch(e=>{const box=$("#mylg");if(box)box.innerHTML=`<p class="autherr">${esc(errTxt(e))}</p>`});
   const say=(id,t)=>{const m=$(id);m.textContent=t;m.hidden=!t};
   $("#joinf").onsubmit=async ev=>{ev.preventDefault();
@@ -1631,7 +1646,7 @@ function vLiga(){
       const code=Array.from({length:6},()=>LCODE[Math.floor(Math.random()*LCODE.length)]).join("");
       try{await lref(code).set({nombre,owner:user.uid,miembros:[user.uid],creada:firebase.firestore.FieldValue.serverTimestamp()});
         await lcol(code,"miembros").doc(user.uid).set({alias,unido:firebase.firestore.FieldValue.serverTimestamp()});
-        await misLigas().doc(code).set({nombre});ls.set("pt-alias",alias);S.liga=code;vLiga();scrollTo(0,0);return}
+        await misLigas().doc(code).set({nombre,owner:true});ls.set("pt-alias",alias);S.liga=code;S.ltab="revisar";vLiga();scrollTo(0,0);return}
       catch(e){if(k===3||e.code!=="permission-denied"){btn.disabled=false;btn.textContent="Crear liga";say("#nmsg",errTxt(e));return}}
     }
   };
@@ -1641,17 +1656,28 @@ function vLigaDetail(id){
   $("#view").innerHTML=`<button class="chip" id="lgback" style="margin-bottom:8px">← Mis ligas</button>
     <h2 id="lgname">Liga</h2>
     <div class="lgcode"><div><small>Código para invitar</small><b>${id}</b></div><button class="chip" id="lgcopy">Copiar</button></div>
-    <div class="seg seg3" role="tablist">${[["rank","Clasificación"],["muro","Capturas"],["subir","Subir captura"]].map(([k,n])=>`<button type="button" data-ltab="${k}" aria-selected="${(S.ltab||"rank")===k}">${n}</button>`).join("")}</div>
+    <div class="seg seg3" role="tablist" id="ltabs"></div>
     <div id="lgbody"><p class="mapnote">Cargando la liga…</p></div>
     <div id="lgfoot"></div>`;
   $("#lgback").onclick=()=>{S.liga=null;vLiga();scrollTo(0,0)};
   $("#lgcopy").onclick=()=>{const b=$("#lgcopy");navigator.clipboard.writeText(id).then(()=>{b.textContent="Copiado ✓"},()=>{b.textContent=id});setTimeout(()=>{if(b.isConnected)b.textContent="Copiar"},1800)};
-  document.querySelectorAll("[data-ltab]").forEach(b=>b.onclick=()=>{S.ltab=b.dataset.ltab;document.querySelectorAll("[data-ltab]").forEach(x=>x.setAttribute("aria-selected",x===b));drawLiga(id,true)});
-  ligaUnsubs.push(lref(id).onSnapshot(d=>{ligaDoc=d.exists?d.data():null;if(!ligaDoc){ligaErr="Esta liga ya no existe.";}const n=$("#lgname");if(n&&ligaDoc)n.textContent=ligaDoc.nombre;drawFoot(id)},
+  drawTabs(id);
+  ligaUnsubs.push(lref(id).onSnapshot(d=>{ligaDoc=d.exists?d.data():null;if(!ligaDoc){ligaErr="Esta liga ya no existe.";}const n=$("#lgname");if(n&&ligaDoc)n.textContent=ligaDoc.nombre;drawTabs(id);drawFoot(id);drawLiga(id)},
     e=>{if(e.code==="permission-denied"){ligaErr="Esta liga ya no existe o ya no formas parte de ella.";misLigas().doc(id).delete().catch(()=>{})}else ligaErr=errTxt(e);drawLiga(id)}));
   ligaUnsubs.push(lcol(id,"miembros").onSnapshot(sn=>{ligaMems={};sn.docs.forEach(d=>ligaMems[d.id]=d.data().alias);drawLiga(id)},()=>{}));
-  ligaUnsubs.push(lcol(id,"capturas").orderBy("w","desc").limit(300).onSnapshot(sn=>{ligaCaps=sn.docs.map(d=>({id:d.id,...d.data()}));drawLiga(id)},e=>{ligaErr=errTxt(e);drawLiga(id)}));
+  let firstSnap=true;
+  ligaUnsubs.push(lcol(id,"capturas").orderBy("w","desc").limit(300).onSnapshot(sn=>{
+    const prevP=(ligaCaps||[]).filter(c=>est(c)==="pendiente").map(c=>c.id);
+    ligaCaps=sn.docs.map(d=>({id:d.id,...d.data()}));
+    if(!firstSnap&&isAdmin()&&ligaCaps.some(c=>est(c)==="pendiente"&&!prevP.includes(c.id)&&c.uid!==user.uid))toast("Nueva captura para revisar");
+    firstSnap=false;drawTabs(id);drawLiga(id)},e=>{ligaErr=errTxt(e);drawLiga(id)}));
 }
+function drawTabs(id){const t=$("#ltabs");if(!t)return;const pend=(ligaCaps||[]).filter(c=>est(c)==="pendiente").length;
+  const T=[["rank","Ranking"],["muro","Capturas"],["subir","Subir"]];if(isAdmin())T.push(["revisar",`Revisar${pend?` <span class="badge">${pend}</span>`:""}`]);
+  if(ligaDoc&&!isAdmin()&&S.ltab==="revisar")S.ltab="rank";
+  t.style.gridTemplateColumns=`repeat(${T.length},1fr)`;
+  t.innerHTML=T.map(([k,n])=>`<button type="button" data-ltab="${k}" aria-selected="${(S.ltab||"rank")===k}">${n}</button>`).join("");
+  t.querySelectorAll("[data-ltab]").forEach(b=>b.onclick=()=>{S.ltab=b.dataset.ltab;drawTabs(id);drawLiga(id,true)})}
 function drawFoot(id){const f=$("#lgfoot");if(!f||!ligaDoc)return;const own=ligaDoc.owner===user.uid;
   f.innerHTML=`<div class="danger"><span class="mapnote">${Object.keys(ligaMems).length||ligaDoc.miembros.length} participantes${own?" · Eres el creador de esta liga":""}</span>
     <button class="lnk" id="lgleave">${own?"Borrar la liga":"Salir de la liga"}</button></div>`;
@@ -1668,21 +1694,39 @@ async function leaveLiga(id,own){
   await misLigas().doc(id).delete();
 }
 const MED=["🥇","🥈","🥉"];
+const est=c=>c.estado||"ok";
+const isAdmin=()=>ligaDoc&&ligaDoc.owner===user.uid;
+const APPURL="https://mimarloz2010-bit.github.io/Pantanero-2.0/";
+function avisar(topic,title,message){ // aviso al móvil del creador con la app ntfy
+  if(!topic)return;try{fetch("https://ntfy.sh/",{method:"POST",body:JSON.stringify({topic,title,message,tags:["fishing_pole_and_fish"],priority:4,click:APPURL})}).catch(()=>{})}catch(e){}
+}
 function drawLiga(id,anim){
   const box=$("#lgbody");if(!box)return;const tab=S.ltab||"rank";
   if(ligaErr){box.innerHTML=`<p class="autherr">${esc(ligaErr)}</p>`;ligaErr="";return}
   if(tab==="subir"){if(!$("#lgform"))drawLigaForm(id);return}
   if(ligaCaps===null){box.innerHTML=`<p class="mapnote">Cargando capturas…</p>`;return}
   const name=c=>ligaMems[c.uid]||c.alias||"Pescador";
-  if(tab==="muro"){
-    const L=[...ligaCaps].sort((a,b)=>(b.f||"").localeCompare(a.f||"")||((b.t?.seconds||0)-(a.t?.seconds||0)));
+  if(tab==="revisar"){
+    const P=ligaCaps.filter(c=>est(c)==="pendiente");
+    box.innerHTML=`${avisoBox()}${P.length?`<div class="list">${P.map((c,i)=>`<div class="rev" style="--i:${i}">
+      <button class="revimg" data-lph="${c.id}" aria-label="Ver la foto en grande"><img src="${c.mini}" alt="Foto de la captura"><span>Toca para ampliar</span></button>
+      <div><b>${esc(name(c))}</b> · ${SP[c.s]||""} de <b class="kg">${Number(c.w).toLocaleString("es-ES")} kg</b><div class="s">${esc(byId(c.e)?.n||"")} · ${fmtDate(c.f)}</div></div>
+      <div class="revbtns"><button class="btn ok" data-ok="${c.id}">✓ Vale, se ve el peso</button><button class="btn red" data-no="${c.id}">✕ Retirar</button></div></div>`).join("")}</div>`
+      :`<p class="mapnote">No hay capturas pendientes. Cuando alguien suba una, aparecerá aquí para que la revises.</p>`}`;
+    box.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{b.disabled=true;lcol(id,"capturas").doc(b.dataset.ok).update({estado:"ok"}).then(()=>toast("Captura aprobada ✓")).catch(e=>{ligaErr=errTxt(e);drawLiga(id)})});
+    box.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{b.disabled=true;const bt=fb.db.batch();bt.update(lcol(id,"capturas").doc(b.dataset.no),{estado:"rechazada"});bt.delete(lcol(id,"fotos").doc(b.dataset.no));
+      bt.commit().then(()=>toast("Captura retirada")).catch(e=>{ligaErr=errTxt(e);drawLiga(id)})});
+    bindAviso(id);
+  }else if(tab==="muro"){
+    const L=ligaCaps.filter(c=>est(c)==="ok"||c.uid===user.uid).sort((a,b)=>(b.f||"").localeCompare(a.f||"")||((b.t?.seconds||0)-(a.t?.seconds||0)));
     box.innerHTML=L.length?`<div class="list">${L.map((c,i)=>`<div class="lgcap" style="--i:${Math.min(i,14)}">
       <button class="ph" data-lph="${c.id}" aria-label="Ver foto"><img src="${c.mini}" alt=""></button>
-      <div class="fi"><b>${SP[c.s]||""} · ${Number(c.w).toLocaleString("es-ES")} kg</b><div class="s">${esc(name(c))} · ${esc(byId(c.e)?.n||"")} · ${fmtDate(c.f)}</div></div>
+      <div class="fi"><b>${SP[c.s]||""} · ${Number(c.w).toLocaleString("es-ES")} kg</b><div class="s">${esc(name(c))} · ${esc(byId(c.e)?.n||"")} · ${fmtDate(c.f)}</div>
+        ${est(c)==="pendiente"?`<span class="estado pend">Pendiente de revisar</span>`:est(c)==="rechazada"?`<span class="estado rech">Retirada: no se veía bien el peso</span>`:""}</div>
       ${c.uid===user.uid||ligaDoc?.owner===user.uid?`<button class="x" data-ldel="${c.id}" aria-label="Borrar captura">✕</button>`:""}</div>`).join("")}</div>`
       :`<p class="mapnote">Todavía nadie ha subido capturas. ¡Sé el primero!</p>`;
   }else{
-    const f=S.lsp||"",present=[...new Set(ligaCaps.map(c=>c.s))],caps=ligaCaps.filter(c=>!f||c.s===f),best={};
+    const f=S.lsp||"",present=[...new Set(ligaCaps.filter(c=>est(c)==="ok").map(c=>c.s))],caps=ligaCaps.filter(c=>est(c)==="ok"&&(!f||c.s===f)),best={};
     caps.forEach(c=>{if(!best[c.uid]||c.w>best[c.uid].w)best[c.uid]=c});
     const R=Object.values(best).sort((a,b)=>b.w-a.w),pod=R.slice(0,3);
     box.innerHTML=`<div class="chips"><button class="chip" data-lsp="" aria-pressed="${!f}">General</button>${Object.keys(SP).filter(k=>present.includes(k)).map(k=>`<button class="chip" data-lsp="${k}" aria-pressed="${f===k}">${SP[k]}</button>`).join("")}</div>
@@ -1699,6 +1743,20 @@ function drawLiga(id,anim){
   box.querySelectorAll("[data-lph]").forEach(b=>b.onclick=()=>{const c=ligaCaps.find(x=>x.id===b.dataset.lph);if(c)openLigaPhoto(id,c,name(c))});
   box.querySelectorAll("[data-ldel]").forEach(b=>b.onclick=()=>{const bt=fb.db.batch();bt.delete(lcol(id,"capturas").doc(b.dataset.ldel));bt.delete(lcol(id,"fotos").doc(b.dataset.ldel));bt.commit().catch(e=>{ligaErr=errTxt(e);drawLiga(id)})});
 }
+function avisoBox(){const t=ligaDoc&&ligaDoc.aviso;
+  return `<div class="lgbox aviso"><h3>📲 Avisos en tu móvil</h3>
+    ${t?`<p class="mapnote" style="margin:0">Los avisos están activados. Si aún no lo has hecho:</p>
+      <ol class="steps"><li>Instala la app gratis <b>ntfy</b> desde Google Play.</li><li>Ábrela, pulsa <b>+</b> y escribe este tema:</li></ol>
+      <div class="lgcode" style="margin:0"><div><small>Tema de avisos</small><b class="topic">${esc(t)}</b></div><button class="chip" id="tcopy">Copiar</button></div>
+      <p class="mapnote" style="margin:0">Cada vez que alguien suba una captura te llegará una notificación, aunque tengas Pantanero cerrada. No compartas este tema con nadie.</p>
+      <button class="chip" id="ttest" style="justify-self:start">Enviar un aviso de prueba</button>`
+     :`<p class="mapnote" style="margin:0">Actívalos para que te llegue una notificación al móvil cada vez que alguien suba una captura para revisar.</p><button class="btn" id="ton">Activar avisos</button>`}</div>`}
+function bindAviso(id){
+  const on=$("#ton");if(on)on.onclick=()=>{on.disabled=true;const topic="pantanero-"+Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>b.toString(36).padStart(2,"0")).join("").slice(0,16);
+    lref(id).update({aviso:topic}).catch(e=>{on.disabled=false;toast(errTxt(e))})};
+  const c=$("#tcopy");if(c)c.onclick=()=>navigator.clipboard.writeText(ligaDoc.aviso).then(()=>{c.textContent="Copiado ✓"},()=>{c.textContent="Selecciónalo"});
+  const t=$("#ttest");if(t)t.onclick=()=>{avisar(ligaDoc.aviso,"Prueba de Pantanero","¡Los avisos de tu liga funcionan! 🎣");t.textContent="Enviado ✓ Mira tu móvil"};
+}
 function drawLigaForm(id){
   const box=$("#lgbody"),today=new Date().toISOString().slice(0,10);
   box.innerHTML=`<form class="log" id="lgform">
@@ -1712,6 +1770,7 @@ function drawLigaForm(id){
       </div>
       <label class="chk full" style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-size:.88rem;color:var(--ink)"><input id="gcuad" type="checkbox" checked style="width:auto"> Guardarla también en mi cuaderno</label>
       <div id="gmsg" class="autherr full" hidden></div>
+      <p class="mapnote full" style="margin:0">${isAdmin()?"Como eres el creador, tus capturas entran directamente.":"El creador de la liga revisará la foto antes de que cuente en la clasificación."}</p>
       <button class="btn full" type="submit" id="gsave">Subir a la liga</button>
     </form>`;
   const info=t=>$("#ginfo").textContent=t;
@@ -1727,10 +1786,13 @@ function drawLigaForm(id){
     if(!$("#ge").value){say("Elige en qué embalse la has pescado.");return}
     if(!lgPickFull){say("Falta la foto del pez en la báscula. Es obligatoria para que cuente en la liga.");return}
     const btn=$("#gsave");btn.disabled=true;btn.textContent="Subiendo…";say("");
-    const ref=lcol(id,"capturas").doc(),d={uid:user.uid,alias:ligaMems[user.uid]||lastAlias()||"Pescador",f:$("#gf").value,e:$("#ge").value,s:$("#gs").value,w,mini:lgPickMini,t:firebase.firestore.FieldValue.serverTimestamp()};
+    const ref=lcol(id,"capturas").doc(),d={uid:user.uid,alias:ligaMems[user.uid]||lastAlias()||"Pescador",f:$("#gf").value,e:$("#ge").value,s:$("#gs").value,w,mini:lgPickMini,estado:isAdmin()?"ok":"pendiente",t:firebase.firestore.FieldValue.serverTimestamp()};
     try{const b=fb.db.batch();b.set(lcol(id,"fotos").doc(ref.id),{uid:user.uid,img:lgPickFull});b.set(ref,d);
       if($("#gcuad").checked){const r2=col().doc();b.set(fotos().doc(r2.id),{img:lgPickFull});b.set(r2,{f:d.f,e:d.e,s:d.s,w,l:"",mini:lgPickMini})}
-      await b.commit();lgPickFull=lgPickMini=null;S.ltab="rank";document.querySelectorAll("[data-ltab]").forEach(x=>x.setAttribute("aria-selected",x.dataset.ltab==="rank"));drawLiga(id,true);toast("Captura subida a la liga ✓")}
+      await b.commit();lgPickFull=lgPickMini=null;
+      if(isAdmin()){S.ltab="rank";toast("Captura subida a la liga ✓")}
+      else{S.ltab="muro";toast("Enviada: el creador de la liga la revisará");avisar(ligaDoc&&ligaDoc.aviso,"Nueva captura para revisar",`${d.alias} ha subido ${SP[d.s].toLowerCase()} de ${w.toLocaleString("es-ES")} kg en «${ligaDoc?.nombre||"tu liga"}». Abre Pantanero para revisarla.`)}
+      drawTabs(id);drawLiga(id,true)}
     catch(e){btn.disabled=false;btn.textContent="Subir a la liga";say(errTxt(e))}};
 }
 function openLigaPhoto(id,c,alias){
