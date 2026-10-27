@@ -159,7 +159,7 @@ form.log input,form.log select{font:inherit;font-size:.95rem;text-transform:none
 .seg button[aria-selected="true"]{background:var(--lake);color:var(--bg)}
 .authform{display:grid;gap:10px}
 .authform label{display:grid;gap:4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.authform input[type=email],.authform input[type=password]{font:inherit;font-size:1rem;text-transform:none;letter-spacing:0;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box}
+.authform input[type=email],.authform input[type=password],.authform input:not([type]){font:inherit;font-size:1rem;text-transform:none;letter-spacing:0;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box}
 .authform .chk{display:flex;gap:8px;align-items:flex-start;text-transform:none;letter-spacing:0;font-size:.85rem;color:var(--ink)}
 .authform .chk input{margin-top:3px;accent-color:var(--lake)}
 .lnk{background:none;border:none;padding:0;font:inherit;color:var(--lake);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:2px;justify-self:start}
@@ -267,6 +267,45 @@ header.top{view-transition-name:cabecera}
 @keyframes bub{0%{opacity:0;transform:translateY(0)}20%{opacity:.8}100%{opacity:0;transform:translateY(-140px) translateX(var(--x))}}
 #splash .wave{width:180px;height:14px;animation:rise .6s var(--ease) .6s both}
 #splash .wave path{stroke-dasharray:240;stroke-dashoffset:240;animation:draw 1s ease .7s forwards}
+.lgbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:14px;display:grid;gap:10px}
+.lgbox h3{margin:0;font-family:var(--display);text-transform:uppercase;font-size:1.3rem}
+.lgcard .lvl{letter-spacing:.18em}
+.lgcode{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);border:1px dashed var(--lake);border-radius:14px;padding:10px 14px;margin:6px 0 12px}
+.lgcode small{display:block;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}
+.lgcode b{font-family:var(--display);font-size:1.9rem;letter-spacing:.22em;color:var(--lake)}
+.seg3{grid-template-columns:repeat(3,1fr);margin-bottom:12px}
+.seg3 button{font-size:.72rem;padding:9px 2px;letter-spacing:.02em}
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:8px;margin:14px 0 10px}
+.pod{position:relative;display:grid;justify-items:center;gap:2px;background:none;border:none;color:var(--ink);font:inherit;cursor:pointer;padding:0}
+.pod .pimg{width:62px;height:62px;border-radius:50%;overflow:hidden;border:3px solid #9aa09d;box-shadow:0 6px 18px rgba(0,0,0,.45)}
+.pod.p1 .pimg{width:80px;height:80px;border-color:#f2c230}
+.pod.p3 .pimg{border-color:#c98b4e}
+.pod .pimg img{width:100%;height:100%;object-fit:cover}
+.pod .med{font-size:1.3rem;margin-top:-12px;position:relative}
+.pod b{font-size:.9rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .pw{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--lake)}
+.pod small{color:var(--muted);font-size:.75rem}
+.pod .step{width:100%;margin-top:6px;border-radius:10px 10px 0 0;background:linear-gradient(var(--surface-2),var(--surface));border:1px solid var(--line);border-bottom:none;font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--muted);display:grid;place-items:center}
+.pod.p1 .step{height:74px;color:#f2c230}.pod.p2 .step{height:52px}.pod.p3 .step{height:38px}
+.pod .crown{position:absolute;top:-24px;font-size:1.5rem;animation:crown 2.4s ease-in-out infinite}
+@keyframes crown{50%{transform:translateY(-4px) rotate(-8deg)}}
+.podium.go .pod{animation:podup .7s var(--ease) both}
+.podium.go .p2{animation-delay:.1s}.podium.go .p1{animation-delay:.25s}.podium.go .p3{animation-delay:.4s}
+@keyframes podup{from{opacity:0;transform:translateY(40px) scale(.9)}}
+.rank{gap:6px}
+.rrow{display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0)*40ms)}
+.rrow.me{border-color:var(--lure)}
+.rrow .pos{font-family:var(--display);font-weight:800;font-size:1.3rem;text-align:center;color:var(--muted)}
+.rrow .fi{min-width:0}.rrow .s{color:var(--muted);font-size:.82rem}
+.rrow .rw{font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--lake);font-variant-numeric:tabular-nums}
+.rrow .rw small{font-size:.8rem;color:var(--muted)}
+.lgcap{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0)*35ms)}
+.lgcap .ph{width:56px;height:56px;padding:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:zoom-in}
+.lgcap .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.lgcap .fi{min-width:0}.lgcap .s{color:var(--muted);font-size:.82rem}
+.lgcap .x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem}
+.toast{white-space:nowrap;position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--lake);color:var(--bg);font-weight:700;padding:10px 18px;border-radius:999px;z-index:60;animation:rise .35s var(--ease);transition:opacity .4s,transform .4s;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.toast.out{opacity:0;transform:translateX(-50%) translateY(10px)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
 .sheet{animation:fade .25s ease both}
 .sheet .pane{animation:up .4s var(--ease) both;border-top:1px solid var(--line)}
@@ -719,6 +758,7 @@ let popId=null,animT;
 const ICO={
  embalses:'<path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>',
  andalucia:'<path d="M2 14l3-5 5-1 4-3 5 2 2 4-3 5-6 3-7-1z"/><circle cx="11" cy="12" r="1.6"/>',
+ liga:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M9 17h6"/>',
  mapa:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
  especies:'<path d="M2 12c3-5 11-6 15-2l4-3v10l-4-3c-4 4-12 3-15-2z"/><circle cx="7" cy="11" r=".6"/>',
  cebos:'<circle cx="8" cy="15" r="4"/><circle cx="16" cy="9" r="4"/><path d="M14.5 7.5l1 1"/>',
@@ -731,7 +771,7 @@ const ICO={
 const PAGES=[
  {g:"Guía",items:[["embalses","Embalses de España",()=>E.length+" embalses"],["andalucia","Andalucía",()=>E.filter(e=>e.ccaa==="Andalucía").length+" embalses andaluces y su mapa"],["mapa","Mapa de España",()=>"Dónde está cada embalse"],["especies","Especies",()=>"Peces de agua dulce"]]},
  {g:"Técnica",items:[["cebos","Cebos",()=>"Naturales, artificiales y marcas"],["montajes","Montajes de carpa",()=>"Carpfishing paso a paso"],["montbass","Montajes de black bass",()=>"Texas, drop shot, ned…"],["senuelos","Señuelos",()=>SENU.length+" tipos para depredadores"]]},
- {g:"Mi pesca",items:[["cuaderno","Cuaderno",()=>"Tus capturas"],["acuario","Acuario",()=>"Tus capturas nadando"]]}];
+ {g:"Mi pesca",items:[["cuaderno","Cuaderno",()=>"Tus capturas"],["liga","Liga",()=>"Compite con tus amigos"],["acuario","Acuario",()=>"Tus capturas nadando"]]}];
 const pageName=k=>{for(const g of PAGES)for(const it of g.items)if(it[0]===k)return it[1];return ""};
 const spIn=(L=E)=>Object.keys(SP).filter(k=>L.some(e=>e.sp.includes(k)));
 const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -768,8 +808,9 @@ function openMenu(){
 function closeMenu(){const d=$("#drawer");if(d.hidden||d.classList.contains("closing"))return;d.classList.add("closing");$("#menubtn").setAttribute("aria-expanded","false");$("#menubtn").setAttribute("aria-label","Abrir menú");
   setTimeout(()=>{d.hidden=true;d.innerHTML="";d.classList.remove("closing")},220)}
 function render(anim){
+  if(S.tab!=="liga")stopLiga();
   $("#pagename").textContent=pageName(S.tab);
-  ({embalses:()=>vList(false),andalucia:()=>vList(true),mapa:vMap,especies:vSpecies,cebos:vCebos,montajes:vMontajes,montbass:vMontBass,senuelos:vSenuelos,cuaderno:vLog,acuario:vAcuario})[S.tab]();
+  ({embalses:()=>vList(false),andalucia:()=>vList(true),mapa:vMap,especies:vSpecies,cebos:vCebos,montajes:vMontajes,montbass:vMontBass,senuelos:vSenuelos,cuaderno:vLog,liga:vLiga,acuario:vAcuario})[S.tab]();
   popId=null;countUp($("#view"));
   if(anim){const v=$("#view");v.classList.remove("anim");void v.offsetWidth;v.classList.add("anim");clearTimeout(animT);animT=setTimeout(()=>v.classList.remove("anim"),1400)}
 }
@@ -917,6 +958,7 @@ function initFB(){
       }
       if(S.tab==="cuaderno")vLog();
       if(S.tab==="acuario")vAcuario();
+      if(S.tab==="liga")vLiga();
     });
   }catch(e){fb=null;authReady=true}
 }
@@ -1023,7 +1065,7 @@ function vLog(){
     const dn=$("#delno");if(dn)dn.onclick=()=>{delAsk=false;vLog()};
     const dy=$("#delyes");if(dy)dy.onclick=async()=>{
       dy.disabled=true;dy.textContent="Borrando…";
-      try{const sn=await col().get(),sf=await fotos().get();const docs=[...sn.docs,...sf.docs];
+      try{await purgeLigas();const sn=await col().get(),sf=await fotos().get();const docs=[...sn.docs,...sf.docs];
         for(let k=0;k<docs.length;k+=400){const b=fb.db.batch();docs.slice(k,k+400).forEach(d=>b.delete(d.ref));await b.commit()}await user.delete();authMsg="✓ Tu cuenta y tus datos se han borrado.";authMode="entrar"}
       catch(e){cloudErr=errTxt(e);delAsk=false;vLog()}
     };
@@ -1522,6 +1564,200 @@ function vSenuelos(){
   document.querySelectorAll("[data-rigto]").forEach(b=>b.onclick=()=>{go("montbass");setTimeout(()=>openRig(b.dataset.rigto,BASSRIGS,"bass"),250)});
 }
 
+/* ---------- Liga entre amigos ---------- */
+let ligaUnsubs=[],ligaCaps=null,ligaMems={},ligaDoc=null,ligaErr="",lgPickFull=null,lgPickMini=null,myLigas=null;
+const LCODE="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+const lref=id=>fb.db.collection("ligas").doc(id);
+const lcol=(id,c)=>lref(id).collection(c);
+const misLigas=()=>fb.db.collection("usuarios").doc(user.uid).collection("misligas");
+function stopLiga(){ligaUnsubs.forEach(u=>{try{u()}catch(e){}});ligaUnsubs=[];ligaCaps=null;ligaMems={};ligaDoc=null}
+function lastAlias(){return ls.get("pt-alias","")}
+function ligaGate(){
+  if(!fb)return `<div class="authcard"><h3>Necesitas internet</h3><p class="mapnote">La liga funciona con tu cuenta en la nube. Conéctate y vuelve a abrir la app.</p></div>`;
+  if(!authReady)return `<div class="authcard"><p class="mapnote">Comprobando tu sesión…</p></div>`;
+  if(!user)return `<div class="authcard"><h3>Entra en tu cuenta</h3><p class="mapnote">Para jugar en una liga necesitas una cuenta. Créala gratis en el Cuaderno y vuelve aquí.</p><button class="btn" id="tocuad">Ir al cuaderno</button></div>`;
+  return "";
+}
+function vLiga(){
+  stopLiga();
+  const gate=ligaGate();
+  if(gate){$("#view").innerHTML=`<h2>Liga</h2>${gate}`;const b=$("#tocuad");if(b)b.onclick=()=>go("cuaderno");return}
+  if(S.liga)return vLigaDetail(S.liga);
+  $("#view").innerHTML=`<h2>Liga</h2>
+    <p class="mapnote" style="margin:-4px 0 12px">Compite con tus amigos: el que saque la captura más grande se pone el primero. Cada captura lleva la foto del pez en la báscula.</p>
+    <div id="mylg" class="list"><p class="mapnote">Cargando tus ligas…</p></div>
+    <div class="lgbox">
+      <h3>Unirme a una liga</h3>
+      <form id="joinf" class="authform">
+        <label>Código de la liga<input id="jcode" maxlength="6" autocomplete="off" placeholder="Ej.: K7PX2Q" style="text-transform:uppercase;letter-spacing:.2em;font-weight:700" required></label>
+        <label>Tu nombre en la liga<input id="jalias" maxlength="20" required value="${esc(lastAlias())}" placeholder="Un apodo, mejor que tu nombre completo"></label>
+        <div id="jmsg" class="autherr" hidden></div>
+        <button class="btn" type="submit">Unirme</button>
+      </form>
+    </div>
+    <div class="lgbox">
+      <h3>Crear una liga nueva</h3>
+      <form id="newf" class="authform">
+        <label>Nombre de la liga<input id="nname" maxlength="40" required placeholder="Ej.: Los del Guadalmellato"></label>
+        <label>Tu nombre en la liga<input id="nalias" maxlength="20" required value="${esc(lastAlias())}" placeholder="Un apodo, mejor que tu nombre completo"></label>
+        <div id="nmsg" class="autherr" hidden></div>
+        <button class="btn" type="submit">Crear liga</button>
+      </form>
+    </div>
+    <p class="mapnote">Solo las personas que tengan el código pueden ver tu liga. En la liga se ve tu apodo, nunca tu email.</p>`;
+  misLigas().get().then(sn=>{myLigas=sn.docs.map(d=>({id:d.id,...d.data()}));const box=$("#mylg");if(!box)return;
+    box.innerHTML=myLigas.length?`<h3 class="subh" style="margin-top:0">Mis ligas</h3>`+myLigas.map((l,i)=>`<button class="rig lgcard" data-lg="${l.id}" style="--i:${i}">
+      <span class="rigname"><b>${esc(l.nombre||"Liga")}</b><span class="lvl lvl-básico">${l.id}</span></span><span class="mapnote" style="text-align:left">Toca para ver la clasificación</span></button>`).join("")
+      :`<p class="mapnote">Todavía no estás en ninguna liga. Únete con el código de un amigo o crea la tuya.</p>`;
+    box.querySelectorAll("[data-lg]").forEach(b=>b.onclick=()=>{S.liga=b.dataset.lg;vLiga();scrollTo(0,0)});
+  }).catch(e=>{const box=$("#mylg");if(box)box.innerHTML=`<p class="autherr">${esc(errTxt(e))}</p>`});
+  const say=(id,t)=>{const m=$(id);m.textContent=t;m.hidden=!t};
+  $("#joinf").onsubmit=async ev=>{ev.preventDefault();
+    const code=$("#jcode").value.trim().toUpperCase(),alias=$("#jalias").value.trim(),btn=ev.target.querySelector("button");
+    if(!/^[A-Z0-9]{6}$/.test(code)){say("#jmsg","El código tiene 6 letras o números.");return}
+    btn.disabled=true;btn.textContent="Uniéndome…";say("#jmsg","");
+    try{
+      let already=false;try{const d=await lref(code).get();already=d.exists}catch(e){}
+      if(!already)await lref(code).update({miembros:firebase.firestore.FieldValue.arrayUnion(user.uid)});
+      await lcol(code,"miembros").doc(user.uid).set({alias,unido:firebase.firestore.FieldValue.serverTimestamp()});
+      const d=await lref(code).get();await misLigas().doc(code).set({nombre:d.data().nombre});
+      ls.set("pt-alias",alias);S.liga=code;vLiga();scrollTo(0,0);
+    }catch(e){btn.disabled=false;btn.textContent="Unirme";say("#jmsg",e&&e.code==="not-found"?"No existe ninguna liga con ese código. Revisa que esté bien escrito.":errTxt(e))}
+  };
+  $("#newf").onsubmit=async ev=>{ev.preventDefault();
+    const nombre=$("#nname").value.trim(),alias=$("#nalias").value.trim(),btn=ev.target.querySelector("button");
+    btn.disabled=true;btn.textContent="Creando…";say("#nmsg","");
+    for(let k=0;k<4;k++){
+      const code=Array.from({length:6},()=>LCODE[Math.floor(Math.random()*LCODE.length)]).join("");
+      try{await lref(code).set({nombre,owner:user.uid,miembros:[user.uid],creada:firebase.firestore.FieldValue.serverTimestamp()});
+        await lcol(code,"miembros").doc(user.uid).set({alias,unido:firebase.firestore.FieldValue.serverTimestamp()});
+        await misLigas().doc(code).set({nombre});ls.set("pt-alias",alias);S.liga=code;vLiga();scrollTo(0,0);return}
+      catch(e){if(k===3||e.code!=="permission-denied"){btn.disabled=false;btn.textContent="Crear liga";say("#nmsg",errTxt(e));return}}
+    }
+  };
+}
+function vLigaDetail(id){
+  const today=new Date().toISOString().slice(0,10);
+  $("#view").innerHTML=`<button class="chip" id="lgback" style="margin-bottom:8px">← Mis ligas</button>
+    <h2 id="lgname">Liga</h2>
+    <div class="lgcode"><div><small>Código para invitar</small><b>${id}</b></div><button class="chip" id="lgcopy">Copiar</button></div>
+    <div class="seg seg3" role="tablist">${[["rank","Clasificación"],["muro","Capturas"],["subir","Subir captura"]].map(([k,n])=>`<button type="button" data-ltab="${k}" aria-selected="${(S.ltab||"rank")===k}">${n}</button>`).join("")}</div>
+    <div id="lgbody"><p class="mapnote">Cargando la liga…</p></div>
+    <div id="lgfoot"></div>`;
+  $("#lgback").onclick=()=>{S.liga=null;vLiga();scrollTo(0,0)};
+  $("#lgcopy").onclick=()=>{const b=$("#lgcopy");navigator.clipboard.writeText(id).then(()=>{b.textContent="Copiado ✓"},()=>{b.textContent=id});setTimeout(()=>{if(b.isConnected)b.textContent="Copiar"},1800)};
+  document.querySelectorAll("[data-ltab]").forEach(b=>b.onclick=()=>{S.ltab=b.dataset.ltab;document.querySelectorAll("[data-ltab]").forEach(x=>x.setAttribute("aria-selected",x===b));drawLiga(id,true)});
+  ligaUnsubs.push(lref(id).onSnapshot(d=>{ligaDoc=d.exists?d.data():null;if(!ligaDoc){ligaErr="Esta liga ya no existe.";}const n=$("#lgname");if(n&&ligaDoc)n.textContent=ligaDoc.nombre;drawFoot(id)},
+    e=>{if(e.code==="permission-denied"){ligaErr="Esta liga ya no existe o ya no formas parte de ella.";misLigas().doc(id).delete().catch(()=>{})}else ligaErr=errTxt(e);drawLiga(id)}));
+  ligaUnsubs.push(lcol(id,"miembros").onSnapshot(sn=>{ligaMems={};sn.docs.forEach(d=>ligaMems[d.id]=d.data().alias);drawLiga(id)},()=>{}));
+  ligaUnsubs.push(lcol(id,"capturas").orderBy("w","desc").limit(300).onSnapshot(sn=>{ligaCaps=sn.docs.map(d=>({id:d.id,...d.data()}));drawLiga(id)},e=>{ligaErr=errTxt(e);drawLiga(id)}));
+}
+function drawFoot(id){const f=$("#lgfoot");if(!f||!ligaDoc)return;const own=ligaDoc.owner===user.uid;
+  f.innerHTML=`<div class="danger"><span class="mapnote">${Object.keys(ligaMems).length||ligaDoc.miembros.length} participantes${own?" · Eres el creador de esta liga":""}</span>
+    <button class="lnk" id="lgleave">${own?"Borrar la liga":"Salir de la liga"}</button></div>`;
+  $("#lgleave").onclick=()=>{f.innerHTML=`<div class="danger"><p>${own?"Se borrará la liga con todas sus capturas para todos.":"Saldrás de la liga y se borrarán tus capturas de ella."} No se puede deshacer.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn red" id="lgyes">Sí, ${own?"borrar":"salir"}</button><button class="chip" id="lgno">Cancelar</button></div></div>`;
+    $("#lgno").onclick=()=>drawFoot(id);
+    $("#lgyes").onclick=async()=>{$("#lgyes").disabled=true;try{await leaveLiga(id,own);S.liga=null;vLiga();scrollTo(0,0)}catch(e){f.innerHTML=`<p class="autherr">${esc(errTxt(e))}</p>`}}}}
+async function leaveLiga(id,own){
+  const mine=(ligaCaps||[]).filter(c=>own||c.uid===user.uid);
+  for(let k=0;k<mine.length;k+=200){const b=fb.db.batch();mine.slice(k,k+200).forEach(c=>{b.delete(lcol(id,"capturas").doc(c.id));b.delete(lcol(id,"fotos").doc(c.id))});await b.commit()}
+  stopLiga();
+  if(own){const ms=await lcol(id,"miembros").get();const b=fb.db.batch();ms.docs.forEach(d=>b.delete(d.ref));await b.commit();await lref(id).delete()}
+  else{await lcol(id,"miembros").doc(user.uid).delete();await lref(id).update({miembros:firebase.firestore.FieldValue.arrayRemove(user.uid)})}
+  await misLigas().doc(id).delete();
+}
+const MED=["🥇","🥈","🥉"];
+function drawLiga(id,anim){
+  const box=$("#lgbody");if(!box)return;const tab=S.ltab||"rank";
+  if(ligaErr){box.innerHTML=`<p class="autherr">${esc(ligaErr)}</p>`;ligaErr="";return}
+  if(tab==="subir"){if(!$("#lgform"))drawLigaForm(id);return}
+  if(ligaCaps===null){box.innerHTML=`<p class="mapnote">Cargando capturas…</p>`;return}
+  const name=c=>ligaMems[c.uid]||c.alias||"Pescador";
+  if(tab==="muro"){
+    const L=[...ligaCaps].sort((a,b)=>(b.f||"").localeCompare(a.f||"")||((b.t?.seconds||0)-(a.t?.seconds||0)));
+    box.innerHTML=L.length?`<div class="list">${L.map((c,i)=>`<div class="lgcap" style="--i:${Math.min(i,14)}">
+      <button class="ph" data-lph="${c.id}" aria-label="Ver foto"><img src="${c.mini}" alt=""></button>
+      <div class="fi"><b>${SP[c.s]||""} · ${Number(c.w).toLocaleString("es-ES")} kg</b><div class="s">${esc(name(c))} · ${esc(byId(c.e)?.n||"")} · ${fmtDate(c.f)}</div></div>
+      ${c.uid===user.uid||ligaDoc?.owner===user.uid?`<button class="x" data-ldel="${c.id}" aria-label="Borrar captura">✕</button>`:""}</div>`).join("")}</div>`
+      :`<p class="mapnote">Todavía nadie ha subido capturas. ¡Sé el primero!</p>`;
+  }else{
+    const f=S.lsp||"",present=[...new Set(ligaCaps.map(c=>c.s))],caps=ligaCaps.filter(c=>!f||c.s===f),best={};
+    caps.forEach(c=>{if(!best[c.uid]||c.w>best[c.uid].w)best[c.uid]=c});
+    const R=Object.values(best).sort((a,b)=>b.w-a.w),pod=R.slice(0,3);
+    box.innerHTML=`<div class="chips"><button class="chip" data-lsp="" aria-pressed="${!f}">General</button>${Object.keys(SP).filter(k=>present.includes(k)).map(k=>`<button class="chip" data-lsp="${k}" aria-pressed="${f===k}">${SP[k]}</button>`).join("")}</div>
+      ${R.length?`<div class="podium ${anim!==false?"go":""}">${[1,0,2].filter(i=>pod[i]).map(i=>{const c=pod[i];return `<button class="pod p${i+1}" data-lph="${c.id}">
+        ${i===0?'<span class="crown">👑</span>':""}<span class="pimg"><img src="${c.mini}" alt=""></span><span class="med">${MED[i]}</span>
+        <b>${esc(name(c))}</b><span class="pw">${Number(c.w).toLocaleString("es-ES")} kg</span><small>${SP[c.s]||""}</small><span class="step">${i+1}</span></button>`}).join("")}</div>
+      <div class="list rank">${R.map((c,i)=>`<div class="rrow ${c.uid===user.uid?"me":""}" style="--i:${Math.min(i,14)}">
+        <span class="pos">${i<3?MED[i]:i+1}</span><div class="fi"><b>${esc(name(c))}${c.uid===user.uid?" (tú)":""}</b><div class="s">${SP[c.s]||""} · ${esc(byId(c.e)?.n||"")} · ${fmtDate(c.f)}</div></div>
+        <span class="rw">${Number(c.w).toLocaleString("es-ES")}<small> kg</small></span></div>`).join("")}</div>
+      <p class="mapnote">Cuenta la captura más grande de cada participante${f?" de "+SP[f].toLowerCase():""}.</p>`
+      :`<p class="mapnote">Todavía no hay capturas${f?" de "+SP[f].toLowerCase():""}. Sube la primera en «Subir captura».</p>`}`;
+    box.querySelectorAll("[data-lsp]").forEach(b=>b.onclick=()=>{S.lsp=b.dataset.lsp;drawLiga(id,true)});
+  }
+  box.querySelectorAll("[data-lph]").forEach(b=>b.onclick=()=>{const c=ligaCaps.find(x=>x.id===b.dataset.lph);if(c)openLigaPhoto(id,c,name(c))});
+  box.querySelectorAll("[data-ldel]").forEach(b=>b.onclick=()=>{const bt=fb.db.batch();bt.delete(lcol(id,"capturas").doc(b.dataset.ldel));bt.delete(lcol(id,"fotos").doc(b.dataset.ldel));bt.commit().catch(e=>{ligaErr=errTxt(e);drawLiga(id)})});
+}
+function drawLigaForm(id){
+  const box=$("#lgbody"),today=new Date().toISOString().slice(0,10);
+  box.innerHTML=`<form class="log" id="lgform">
+      <label>Fecha<input id="gf" type="date" value="${today}" required></label>
+      <label>Peso (kg)<input id="gw" type="text" inputmode="decimal" placeholder="3,2" required></label>
+      <label>Embalse<select id="ge" required><option value="">Elige el embalse</option>${[...E].sort((a,b)=>a.n.localeCompare(b.n,"es")).map(e=>`<option value="${e.id}">${e.n}</option>`).join("")}</select></label>
+      <label>Especie<select id="gs">${Object.keys(SP).map(k=>`<option value="${k}">${SP[k]}</option>`).join("")}</select></label>
+      <div class="photopick">
+        <label class="pickbtn" for="gph">📷 <span id="gphlbl">Foto del pez en la báscula</span><input id="gph" type="file" accept="image/*"></label>
+        <div id="gprev"></div><small id="ginfo">Obligatoria: que se vea bien el peso. Mejor sin caras.</small>
+      </div>
+      <label class="chk full" style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-size:.88rem;color:var(--ink)"><input id="gcuad" type="checkbox" checked style="width:auto"> Guardarla también en mi cuaderno</label>
+      <div id="gmsg" class="autherr full" hidden></div>
+      <button class="btn full" type="submit" id="gsave">Subir a la liga</button>
+    </form>`;
+  const info=t=>$("#ginfo").textContent=t;
+  $("#gph").onchange=async ev=>{const file=ev.target.files[0];if(!file)return;if(!file.type.startsWith("image/")){info("Ese archivo no es una foto.");return}
+    info("Preparando la foto…");
+    try{lgPickFull=await shrink(file,1280,.72);lgPickMini=await shrink(file,240,.62);
+      $("#gprev").innerHTML=`<div class="prev"><img src="${lgPickMini}" alt="Foto elegida"></div>`;$("#gphlbl").textContent="Cambiar foto";info("Foto lista.")}
+    catch(e){lgPickFull=lgPickMini=null;info("No se ha podido abrir esa foto. Prueba con otra.")}};
+  $("#lgform").onsubmit=async ev=>{ev.preventDefault();
+    const m=$("#gmsg"),say=t=>{m.textContent=t;m.hidden=!t};
+    const w=parseFloat($("#gw").value.replace(",","."));
+    if(!(w>0&&w<200)){say("Escribe un peso válido en kg, por ejemplo 3,2.");return}
+    if(!$("#ge").value){say("Elige en qué embalse la has pescado.");return}
+    if(!lgPickFull){say("Falta la foto del pez en la báscula. Es obligatoria para que cuente en la liga.");return}
+    const btn=$("#gsave");btn.disabled=true;btn.textContent="Subiendo…";say("");
+    const ref=lcol(id,"capturas").doc(),d={uid:user.uid,alias:ligaMems[user.uid]||lastAlias()||"Pescador",f:$("#gf").value,e:$("#ge").value,s:$("#gs").value,w,mini:lgPickMini,t:firebase.firestore.FieldValue.serverTimestamp()};
+    try{const b=fb.db.batch();b.set(lcol(id,"fotos").doc(ref.id),{uid:user.uid,img:lgPickFull});b.set(ref,d);
+      if($("#gcuad").checked){const r2=col().doc();b.set(fotos().doc(r2.id),{img:lgPickFull});b.set(r2,{f:d.f,e:d.e,s:d.s,w,l:"",mini:lgPickMini})}
+      await b.commit();lgPickFull=lgPickMini=null;S.ltab="rank";document.querySelectorAll("[data-ltab]").forEach(x=>x.setAttribute("aria-selected",x.dataset.ltab==="rank"));drawLiga(id,true);toast("Captura subida a la liga ✓")}
+    catch(e){btn.disabled=false;btn.textContent="Subir a la liga";say(errTxt(e))}};
+}
+function openLigaPhoto(id,c,alias){
+  const sh=$("#sheet");
+  sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="Foto de la captura">
+    <div class="grab"></div><button class="close" id="cl">Cerrar</button>
+    <div class="count" style="margin:0">${esc(alias)} · ${fmtDate(c.f)}</div>
+    <h2 style="font-size:1.6rem">${SP[c.s]||""} de ${Number(c.w).toLocaleString("es-ES")} kg</h2>
+    <div class="mapnote">${esc(byId(c.e)?.n||"")}</div>
+    <img class="bigphoto" id="bigph" src="${c.mini}" alt="Foto de la captura">
+    <p class="mapnote" id="phmsg">Cargando la foto en grande…</p></div>`;
+  sh.classList.remove("closing");sh.hidden=false;
+  const close=()=>{sh.classList.add("closing");setTimeout(()=>{sh.hidden=true;sh.innerHTML="";sh.classList.remove("closing")},220)};
+  sh._close=close;$("#cl").onclick=close;sh.onclick=ev=>{if(ev.target===sh)close()};
+  lcol(id,"fotos").doc(c.id).get().then(d=>{const m=$("#phmsg");if(d.exists&&$("#bigph")){$("#bigph").src=d.data().img;m&&m.remove()}else if(m)m.textContent="No se ha encontrado la foto en grande."}).catch(e=>{const m=$("#phmsg");if(m)m.textContent=errTxt(e)});
+}
+function toast(t){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.classList.add("out"),2200);setTimeout(()=>d.remove(),2600)}
+async function purgeLigas(){ // al borrar la cuenta, salir de todas las ligas
+  const sn=await misLigas().get();
+  for(const d of sn.docs){const id=d.id;try{
+    const caps=await lcol(id,"capturas").where("uid","==",user.uid).get();const b=fb.db.batch();
+    caps.docs.forEach(c=>{b.delete(c.ref);b.delete(lcol(id,"fotos").doc(c.id))});b.delete(lcol(id,"miembros").doc(user.uid));await b.commit();
+    const L=await lref(id).get();if(L.exists&&L.data().owner===user.uid&&L.data().miembros.length===1)await lref(id).delete();
+    else await lref(id).update({miembros:firebase.firestore.FieldValue.arrayRemove(user.uid)});
+  }catch(e){} await d.ref.delete().catch(()=>{})}
+}
+
 function openPrivacy(){
   const sh=$("#sheet");
   sh.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="Política de privacidad">
@@ -1531,6 +1767,7 @@ function openPrivacy(){
     <h4>Para qué</h4><p>Solo para que puedas entrar en tu cuenta y ver tu cuaderno desde cualquier móvil. No usamos tus datos para publicidad ni se los damos a nadie.</p>
     <h4>Dónde se guardan</h4><p>En Firebase, un servicio de Google, en servidores de la Unión Europea. Cada persona solo puede ver sus propias capturas.</p>
     <h4>Menores de edad</h4><p>Si tienes menos de 14 años, necesitas el permiso de tu padre, madre o tutor para crear una cuenta.</p>
+    <h4>Ligas</h4><p>Si te unes a una liga, los demás participantes de esa liga ven tu apodo y las capturas que subas a ella, con su foto. No ven tu email. Solo puede entrar en una liga quien tenga su código. Al salir de una liga se borran tus capturas de ella.</p>
     <h4>Tus derechos</h4><p>Puedes borrar tu cuenta y todos tus datos cuando quieras con el botón «Borrar mi cuenta y mis datos» del cuaderno. También puedes pedir ver, corregir o borrar tus datos escribiendo al responsable de Pantanero.</p>
   </div>`;
   sh.classList.remove("closing");sh.hidden=false;
